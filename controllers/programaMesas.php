@@ -1,16 +1,9 @@
 <?php
 
-class Hospedaje extends Controller {
+class ProgramaMesas extends Controller {
 
     function __construct() {
         parent::__construct();
-//        Session::init();
-//        $logged = Session::get("sesion");
-//        if (!$logged) {
-//            Session::destroy();
-//            header("location: index");
-//            exit;
-//        }
         $this->view->css = array(
             //'public/plugins/toastr/toastr.min.css',
             //'public/plugins/datatable/jquery.datatables.min.css',
@@ -31,7 +24,7 @@ class Hospedaje extends Controller {
     }
 
     function index() {
-        $this->view->render("hospedaje/index");
+        $this->view->render("programaMesas/index");
     }
 
 }

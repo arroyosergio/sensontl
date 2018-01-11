@@ -5,16 +5,26 @@ class Index extends Controller {
     function __construct() {
         parent::__construct();
         $this->view->css = array(
-            'public/plugins/toastr/toastr.min.css',
+            /*'public/plugins/toastr/toastr.min.css',
             'public/css/animate.min.css',
-            'views/index/css/index.css',
+            'views/index/css/index.css',*/
+            
+            'public/bootstrap/css/bootstrap.min.css',
+            'public/fontawesome/css/font-awesome.min.css',
+            'public/css/animate.min.css',
+            'public/css/fluidbox.min.css',
+            'public/css/style.css',
         );
         $this->view->js = array(
-            'public/plugins/toastr/toastr.min.js',
+            /*'public/plugins/toastr/toastr.min.js',
             'views/index/js/nicescroll.js',
             'views/index/js/wow.js',
             'views/index/js/index.js',
-        	'views/index/js/bs-hover-dropdown.js'
+        	'views/index/js/bs-hover-dropdown.js'*/
+            'public/js/jquery-2.1.4.min.js',
+            'public/js/bootstrap.min.js',
+            'public/js/index.js',
+            'public/js/jquery.fluidbox.min.js',
         );
         
     }
