@@ -399,16 +399,21 @@ element.style {
 	-webkit-box-pack:justify;
 	justify-content:space-between
 }
+
 .gallery a{
 	margin-bottom:1rem
 }
+
 .gallery a.col-1{
 	width:100%
 }
+
 .gallery a.col-2{
 	width:49%;width:calc(50% - .5rem)
 }
+
 .gallery a.col-3{
 	width:32%;
 	width:calc(33.33333% - .66667rem)
 }
+
