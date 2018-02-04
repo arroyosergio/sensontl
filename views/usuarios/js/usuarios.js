@@ -26,8 +26,6 @@ $('#btnNuevoUsuario').click(function () {
     $('#modal-nuevo-registro').modal('show');
 });
 
-
-
 $('#btn-cancelar-usuario').click(function(event){
 	event.preventDefault();
 	$('#modal_Capturar_usuario').modal('hide');
@@ -136,7 +134,7 @@ $('#form-editar-registro').submit(function(){
                 "id" : idusr
             };
             $.ajax({
-                url: 'usuario/delete',
+                url: 'usuarios/delete',
                 type: 'POST',
                 // datos del formulario
                 data: parametros,
@@ -157,7 +155,7 @@ $('#form-editar-registro').submit(function(){
                 }
             });
          }else if(accion=='editar') {
-            $.post( "usuario/edit",{id:idusr},  function( dato ) {
+            $.post( "usuarios/edit",{id:idusr},  function( dato ) {
                 $('#ecorreo').val(dato[0].usuCorreo);
                 $('#erole').val(dato[0].usuTipo);
                 $('#usrid').val(idusr);
