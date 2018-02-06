@@ -12,14 +12,19 @@ class Misarticulos extends Controller {
                exit;
           }
           $this->view->css = array(
-              'public/plugins/toastr/toastr.min.css',
-              'public/plugins/datatable/jquery.datatables.min.css',
-              'views/misarticulos/css/misarticulos.css'
+			'public/bootstrap/css/bootstrap.min.css',
+            'public/fontawesome/css/font-awesome.min.css',
+            'public/css/animate.min.css',
+            'public/css/fluidbox.min.css',
+            'public/plugins/datatable/jquery.datatables.min.css',
+            'views/misarticulos/css/misarticulos.css',
+		    'views/misarticulos/css/menu.css'
           );
           $this->view->js = array(
-              'public/plugins/toastr/toastr.min.js',
-              'public/plugins/datatable/jquery.datatables.min.js',
-              'views/misarticulos/js/misarticulos.js'
+			'public/js/jquery-2.1.4.min.js',
+			'public/bootstrap/js/bootstrap.min.js',
+            'public/plugins/datatable/jquery.datatables.min.js',
+			'views/misarticulos/js/misarticulos.js'
           );
      }
 

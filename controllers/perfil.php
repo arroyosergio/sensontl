@@ -12,10 +12,16 @@ class Perfil extends Controller {
             exit;
         }
         $this->view->css = array(
-            'public/plugins/toastr/toastr.min.css'
+			'public/bootstrap/css/bootstrap.min.css',
+            'public/fontawesome/css/font-awesome.min.css',
+            'public/css/animate.min.css',
+            'public/css/fluidbox.min.css',
+            'views/perfil/css/perfil.css',
+			'views/perfil/css/perfil-menu.css'
         );
         $this->view->js = array(
-            'public/plugins/toastr/toastr.min.js',
+			'public/js/jquery-2.1.4.min.js',
+            'public/bootstrap/js/bootstrap.min.js',
             'views/perfil/js/perfil.js'
         );
     }
@@ -60,7 +66,11 @@ class Perfil extends Controller {
         $apellidoPaterno = $_POST['apellido-paterno'];
         $apellidoMaterno = $_POST['apellido-materno'];
         $ciudad = $_POST['ciudad'];
-        $estado = $_POST['estado'];
+		if(isset($_POST['estado'])){
+			$estado = $_POST['estado'];
+		}else{
+			$estado = "";
+		}
         $pais = $_POST['pais'];
         $gradoAcademico = $_POST['grado-academico'];
         $institucionProcedencia = $_POST['institucion-procedencia'];

@@ -9,8 +9,12 @@
     <link rel="icon" type="image/png" href="<?php echo URL; ?>public/images/favicon.png" />
     <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.css" media="all" rel="stylesheet" />
     <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" media="all" rel="stylesheet" />
-	<!--<link rel="stylesheet" type="text/css" href="<?php echo URL; ?>public/bootstrap/css/bootstrap_yeti.min.css">
-	<link rel="stylesheet" href="<?php echo URL; ?>public/css/custom.css"> -->
+    <link rel="stylesheet"	href="<?php echo URL; ?>public/plugins/toastr/toastr.min.css" />
+
+	<!--<link rel="stylesheet" type="text/css" href="<?php //echo URL; 
+     ?>public/bootstrap/css/bootstrap_yeti.min.css">
+	<link rel="stylesheet" href="<?php //echo URL; ?>public/css/custom.css"> -->
+	
 	<?php 
     	if (isset($this->css)) {
     		foreach ($this->css as $css) {
@@ -18,6 +22,7 @@
     		}
     	}
      ?>
+     <link rel="stylesheet"	href="<?php echo URL; ?>public/css/general.css" />
 </head>
 <body>
     <?php
@@ -73,7 +78,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Autores<span class="caret"></span></a>
                         <ul class="dropdown-menu sub-menu">
                             <li><a href="guia">Guía</a></li>
-                            <li><a href="registro">Registro</a></li>
+                            <li><a href="registroautores" >Registro</a></li>
                         </ul>
                     </li>
                     <li id="mAsistentes" class="dropdown">
@@ -91,22 +96,23 @@
                         <li id="mSesion" class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $nombreUsuario; ?><span class="caret"></span></a>
                             <ul class="dropdown-menu sub-menu">
-                                <li><a href="#perfil"><i class="fa fa-address-card" aria-hidden="true"></i> Perfil</a></li>
-                                <li role="presentation" class="divider"></li>
-                                <li><a href="../index.html"><i class="fa fa-sign-out" aria-hidden="true"></i> logout</a></li>  
+                                <li><a href="perfil"><i class="fa fa-address-card" aria-hidden="true"></i> Perfil</a></li>
+                                <li role="presentation" class="divider line-divider"></li>
+                                <li><a href="index/cerrarSesion"><i class="fa fa-sign-out" aria-hidden="true"></i> logout</a></li>  
                             </ul>
                         </li>
                     <?php  
                         }else{
                     ?>   
-                         <li id="mSesion" class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Iniciar sesión<span class="caret"></span></a>
-                            <ul class="dropdown-menu sub-menu">
+                         <li id="mSesion">
+							 <a href="#" id="user-login" ><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;Iniciar sesión</a>                          
+							<!--  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Iniciar sesión<span class="caret"></span></a>
+                           <ul class="dropdown-menu sub-menu">
                                 <li><a href="autores/index.html">Autor</a></li>
                                 <li><a href="editor/index.html">Editor</a></li>
                                 <li><a href="contador/index.html">Contador</a></li>
                                 <li><a href="administrador/index.html">Administrador</a></li>
-                            </ul>
+                            </ul>-->
                         </li>
                     <?php
                         }
@@ -161,3 +167,5 @@
                ?>
 
 -->
+
+

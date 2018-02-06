@@ -46,8 +46,44 @@
         		</div>
         	</div>
         </foother>
+        
+    <!--  MODAL LOGIN -->
+    <div id="modal-login" class="modal fade" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+					<span class="modal-title" id="ModalLongTitle">Control de acceso</span>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+                </div>
+                <div class="modal-body">
+					<form id="form-login" action="index/login" class="new-placeholder" method="post">
+						<div class="modal-body">
+							<div class="form-group">
+								<input type="text" id="login-correo" name="correo" placeholder="Correo" class="form-control">
+							</div>
+							<div class="form-group">
+								<input type="password" id="login-password" name="password" placeholder="Contrase&ntilde;a" class="form-control">
+							</div>
+							<a href="resetpassword">¿Recordar contrase&ntilde;a?</a>
+						</div>
+						<div class="modal-footer" >
+							<button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Cancelar</button>
+							<button class="btn btn-primary"><i class="glyphicon glyphicon-ok"></i> Aceptar</button>
+						</div>
+					</form>
+				</div>
+            </div>
+        </div>
+    </div>
+             
+              
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>
+        <script src="<?php echo URL; ?>public/plugins/jquery-2.1.4.min.js"></script>
+        <script src="<?php echo URL; ?>public/plugins/toastr/toastr.min.js"></script>
+        <script src="<?php echo URL; ?>public/js/general.js"></script>
         <?php 
             if (isset($this->js)) {
                 foreach ($this->js as $js) {

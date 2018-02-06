@@ -1,7 +1,22 @@
+@font-face {
+        font-family:Ubuntu Bold;
+        src: url(../fonts/ubuntu-font-family/Ubuntu-B.ttf);
+}
+
+@font-face {
+         font-family:Ubuntu Light;
+        src: url(../fonts/ubuntu-font-family/Ubuntu-L.ttf);
+}
+
+@font-face {
+         font-family:Ubuntu Regular;
+        src: url(../fonts/ubuntu-font-family/Ubuntu-R.ttf);
+}
+
 body {
 	font-size: 1.5em;
     line-height: 1.4;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Ubuntu Regular', sans-serif;
 }
 
 .clear{
@@ -21,7 +36,7 @@ header .navbar{
 }
 
 .head-menu{
-	margin-top: 25px;
+	margin-top: 2vh;
 }
 
 @media only screen and (max-width:1120px){
@@ -101,7 +116,7 @@ header .logo_header{
 header nav{
 	display: block;
 	margin: 0px auto;
-	padding-top: 25px;
+	padding-top: 2vh;
 }
 
 header>.container{
@@ -125,31 +140,55 @@ header>.container{
 	display: block;
 }
 
-header nav ul li a{
+header nav ul li a{ 
 	font-size: 1.1em;
     text-decoration: none;
     padding-bottom: 2px;
     text-decoration-color: currentcolor;
     text-decoration-line: none;
-    text-decoration-style: solid;	
+    text-decoration-style: solid;
+}
+
+.sub-menu li {
+	width: 100%; /*ok*/ 
+	padding: 0px;  /*ok*/
+	text-align: left;
+}
+
+header nav ul  {  /*  ok */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 90%;	
 }
 
 header nav ul li {
-    display: inline;
+	list-style-type: none;
+    *float: left; /* improve IE7 */
+    height: 100%;
+    text-align: center;
+    padding-left: 5px;
+	margin: 0;
+	cursor: pointer;
+	width: 10.585714282%
+	/* OLDER */
+    /*display: inline;
 	margin-left: 20px;
-    display: inline-block;
+    display: table-cell;
+	width: auto;
     list-style-type: none;	
+	text-align: center;*/
 }
 
-header nav ul  {
+/*header nav ul  {
     display: inline-block;
     list-style-type: none;	
-}
+}*/
 
 .navbar-default .navbar-nav>li>a {
 	position: relative;
 	display: block;
-	padding: 11px 15px;	
+	padding: 11px 10px;	
 	color:  #757575; /*#fac459;*/
 	background-color: transparent;
 }
@@ -168,10 +207,12 @@ header nav ul  {
 .dropdown-menu{
 	border: none;
 	box-shadow: none;
+	min-width: 145px;
 }
 
 .dropdown ul{
 	padding: 0;
+	margin-left: 5px;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -411,4 +452,70 @@ element.style {
 .gallery a.col-3{
 	width:32%;
 	width:calc(33.33333% - .66667rem)
+}
+
+/* CONTROL DE ACCESO*/
+#form-login .form-group>input{
+	font-size: 1.7rem;
+	color: black;
+}
+
+/* MODAL PERSONALIZADO */
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+
+}
+.modal {
+  text-align: center;
+}
+/* Modal Content */
+.modal-content {
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 1s;
+    animation-name: animatetop;
+    animation-duration: 1s
+}
+.modal:before {
+	display: inline-block;
+	vertical-align: middle;
+	content: " ";
+	height: 100%;
+}
+.modal-header {
+    padding: 10px 16px;
+    background-color: #1589D0;
+    color: white;
+	font-size: 2.5rem;
+}
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-50px; opacity:0} 
+    to {top:0; opacity:1}
+}
+@keyframes animatetop {
+    from {top:-50px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+
+/* PLACEHOLDER PERSONALIZADO */
+.new-placeholder ::-webkit-input-placeholder { /* webkit, blink, edge*/
+	color: #000000!important;
+}
+.new-placeholder  :-moz-placeholder {  /* mozilla firefox 4 10 18 */
+	color: #000000!important;
+	opacity:  1;
+}
+.new-placeholder  ::-moz-placeholder { /* mozilla firefox 19+ */
+	color: #000000!important;
+    opacity:  1;
+}
+.new-placeholder ::-ms-input-placeholder { /* internet explorer 10-11 */
+	color: #000000!important;
+}
+
+.sub-menu .line-divider{
+	margin: 0px;
 }

@@ -12,11 +12,17 @@ class Registroarticulo extends Controller {
             exit;
         }
         $this->view->css = array(
-            'public/plugins/toastr/toastr.min.css',
-            'views/registroarticulo/css/registroarticulo.css'
+			'public/bootstrap/css/bootstrap.min.css',
+            'public/fontawesome/css/font-awesome.min.css',
+            'public/css/animate.min.css',
+            'public/css/fluidbox.min.css',
+            'public/plugins/datatable/jquery.datatables.min.css',
+            'views/registroarticulo/css/registroarticulo.css',
+		    'views/registroarticulo/css/menu.css'			
         );
         $this->view->js = array(
-            'public/plugins/toastr/toastr.min.js',
+			'public/js/jquery-2.1.4.min.js',
+			'public/bootstrap/js/bootstrap.min.js',
             'views/registroarticulo/js/registroarticulo.js'
         );
     }
@@ -29,7 +35,7 @@ class Registroarticulo extends Controller {
     function selectPaises() {
         $responseDB = $this->model->get_paises();
         $select = '';
-        $select = '<option value="">Selecciona uno</optioin>';
+        $select = '<option value="">Selecciona uno</option>';
         foreach ($responseDB as $pais) {
             $select .= '<option value="' . $pais['pais_id'] . '">' . utf8_encode($pais['pais_nombre']) . '</optioin>';
         }
@@ -56,29 +62,105 @@ class Registroarticulo extends Controller {
         echo $select;
     }
 
+	
+	function updloadFile(){
+	
+		$idArticulo = $_POST['id-articulo'];
+        $file = $_FILES['archivo']['name'];
+		mkdir(DOCS.$idArticulo, 0777, TRUE);
+		if (!move_uploaded_file($_FILES['archivo']['tmp_name'], DOCS .$idArticulo .'/v1_'. $file)) {
+		    echo 'error-subir-archivo';
+		} else {
+		    $file = $idArticulo . '/'. 'v1_'.$file;
+		    $this->model->registro_version_articulo($idArticulo, $file);
+			echo $idArticulo;
+		}
+		 
+		
+		/*if(!empty($_FILES['uploaded_file']))
+			  {
+				$path = "uploads/";
+				$path = $path . basename( $_FILES['uploaded_file']['name']);
+				if(move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $path)) {
+				  echo "The file ".  basename( $_FILES['uploaded_file']['name']). 
+				  " has been uploaded";
+				} else{
+					echo "There was an error uploading the file, please try again!";
+				}
+			  }*/
+		
+		
+		
+	/*
+$target_dir = "uploads/";
+$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+$uploadOk = 1;
+$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+// Check if image file is a actual image or fake image
+if(isset($_POST["submit"])) {
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    if($check !== false) {
+        echo "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+    } else {
+        echo "File is not an image.";
+        $uploadOk = 0;
+    }
+}
+// Check if file already exists
+if (file_exists($target_file)) {
+    echo "Sorry, file already exists.";
+    $uploadOk = 0;
+}
+// Check file size
+if ($_FILES["fileToUpload"]["size"] > 500000) {
+    echo "Sorry, your file is too large.";
+    $uploadOk = 0;
+}
+// Allow certain file formats
+if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+&& $imageFileType != "gif" ) {
+    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+    $uploadOk = 0;
+}
+// Check if $uploadOk is set to 0 by an error
+if ($uploadOk == 0) {
+    echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+} else {
+    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
+}
+	*/	
+		
+		
+	}
+	
     function registroArticulo() {
         $nombreArticulo = strtoupper($_POST['nombre']);
         $area = $_POST['area-tematica'];
         $tipo = $_POST['tipo-articulo'];
-        $file = $_FILES['archivo']['name'];
-        if (empty($nombreArticulo) || empty($area) || empty($tipo)) {
-            echo 'error-null';
-        } else {
+        //$file = $_FILES['archivo']['name'];
+        //if (empty($nombreArticulo) || empty($area) || empty($tipo)) {
+        //    echo 'error-null';
+        //} else {
             $existeArticulo = $this->model->existe_articulo($nombreArticulo);
             if ($existeArticulo) {
                 echo 'error-articulo-repetido';
             } else {
-                if (empty($file)) {
-                    echo 'error-archivo';
-                } else {
-                    $formatoArchivo = explode('.', $file);
-                    $formatoArchivo = end($formatoArchivo);
-                    if ($formatoArchivo != 'docx' && $formatoArchivo != 'doc') {
-                        echo 'error-formato-archivo';
-                    } else {
+                //if (empty($file)) {
+                //    echo 'error-archivo';
+                //} else {
+                    //$formatoArchivo = explode('.', $file);
+                    //$formatoArchivo = end($formatoArchivo);
+                    //if ($formatoArchivo != 'docx' && $formatoArchivo != 'doc') {
+                    //    echo 'error-formato-archivo';
+                    //} else {
                         $articulo = array(
                             'nombre' => $nombreArticulo,
-//                            'archivo' => $file,
                             'area' => $area,
                             'idAutor' => Session::get('idAutor'),
                             'tipo' => $tipo
@@ -88,24 +170,24 @@ class Registroarticulo extends Controller {
                             echo 'error-registro';
                         } else {
                             $idArticulo = $responseDB;
-                            mkdir(DOCS.$idArticulo, 0777, TRUE);
-                            if (!move_uploaded_file($_FILES['archivo']['tmp_name'], DOCS .$idArticulo .'/v1_'. $file)) {
-                                echo 'error-subir-archivo';
-                            } else {
-                                $file = $idArticulo . '/'. 'v1_'.$file;
-                                $this->model->registro_version_articulo($idArticulo, $file);
+                            //mkdir(DOCS.$idArticulo, 0777, TRUE);
+                            //if (!move_uploaded_file($_FILES['archivo']['tmp_name'], DOCS .$idArticulo .'/v1_'. $file)) {
+                            //    echo 'error-subir-archivo';
+                            //} else {
+                            //    $file = $idArticulo . '/'. 'v1_'.$file;
+                            //    $this->model->registro_version_articulo($idArticulo, $file);
                                 $this->model->registro_tabla_documentos($idArticulo);
                                 $idAutor = $this->model->get_id_autor(Session::get('id'));
                                 $responseDB = $this->model->registro_autor_articulo($idArticulo, $idAutor);
 //                            falta verificar el insert
                                 echo $idArticulo;
 //                                echo 'true';
-                            }
+                            //}
                         }
-                    }
-                }
+                   // }
+                //}
             }
-        }
+       // }
     }
 
     function registroAutor() {

@@ -8,12 +8,11 @@ class Index extends Controller {
             /*'public/plugins/toastr/toastr.min.css',
             'public/css/animate.min.css',
             'views/index/css/index.css',*/
-            
             'public/bootstrap/css/bootstrap.min.css',
             'public/fontawesome/css/font-awesome.min.css',
             'public/css/animate.min.css',
             'public/css/fluidbox.min.css',
-            'public/css/style.css',
+            'views/index/css/index.css'
         );
         $this->view->js = array(
             /*'public/plugins/toastr/toastr.min.js',
@@ -21,10 +20,11 @@ class Index extends Controller {
             'views/index/js/wow.js',
             'views/index/js/index.js',
         	'views/index/js/bs-hover-dropdown.js'*/
+
             'public/js/jquery-2.1.4.min.js',
             'public/js/bootstrap.min.js',
-            'public/js/index.js',
-            'public/js/jquery.fluidbox.min.js',
+            /*'public/js/index.js',*/
+            'public/js/jquery.fluidbox.min.js'
         );
         
     }
@@ -50,19 +50,24 @@ class Index extends Controller {
                 Session::set('id', $idUsuario);
                 Session::set('idAutor', $idAutor);
                 Session::set('perfil', $responseDB['usuTipo']);
-                if ($primerIngreso) {
+                 if ($primerIngreso) {
                     echo 'primer-ingreso';
-                }else{
-                    $responseDB = $this->model->datos_usuario($idUsuario);
-                    $nombreUsuario = "$responseDB[autNombre] $responseDB[autApellidoPaterno] $responseDB[autApellidoMaterno]";
-                    Session::set('usuario', $nombreUsuario);
+				    $nombreUsuario =substr($responseDB['usuCorreo'],0,strpos($responseDB['usuCorreo'],'@'));
+				   Session::set('usuario', $nombreUsuario);	
+				}else{
+                    //$responseDB = $this->model->datos_usuario($idUsuario);
+                    //$nombreUsuario = "$responseDB[autNombre]";
+                    $nombreUsuario =substr($responseDB['usuCorreo'],0,strpos($responseDB['usuCorreo'],'@'));
+					 Session::set('usuario', $nombreUsuario);
                     echo 'true';
-                }
+				}
             }
         }else{
             echo 'error-correo';
         }
     }
+	
+
     
     function cerrarSesion() { 
         Session::init();
@@ -70,6 +75,15 @@ class Index extends Controller {
         header('location: ../index');
     }
     
+
+	function IsEmail($email) {
+	  $emailValido=false;	
+	  $regex = "/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/";
+	  if(preg_match($regex,$email))
+		$emailValido=true;
+	  return $emailValido;
+	}
+	
     function nuevoRegistro() {
         $pass = $_POST['password'];
         $rPass = $_POST['rpassword'];

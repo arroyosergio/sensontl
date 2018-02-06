@@ -73,7 +73,6 @@ class Registroarticulo_Model extends Model {
                     "tblArticulos".
                         "(".
                             "artNombre,".
-//                            "artArchivo,".
                             "artAreaTematica,".
                             "autContacto,".
                             "artTipo".
@@ -81,7 +80,6 @@ class Registroarticulo_Model extends Model {
                     "VALUES".
                         "(".
                             "'$articulo[nombre]',".
-//                            "'$articulo[archivo]',".
                             "'$articulo[area]',".
                             "'$articulo[idAutor]',".
                             "'$articulo[tipo]'".

@@ -6,11 +6,14 @@ class Index_Model extends Model {
         parent::__construct();
     }
     
+	
+	
 //    Función para validar si el usuario esta registrado regresa el id del usuario
     public function validar_usuario($correo, $password) {
         $query = "SELECT ".
                     "usuId,".
-                    "usuTipo ".
+                    "usuTipo,".
+			        "usuCorreo ".
                 "FROM ".
                     "tblUsuarios ".
                 "WHERE ".

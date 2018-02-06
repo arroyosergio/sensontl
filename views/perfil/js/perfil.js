@@ -38,10 +38,9 @@ $('#form-info-perfil').submit(function () {
         }
         
         if (response === 'true') {
-            window.location.href = "misarticulos";
-//            toastr.options.closeButton = true;
-//            toastr.success("Se actualizo la informaci&oacute;n."); 
-//            location.reload();
+            toastr.options.closeButton = true;
+            toastr.success("Se actualizo la informaci&oacute;n."); 
+			$("btn-guardar").focus();
         }
         
     });

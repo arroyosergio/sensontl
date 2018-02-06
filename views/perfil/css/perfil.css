@@ -1,3 +1,18 @@
+.p-apellidos .a-paterno{
+	padding-left: 0px;
+}
+
+.p-apellidos .a-materno{
+	padding-right: 0px;
+}
+
+.p-direccion .d-estado{
+	padding-left: 0px;
+}
+.p-direccion .d-ciudad{
+	padding-right: 0px;
+}
+
 /*Extra small devices (portrait phones, less than 576px)*/ 
 @media (max-width: 575px) { 
 	.titulo_congreso{
@@ -184,3 +199,5 @@
     }
 
 }
+
+

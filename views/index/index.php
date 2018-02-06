@@ -1,11 +1,13 @@
 
         <div class="container main_container">
-           <a href="http://placehold.it/2000x1000" title="" data-fluidbox>
-				<picture>
-					<source media="(max-width: 650px)" srcset="http://placehold.it/400x400">
-					<img src="http://placehold.it/800x300" alt="" class="img-fluid img-responsive image_center feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown;" src="http://placehold.it/800x300" alt="Responsive image">
-				</picture>
-            </a> 
+          <div class="row container-img">
+			   <a href="http://placehold.it/2000x1000" title="" data-fluidbox>
+					<picture>
+						<source media="(max-width: 650px)" srcset="http://placehold.it/400x400">
+						<img src="http://placehold.it/800x300" alt="" class="img-fluid img-responsive image_center feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown;" >
+					</picture>
+				</a> 
+           </div>
             <div>
                 <h2 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown;">Congreso Interdisciplinario de Cuerpos Académicos </h2>
                 
