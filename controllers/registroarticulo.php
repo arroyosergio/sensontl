@@ -45,7 +45,7 @@ class Registroarticulo extends Controller {
     function getEstados() {
         $codigoPais = $_POST['codigo'];
         $responseDb = $this->model->get_estados($codigoPais);
-        $select = '<option value="">Selecciona uno</optioin>';
+        $select = '<option value="">Selecciona uno</option>';
         foreach ($responseDb as $estado) {
             $select .= '<option value="' . $estado['est_nombre'] . '">' . utf8_encode($estado['est_nombre']) . '</optioin>';
         }
@@ -67,7 +67,13 @@ class Registroarticulo extends Controller {
 	
 		$idArticulo = $_POST['id-articulo'];
         $file = $_FILES['archivo']['name'];
-		mkdir(DOCS.$idArticulo, 0777, TRUE);
+		// Check if file already exists
+		if (!file_exists(DOCS.$idArticulo)) {
+			mkdir(DOCS.$idArticulo, 0777, TRUE);
+		}
+		if (file_exists(DOCS .$idArticulo .'/v1_'. $file)) {
+			unlink(DOCS .$idArticulo .'/v1_'. $file);
+		}
 		if (!move_uploaded_file($_FILES['archivo']['tmp_name'], DOCS .$idArticulo .'/v1_'. $file)) {
 		    echo 'error-subir-archivo';
 		} else {
@@ -77,122 +83,55 @@ class Registroarticulo extends Controller {
 		}
 		 
 		
-		/*if(!empty($_FILES['uploaded_file']))
-			  {
-				$path = "uploads/";
-				$path = $path . basename( $_FILES['uploaded_file']['name']);
-				if(move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $path)) {
-				  echo "The file ".  basename( $_FILES['uploaded_file']['name']). 
-				  " has been uploaded";
-				} else{
-					echo "There was an error uploading the file, please try again!";
-				}
-			  }*/
-		
-		
-		
-	/*
-$target_dir = "uploads/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-// Check if image file is a actual image or fake image
-if(isset($_POST["submit"])) {
-    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-    if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
-        $uploadOk = 1;
-    } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
-    }
-}
-// Check if file already exists
-if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
-    $uploadOk = 0;
-}
-// Check file size
-if ($_FILES["fileToUpload"]["size"] > 500000) {
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-}
-// Allow certain file formats
-if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-&& $imageFileType != "gif" ) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    $uploadOk = 0;
-}
-// Check if $uploadOk is set to 0 by an error
-if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-// if everything is ok, try to upload file
-} else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-    } else {
-        echo "Sorry, there was an error uploading your file.";
-    }
-}
-	*/	
-		
-		
 	}
 	
     function registroArticulo() {
         $nombreArticulo = strtoupper($_POST['nombre']);
         $area = $_POST['area-tematica'];
         $tipo = $_POST['tipo-articulo'];
-        //$file = $_FILES['archivo']['name'];
-        //if (empty($nombreArticulo) || empty($area) || empty($tipo)) {
-        //    echo 'error-null';
-        //} else {
-            $existeArticulo = $this->model->existe_articulo($nombreArticulo);
-            if ($existeArticulo) {
-                echo 'error-articulo-repetido';
-            } else {
-                //if (empty($file)) {
-                //    echo 'error-archivo';
-                //} else {
-                    //$formatoArchivo = explode('.', $file);
-                    //$formatoArchivo = end($formatoArchivo);
-                    //if ($formatoArchivo != 'docx' && $formatoArchivo != 'doc') {
-                    //    echo 'error-formato-archivo';
-                    //} else {
-                        $articulo = array(
-                            'nombre' => $nombreArticulo,
-                            'area' => $area,
-                            'idAutor' => Session::get('idAutor'),
-                            'tipo' => $tipo
-                        );
-                        $responseDB = $this->model->registro_articulo($articulo);
-                        if (!$responseDB) {
-                            echo 'error-registro';
-                        } else {
-                            $idArticulo = $responseDB;
-                            //mkdir(DOCS.$idArticulo, 0777, TRUE);
-                            //if (!move_uploaded_file($_FILES['archivo']['tmp_name'], DOCS .$idArticulo .'/v1_'. $file)) {
-                            //    echo 'error-subir-archivo';
-                            //} else {
-                            //    $file = $idArticulo . '/'. 'v1_'.$file;
-                            //    $this->model->registro_version_articulo($idArticulo, $file);
-                                $this->model->registro_tabla_documentos($idArticulo);
-                                $idAutor = $this->model->get_id_autor(Session::get('id'));
-                                $responseDB = $this->model->registro_autor_articulo($idArticulo, $idAutor);
-//                            falta verificar el insert
-                                echo $idArticulo;
-//                                echo 'true';
-                            //}
-                        }
-                   // }
-                //}
-            }
-       // }
-    }
+		
+		$idArticulo= isset($_POST['id-articulo-registro'])?$_POST['id-articulo-registro']:"";
+
+		$articulo = array(
+			'nombre' => $nombreArticulo,
+			'area' => $area,
+			'idArticulo' => $idArticulo,
+			'idAutor' => Session::get('idAutor'),
+			'tipo' => $tipo
+		);		
+		if(!empty($idArticulo)){
+				$existeArticulo = $this->model->existe_articulo($articulo);
+				if ($existeArticulo) {
+					echo 'error-articulo-repetido';
+				} else {
+					$responseDB=$this->model->update_articulo($articulo);
+				}			
+		}
+		else{
+			$existeArticulo = $this->model->existe_articulo($articulo);
+			if ($existeArticulo) {
+				echo 'error-articulo-repetido';
+			} else {
+				$responseDB = $this->model->registro_articulo($articulo);
+				if (!$responseDB) {
+					echo 'error-registro';
+				} else {
+					$idArticulo = $responseDB;
+						$this->model->registro_tabla_documentos($idArticulo);
+						$idAutor = $this->model->get_id_autor(Session::get('id'));
+						$responseDB = $this->model->registro_autor_articulo($idArticulo, $idAutor);
+						//falta verificar el insert
+						echo $idArticulo;
+				}
+			}
+		}
+	}
 
     function registroAutor() {
-//        $idArticulo = $_POST['id'];
-        $nombre = $_POST['nombre'];
+		$tipoMovimiento=$_POST['tipo-movimiento'];
+		$idAutor=$_POST['id-autor-registro'];
+        $idArticulo=$_POST['id-articulo-autor'];
+		$nombre = $_POST['nombre'];
         $apellidoPaterno = $_POST['apellido-paterno'];
         $apellidoMaterno = $_POST['apellido-materno'];
         $ciudad = $_POST['ciudad'];
@@ -206,6 +145,8 @@ if ($uploadOk == 0) {
         if (!empty($nombre) && !empty($apellidoPaterno) && !empty($apellidoMaterno) && !empty($ciudad) && !empty($estado) && !empty($pais) && !empty($gradoAcademico) && !empty($institucionProcedencia) && !empty($tipoInstitucion) && !empty($asistenciaCica) && !empty($correo)) {
             if ($this->comprobarCorreo($correo)) {
                 $autor = array(
+					'id' => $idArticulo, 
+					'idAutor' => $idAutor, 
                     'nombre' => $nombre,
                     'apellidoPaterno' => $apellidoPaterno,
                     'apellidoMaterno' => $apellidoMaterno,
@@ -218,24 +159,34 @@ if ($uploadOk == 0) {
                     'tipoInstitucion' => $tipoInstitucion,
                     'asistenciaCica' => $asistenciaCica
                 );
-                $totalAutores = $this->model->get_total_autores($idArticulo);
-                if ($totalAutores < 4) {
-//                  Verifica si el autor no esta registrado para ese articulo
-                    $existeAutor = $this->model->existe_autor_articulo($idArticulo, $nombre, $apellidoPaterno, $apellidoMaterno);
-                    if ($existeAutor) {
-                        echo 'error-autor-registrado';
-                    } else {
-                        $responseDB = $this->model->registro_autor($autor);
-                        if (!$responseDB) {
-                            echo 'error-registro';
-                        } else {
-                            $responseDB = $this->model->registro_autor_articulo($idArticulo, $responseDB);
-                            echo 'true';
-                        }
-                    }
-                } else {
-                    echo 'error-numero-autores';
-                }
+                if($tipoMovimiento=="insertar"){
+					$totalAutores = $this->model->get_total_autores($idArticulo);
+					if ($totalAutores < 4) {
+						//Verifica si el autor no esta registrado para ese articulo
+						$existeAutor = $this->model->existe_autor_articulo($idArticulo, $nombre, $apellidoPaterno,  $apellidoMaterno);
+						if ($existeAutor) {
+							echo 'error-autor-registrado';
+						} else {
+							$responseDB = $this->model->registro_autor($autor);
+							if (!$responseDB) {
+								echo 'error-registro';
+							} else {
+								$responseDB = $this->model->registro_autor_articulo($idArticulo, $responseDB);
+								echo 'true';
+							}
+						}
+					} else {
+						echo 'error-numero-autores';
+					}				
+				}elseif($tipoMovimiento="actualizar"){
+					$responseDB = $this->model->update_autor($autor);
+					if (!$responseDB) {
+						echo 'error-update';
+					} else {
+						echo 'true';
+					}
+				}
+
             } else {
                 echo 'error-correo';
             }
@@ -244,7 +195,40 @@ if ($uploadOk == 0) {
         }
     }
     
-    function getAutoresArticulo() {
+     function getAutoresArticulo() {
+          $idArticulo = $_POST['id'];
+          $response = '';
+          if (!empty($idArticulo)) {
+               $responseDB = $this->model->get_autores_articulo($idArticulo);
+               //$cambio = $this->model->validacion_cambio_articulo($idArticulo);
+               $tabla = '';
+               foreach ($responseDB as $autor) {
+                    $tabla .= '<tr>';
+                    $tabla .= '<td class="hidden">' . $autor['autId'] . '</td>';
+                    $tabla .= '<td><i class="glyphicon glyphicon-user"></i> ' . $autor['autNombre'] . ' ' . $autor['autApellidoPaterno'] . ' ' . $autor['autApellidoMaterno'] . '</td>';
+                    $tabla .= '</td>';
+                    if ($autor['autId'] != Session::get('idAutor')) {
+                         //if ($cambio) {
+                              $tabla .= '<td class="text-right"><a href="#" id="editar|' . $autor['autId'] . '"><i class="glyphicon glyphicon-edit"></i> Editar</a></td>';
+                              $tabla .= '<td class="text-right"><a href="#" id="borrar|' . $autor['autId'] . '"><i class="glyphicon glyphicon-trash"></i> Borrar</a></td>';
+                         //} else {
+                         //     $tabla .= '<td class="text-right"></td>';
+                         //     $tabla .= '<td class="text-right"></td>';
+                        // }
+                    }else{
+                         $tabla .= '<td class="text-right"></td>';
+                         $tabla .= '<td class="text-right"></td>';					
+					}
+				   
+                    $tabla .= '</tr>';
+               }
+               $response = $tabla;
+          }
+
+          echo $response;
+     }	
+	
+ /*   function getAutoresArticulo() {
         $idArticulo = $_POST['id'];
         $response = '';
         if (!empty($idArticulo)) {
@@ -252,14 +236,14 @@ if ($uploadOk == 0) {
             foreach ($responseDB as $autor) {
                 $response .= '<li class="list-group-item" value="'.$autor['autId'].'">';
                 $response .= $autor['autNombre'] .' '.$autor['autApellidoPaterno'].' '.$autor['autApellidoMaterno'];
-//                $response .= '<a href="#" id="borrar-autor" class="pull-right borrar-autor"><i class="glyphicon glyphicon-trash"></i> Borrar<a/>&nbsp;&nbsp;';
+                $response .= '<a href="#" id="borrar-autor" class="pull-right borrar-autor"><i class="glyphicon glyphicon-trash"></i> Borrar<a/>&nbsp;&nbsp;';
                 $response .= '<label class="pull-right"><input type="radio" name="auto-contacto" value="'.$autor['autId'].'" checked>Autor de contacto</label>';
                 $response .= '</li>';
             }
         }
         
         echo $response;
-    }
+    }*/
     
     function getDetallesArticulo() {
         $idArticulo = $_POST['id'];
@@ -333,5 +317,83 @@ if ($uploadOk == 0) {
         }
     }
 
-
+     function getDetallesAutor() {
+          $idAutor = $_POST['id'];
+          $response = '';
+          if (!empty($idAutor)) {
+               $responseDB = $this->model->get_detalles_autor($idAutor);
+               if (!$responseDB) {
+                    $response = 'error-consulta';
+               } else {
+                    $autor = array(
+                        'nombre' => $responseDB['autNombre'],
+                        'apellidoPaterno' => $responseDB['autApellidoPaterno'],
+                        'apellidoMaterno' => $responseDB['autApellidoMaterno'],
+                        'correo' => $responseDB['autCorreo'],
+                        'institucion' => $responseDB['autInstitucionProcedencia'],
+                        'ciudad' => $responseDB['autCiudad'],
+                        'estados' => $this->model->get_estados($responseDB['autPais']),
+                        'estado' => $responseDB['autEstado'],
+                        'pais' => $responseDB['autPais'],
+                        'gradoAcademico' => $responseDB['autGradoAcademico'],
+                        'tipoInstitucion' => $responseDB['autTipoInstitucion'],
+                        'asistenciaCica' => $responseDB['autAsistenciaCica']
+                    );
+                    $estadosPais = $this->model->get_estados($responseDB['autPais']);
+                    $estados = array();
+                    foreach ($estadosPais as $estado) {
+                         array_push($estados, utf8_encode($estado['est_nombre']));
+                    }
+                    $autor['estados'] = $estados;
+                    $response = $autor;
+               }
+          } else {
+               $response = 'error-null';
+          }
+          echo json_encode($response);
+     }
+	 
+	function borrarAutor() {
+          $idAutor = $_POST['idAutor'];
+          $idArticulo = $_POST['idArticulo'];
+          $response = '';
+          if (!empty($idArticulo) && !empty($idAutor)) {
+               //$validacionCambio = $this->model->validacion_cambio_articulo($idArticulo);
+               //if ($validacionCambio) {
+                    $responseBD = $this->model->borrar_autor($idAutor);
+                    if (!$responseBD) {
+                         $response = 'error-borrar';
+                    } else {
+                         $this->model->borrar_autor_articulo($idAutor, $idArticulo);
+                         $response = 'true';
+                    }
+               //} else {
+               //     $response = 'error-validacion';
+               //}
+          } else {
+               $response = 'error-null';
+          }
+          echo $response;
+     }
+	
+    public function borrar_autor_articulo($idAutor, $idArticulo) {
+        $query = "DELETE FROM ".
+                    "tblAutoresArticulos ".
+                "WHERE ".
+                    "artId=$idArticulo ".
+                "AND ".
+                    "autId=$idAutor";
+        $data = NULL;
+        $sth = $this->db->prepare($query);
+        try {
+            $sth->execute();
+            $data = TRUE;
+        } catch (PDOException $exc) {
+            error_log($query);
+            error_log($exc);
+            $data = FALSE;
+        }
+        return $data;
+    }	
+	
 }

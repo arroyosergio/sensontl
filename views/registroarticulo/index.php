@@ -47,8 +47,10 @@
 						<h3 class="panel-title">Registro de artículo</h3>
 					</div>
 						<div class="panel-body">
+				     
+					     <div class="contened-art">
 						  <form id="form-registro-articulo" action="registroarticulo/registroArticulo" method="post">
-							<div class="col-md-12 col-sm-12 col-lg-12">
+							<div class="row">
 								<div class="form-group">
 									<label for=""><b>Nombre del art&iacute;culo:</b></label>
 									<input id="articulo-nombre" type="text" class="form-control" autofocus="" name="nombre">
@@ -79,19 +81,28 @@
                                     <div class="frame-bottons frame-buttons">
                                         <div class=" text-right col-lg-12 col-sm-12">
                                              <button id="btn-guardar" type="submit" data-toggle="tooltip" title="Guardar"  class="btn btn-default" ><i class="fa fa-save fa-2x" aria-hidden="true"></i></button> 
+                                             <input id="id-articulo-registro" name="id-articulo-registro" type="text" class="hidden">
                                         </div>
                                     </div>
                                  </div>
 						    </form>
-						 
-                            <div class="contened-files">
+						 </div>
+                            <div class="contened-files hidden"  id="contenedor-archivo-art">
                                  <form id="uploadfile" enctype="multipart/form-data" action="registroarticulo/updloadFile" method="POST">
 									 <div class="row row-files">
-										  <div class="lista-archivos">
+										  <div class="col-sm-6 col-md-6">
 											  <ul id="file-list">
 													<li class="no-items"> Ningun archivo cargado! </li>
 											  </ul>
 										  </div>
+										  <div class="lista-archivos col-sm-6 col-md-6">
+												<p class="help-block">Solo se permiten archivos con extencion .doc o .docx.</p>
+												<p class="help-block">Para un mejor rendimiento considere las siguientes indicaciones:</p>
+												<p class="help-block"><i class="glyphicon glyphicon-ok"></i>&nbsp;Tama&ntilde;o maximo: 1000 kb. (10MB.)<br>
+												<i class="glyphicon glyphicon-ok"></i>&nbsp;Documentos de word 2003 (.doc). <br>
+												<i class="glyphicon glyphicon-ok"></i>&nbsp;Use nombres de archivos cortos.
+												</p>
+										 </div>
 									 </div>  
 									 <br>
 									<div class="form-group">
@@ -100,48 +111,49 @@
 											<span>Seleccionar archivo</span>
 											<input type="file" id="archivo" name="archivo">
 										</span>							
-										 <button id="cancelar" type="reset" class="btn btn-warning">
+										 <!--<button id="cancelar" type="reset" class="btn btn-warning">
 											<i class="glyphicon glyphicon-ban-circle"></i>
 											<span>Cancelar carga</span>
-										</button>
+										</button>-->
 										<button id="cargar" type="submit" class="btn btn-primary">
 											<i class="glyphicon glyphicon-upload"></i>
 											<span>Iniciar carga</span>
 										</button>									
 										 <input id="id-articulo" name="id-articulo" type="text" class="hidden">
-										<p class="help-block">Solo se permiten archivos con extencion .doc o .docx.</p>
-										<p class="help-block">Para un mejor rendimiento considere las siguientes indicaciones:</p>
-										<p class="help-block"><i class="glyphicon glyphicon-ok"></i>&nbsp;Tama&ntilde;o maximo: 1000 kb. (10MB.)<br>
-										<i class="glyphicon glyphicon-ok"></i>&nbsp;Documentos de word 2003 (.doc). <br>
-										<i class="glyphicon glyphicon-ok"></i>&nbsp;Use nombres de archivos cortos.
-										</p>
+
 									</div>	
 								</form>							
 							</div>
-							<div class="form-group hidden" id="modal-autores">
+							<div class="form-group hidden " id="modal-autores">
 								<label for=""><b>Autores:</b></label>
 								<a id="btn-agregar-autor" href="#" class="btn btn-success pull-right"><i class="glyphicon glyphicon-plus"></i> Agregar autor</a>
 								<br>
 								<br>
-								<ul class="list-group" id="detalles-articulo-autores">
-									<?php echo '<li class="list-group-item">'.Session::get('usuario').'<label class="pull-right"><input type="radio" name="auto-contacto" id="" value="'.Session::get('idAutor').'" checked>Autor de contacto</label></li>'; ?>
-								</ul>
+								<table id="tbl-articulo-autores" class="table">
+									<thead>
+										<th class="hidden"></th>
+										<th></th>
+										<th></th>
+										<th></th>
+									</thead>
+									<tbody></tbody>
+								</table>
 							</div>								
 
 						
 
 						</div>
-						<div class="panel-footer">
+						<!--<div class="panel-footer">
 							<a id="a-regresar" href="misarticulos" class="btn btn-warning"><i class="glyphicon glyphicon-arrow-left"></i> Regresar</a>
 							<button id="btn-aceptar-form-articulo" class="btn btn-success pull-right"><i class="glyphicon glyphicon-arrow-right"></i> Siguiente</button>
 							<div id="div-botones-arituculo" class="text-right hidden">
 								<a id="cancelar-registro" class="btn btn-default"><i class="glyphicon glyphicon-remove"></i> Cancelar</a>
 								<a id="btn-aceptar-registro" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i> Aceptar</a>
 							</div>
-						</div>
+						</div> -->
 
 				</div>
-				<form id="form-registro-autor" action="misarticulos/registroAutor" method="post">
+				<form id="form-registro-autor" action="registroarticulo/registroAutor" method="post">
 					<div id="modal-registro-autor" class="modal fade" tabindex="-1" role="dialog">
 						<div class="modal-dialog">
 							<div class="modal-content">
@@ -150,7 +162,9 @@
 									<h4 class="modal-title">Registro de autor</h4>
 								</div>
 								<div class="modal-body">
-									<input id="id-articulo-autor" name="id" type="text" class="hidden">
+									<input id="id-autor-registro" name="id-autor-registro" type="text" class="hidden">
+									<input id="id-articulo-autor" name="id-articulo-autor" type="text" class="hidden">
+									<input id="tipo-movimiento" name="tipo-movimiento" type="text" class="hidden">
 									<div class="row">
 										<div class="col-sm-4">
 											<div class="form-group">
@@ -201,7 +215,7 @@
 
 									</div>
 										<label for=""><b>Correo:</b></label>
-										<input name="correo" type="text" class="form-control">
+										<input id="correo" name="correo" type="text" class="form-control">
 									</div>
 									<div class="row">
 										<div class="col-sm-6">
@@ -259,7 +273,7 @@
 						</div><!-- /.modal-dialog -->
 					</div><!-- /.modal -->
 				</form>
-				<div id="cargando" class="hidden centrado"><img src="./public/img/cargando.gif" alt=""></div>
+				<!--<div id="cargando" class="hidden centrado"><img src="./public/img/cargando.gif" alt=""></div>-->
 			</div>			
                     
             <!-- termine Main-container -->   

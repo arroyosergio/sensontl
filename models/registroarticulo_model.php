@@ -67,7 +67,9 @@ class Registroarticulo_Model extends Model {
         }
         return $data;
     }
-    
+    /***************************************************
+	FUNCION PARA CREAR UN NUEVO ARTICULO
+	****************************************************/
      public function registro_articulo($articulo) {
         $query = "INSERT INTO ".
                     "tblArticulos".
@@ -121,16 +123,27 @@ class Registroarticulo_Model extends Model {
         }
         return $data;
     }
+	
+	
     
     //    Valida que el nombre del articulo no este registrado
-    public function existe_articulo($nombre) {
-        $query = "SELECT ".
-                    "artId ".
-                "FROM ".
-                    "tblArticulos ".
-                "WHERE ".
-                    "artNombre='$nombre'";
-        
+    public function existe_articulo($articulo) {
+		echo var_dump($articulo);
+		if(empty($articulo[idArticulo])){
+			$query = "SELECT ".
+						"artId ".
+					"FROM ".
+						"tblArticulos ".
+					"WHERE ".
+						"artNombre='$articulo[nombre]'";
+		}else{
+			$query = "SELECT ".
+						"artId ".
+					"FROM ".
+						"tblArticulos ".
+					"WHERE ".
+						"artNombre='$articulo[nombre]' AND artId<>$articulo[idArticulo]";
+		}
         $sth = $this->db->prepare($query);
         $sth->setFetchMode(PDO::FETCH_ASSOC);
         $sth->execute();
@@ -198,6 +211,7 @@ class Registroarticulo_Model extends Model {
         return $data;
     }
     
+	
     public function registro_autor($autor) {
         $query = "INSERT INTO ".
                     "tblAutores".
@@ -241,6 +255,36 @@ class Registroarticulo_Model extends Model {
         return $data;
     }
     
+   public function update_autor($autor) {
+        $query = "UPDATE ".
+                    "tblAutores ".
+                "SET ".
+                    "autNombre='$autor[nombre]',".
+                    "autApellidoPaterno='$autor[apellidoPaterno]',".
+                    "autApellidoMaterno='$autor[apellidoMaterno]',".
+                    "autInstitucionProcedencia='$autor[institucionProcedencia]',".
+                    "autCiudad='$autor[ciudad]',".
+                    "autEstado='$autor[estado]',".
+                    "autPais='$autor[pais]',".
+                    "autCorreo='$autor[correo]',".
+                    "autGradoAcademico='$autor[gradoAcademico]',".
+                    "autTipoInstitucion='$autor[tipoInstitucion]',".
+                    "autAsistenciaCica='$autor[asistenciaCica]' ".
+                "WHERE ".
+                    "autId='$autor[idAutor]'";
+        $data = NULL;
+        $sth   = $this->db->prepare($query);
+        try {
+            $sth->execute();
+            $data = TRUE;
+        } catch (PDOException $exc) {
+            error_log($query);
+            error_log($exc);
+            $data = FALSE;
+        }
+        return $data;
+    }	
+	
     public function get_autores_articulo($idArticulo) {
         $query = "SELECT ".
                     "tblAutores.autId as autId,".
@@ -348,7 +392,7 @@ class Registroarticulo_Model extends Model {
         $sth   = $this->db->prepare($query);
         try {
             $sth->execute();
-            $data = $this->db->lastInsertId();
+            $data = TRUE;
         } catch (PDOException $exc) {
             error_log($query);
             error_log($exc);
@@ -367,7 +411,7 @@ class Registroarticulo_Model extends Model {
         $sth   = $this->db->prepare($query);
         try {
             $sth->execute();
-            $data = $this->db->lastInsertId();
+            $data = TRUE;
         } catch (PDOException $exc) {
             error_log($query);
             error_log($exc);
@@ -376,6 +420,26 @@ class Registroarticulo_Model extends Model {
         return $data;
     }
     
+	public function borrar_autor_articulo($idAutor, $idArticulo) {
+        $query = "DELETE FROM ".
+                    "tblAutoresArticulos ".
+                "WHERE ".
+                    "artId=$idArticulo ".
+                "AND ".
+                    "autId=$idAutor";
+        $data = NULL;
+        $sth = $this->db->prepare($query);
+        try {
+            $sth->execute();
+            $data = TRUE;
+        } catch (PDOException $exc) {
+            error_log($query);
+            error_log($exc);
+            $data = FALSE;
+        }
+        return $data;
+    }
+	
     public function borrar_relacion_autor_articulo($idArticulo) {
         $query = "DELETE FROM ".
                     "tblAutoresArticulos ".
@@ -385,7 +449,7 @@ class Registroarticulo_Model extends Model {
         $sth   = $this->db->prepare($query);
         try {
             $sth->execute();
-            $data = $this->db->lastInsertId();
+            $data = TRUE;
         } catch (PDOException $exc) {
             error_log($query);
             error_log($exc);
@@ -435,6 +499,28 @@ class Registroarticulo_Model extends Model {
         }
     }
     
+
+	 public function update_articulo($articulo) {
+        $query = "UPDATE  ".
+                    "tblArticulos".
+                        " SET ".
+                            "artNombre='$articulo[nombre]',".
+                            "artAreaTematica='$articulo[area]',".
+                            "artTipo='$articulo[tipo]'".
+                    " WHERE ".
+                            "artId=$articulo[idArticulo]";
+        $data = NULL;
+        $sth   = $this->db->prepare($query);
+        try {
+            $sth->execute();
+			$data = TRUE;
+        } catch (PDOException $exc) {
+            error_log($query);
+            error_log($exc);
+            $data = FALSE;
+        }
+        return $data;
+    }
     public function registro_tabla_documentos($idArticulo) {
         $query = "INSERT INTO ".
                     "tblDocumentos".
@@ -456,5 +542,37 @@ class Registroarticulo_Model extends Model {
             $data = FALSE;
         }
     }
+	
+    public function get_detalles_autor($idAutor) {
+        $query = "SELECT ".
+                    "autNombre,".
+                    "autApellidoPaterno,".
+                    "autApellidoMaterno,".
+                    "autCorreo,".
+                    "autInstitucionProcedencia,".
+                    "autCiudad,".
+                    "autEstado,".
+                    "autPais,".
+                    "autGradoAcademico,".
+                    "autTipoInstitucion,".
+                    "autAsistenciaCica ".
+                "FROM ".
+                    "tblAutores ".
+                "WHERE ".
+                    "autId=$idAutor";
+        $sth = $this->db->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+        $sth->execute();
+        $count = $sth->rowCount();
+        $data = NULL;
+        if ($count > 0) {
+            $data = $sth->fetchAll();
+            $data = $data[0];
+        } else {
+            $data = FALSE;
+        }
+        return $data;
+        
+    }	
     
 }

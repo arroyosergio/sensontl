@@ -23,9 +23,28 @@ input[type="file"]{
     color: transparent;
 }
 
-.lista-archivos{
-	width: 45%;
+#file-list{
+	padding-left: 1.4em;
 }
+
+.fileinput-button{
+	margin-left: 1em;
+}
+
+#modal-autores{
+	padding-top: 1.5em;
+}
+.contened-files{
+	border: 1px solid rgba(136, 127, 127, 0.29);
+}
+.contened-art{
+	padding-bottom: 1em;
+}
+
+.panel-body{
+	display: grid;
+}
+
 .row-files{
 	display: inline-block;
 	width: 100%;

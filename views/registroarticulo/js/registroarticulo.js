@@ -19,7 +19,6 @@ $(document).ready(function () {
 	fileList=document.getElementById("file-list");
 	$("#cancelar").hide();
 	$("#cargar").hide();
-	
 });
 
 function activarOpcionMenu() {
@@ -52,6 +51,7 @@ $('#btn-agregar-autor').click(function () {
     });
     var opcion = $('#tipo-institucion').val();
     $('#input-tipo-institucion').val(opcion);
+	$('#tipo-movimiento').val('insertar');
     toastr.options = {
         "closeButton": false,
         "debug": false,
@@ -78,11 +78,12 @@ $('.borrar-autor').click(function (){
 
 $('#btn-aceptar-registro').click(function () {
     var autorContacto = $('input[name="auto-contacto"]:checked').val();
-    var idArticulo = $("#id-articulo-autor").val();
+    var idArticulo = $("#id-autor-registro").val();
     $.post('registroarticulo/asignarAutorContacto', {idAutor: autorContacto, idArticulo:idArticulo}, function (response) {
         $(location).attr('href', 'misarticulos');
     });
 });
+
 
 $('#form-registro-autor').submit(function(){
     var url = $(this).attr('action');
@@ -108,25 +109,38 @@ $('#form-registro-autor').submit(function(){
             toastr.options.closeButton = true;
             toastr.error("Ya no se pueden registar m&aacute;s autores para este articulo.");
         }
+        if (response === 'error-update') {
+		   toastr.options.closeButton = true;
+		   toastr.error("No se pudo actualizar el registro.");
+        }		
         if (response === 'true') {
             $('#modal-registro-autor').modal('hide');
-            var id = $('#id-articulo-autor').val();
+            if($('#tipo-movimiento').val()=="insertar"){
+				toastr.options.closeButton = true;
+				toastr.success("Se ingreso el autor correctamente.");	
+				numAutores += 1;
+				if (numAutores === 3) {
+					$('#btn-agregar-autor').addClass('hidden');
+				}		
+			}else{
+				toastr.options.closeButton = true;
+				toastr.success("El autor se actualiz&oacute; correctamente.");				
+			}
+			
+            var id = $('#id-articulo-registro').val();
             $.ajax({
                 url: "registroarticulo/getAutoresArticulo",
                 type: 'POST',
                 data: 'id='+id,
                 cache: false,
                 success: function (data) {
-                    $('#detalles-articulo-autores').empty();
-                    $('#detalles-articulo-autores').html(data);
+                    $('#tbl-articulo-autores').html(data);
                 }
             });
-            numAutores += 1;
-            if (numAutores === 3) {
-                $('#btn-agregar-autor').addClass('hidden');
-            }
+
             $('#form-registro-autor input').val('');
-            $('#id-articulo-autor').val(id);
+			$('#id-articulo-autor').val(id);
+            
         }
     });
     return false;
@@ -136,6 +150,7 @@ $('#form-registro-autor').submit(function(){
 $("#cancelar").click(function(){
 	$("#file-list").empty();
 	$("#cancelar").hide("slow");
+	$("#cargar").hide("slow");
 	fileList.innerHTML="<li class='no-items'> Ningun archivo cargado! </li>";
 });
 
@@ -177,81 +192,6 @@ $(':file').change(function () {
 });
 
 
-/*function traverseFiles (files) {
-	if (typeof files !== "undefined") {
-		for (var i=0, l=files.length; i<l; i++) {
-			uploadFile(files[i]);
-		}
-		uploadFile(files[0]);
-		$("#cancelar").show("slow");
-		$("#cargar").show("slow");
-	}
-	else {
-		fileList.innerHTML = "El navegador no puede mostrar la imagen previa";
-	}  
-}*/
-
-/*$("#cargar").click(function(){
-	var file = $("#archivo")[0].files[0];
-    var fileName = file.name;
-	uploadFile(fileName);
-});*/
-
-function uploadFile (file) {
-var li = document.createElement("li"),
-    div = document.createElement("div"),
-	img,
-	progressBarContainer = document.createElement("div"),
-	progressBar = document.createElement("div"),
-    reader,
-	xhr,
-	fileInfo;
-
-	li.appendChild(div);
-
-	progressBarContainer.className = "progress-bar-container";
-	progressBar.className = "progress-bar";
-	progressBarContainer.appendChild(progressBar);
-	li.appendChild(progressBarContainer);
-	
-
-	// Uploading - for Firefox, Google Chrome and Safari
-
-	xhr = new XMLHttpRequest();
- 
-	// Update progress bar
-	xhr.upload.addEventListener("progress", function (evt) {
-		if (evt.lengthComputable) {
-			progressBar.style.width = (evt.loaded / evt.total) * 100 + "%";
-		}
-		else {
-		// No data to calculate on
-		}
-	}, false);
- 
-	// File uploaded
-	xhr.addEventListener("load", function () {
-		progressBarContainer.className += " uploaded";
-		progressBar.innerHTML = "cargado!";
-	}, false);
- 
-	xhr.open("post", "registroarticulo/updloadFile", true);
-
-	// Set appropriate headers
-	xhr.setRequestHeader("Content-Type", "multipart/form-data");
-	xhr.setRequestHeader("X-File-Name", file.name);
-	xhr.setRequestHeader("X-File-Size", file.size);
-	xhr.setRequestHeader("X-File-Type", file.type);
-	// Send the file (doh)
-	xhr.send(file);
-	// Present file info and append it to the list of files
-	fileInfo = "<div><strong>Nombre:</strong> " + file.name + "</div>";
-	fileInfo += "<div><strong>Tamano:</strong> " + parseInt(file.size / 1024, 10) + " kb</div>";
-	fileInfo += "<div><strong>Tipo:</strong> " + file.type + "</div>";
-	div.innerHTML = fileInfo;
-	fileList.appendChild(li);
-}
-
 
 
 function activarOpcionMenu(){
@@ -281,8 +221,6 @@ $("#uploadfile").submit(function(event){
         //mientras enviamos el archivo
         beforeSend: function () {
 			progressBar.style.width =  "0%";
-			//$("#progress-bar").width('0%');
-            //$('#cargando').removeClass('hidden');
         },
 		// this part is progress bar
 		xhr: function () {
@@ -311,6 +249,8 @@ $("#uploadfile").submit(function(event){
             }
             
             if ($.isNumeric(response)) {
+				$('#id-articulo-autor').val(response);
+				$('#modal-autores').removeClass('hidden');
                 toastr.options.closeButton = true;
                 toastr.success("El archivo se cargo...");
 			}
@@ -325,29 +265,10 @@ $("#uploadfile").submit(function(event){
 });
 
 
-/*
-OTRA ALTERNATIVA PARA MANEJO DE PROGRESSBAR
-xhr: function() {
-	var myXhr = $.ajaxSettings.xhr();
-	if(myXhr.upload){
-		myXhr.upload.addEventListener('progress',progress, false);
-	}
-	return myXhr;
-},
 
-function progress(e){
-  if(e.lengthComputable){
-        var max = e.total;
-        var current = e.loaded;
-        var Percentage = (current * 100)/max;
-        console.log(Percentage);
-        if(Percentage >= 100)
-        {
-           // process completed  
-        }
-    }  
- }*/
-
+/*****************************************************
+FUNCTION: Actualiza o Registra nuevo articulo 
+******************************************************/
 $('#form-registro-articulo').submit(function () {
     var url = $(this).attr('action');
     var data = $(this).serialize();
@@ -367,10 +288,11 @@ $('#form-registro-articulo').submit(function () {
 			toastr.error("No se pudo realizar el registro.");
 		}
 		if($.isNumeric( response )){
+			$("#contenedor-archivo-art").removeClass('hidden');
 			toastr.options.closeButton = true;
 			toastr.success("El Articulo se registro correctamente");
 			$("#id-articulo").val(response);
-			
+			$("#id-articulo-registro").val(response);
 		}
        
     });	
@@ -400,4 +322,99 @@ $('#cancelar-registro').click(function(){
             $(location).attr('href', 'misarticulos');
         }
     });
+});
+
+
+$('#tbl-articulo-autores').click(function (e) {
+     var id = e.target.id;
+     var id = id.split('|');
+     if (id[0] === 'editar') {
+               $.post('registroarticulo/getDetallesAutor', {id: id[1]}, function (response) {
+               //**************Manda el id a los campos ocultos ************
+			   $('#tipo-movimiento').val('actualizar');
+			   $('#id-autor-registro').val(id[1]);
+               //***********************************************************
+			   $('#nombre').val(response.nombre);
+               $('#apellido-paterno').val(response.apellidoPaterno);
+               $('#apellido-materno').val(response.apellidoMaterno);
+               $('#pais').val(response.pais);
+               jQuery.each(response.estados, function (i, val) {
+                    $('#estado').append($('<option>', {
+                         value: val,
+                         text: val
+                    }));
+               });
+               $('#estado').val(response.estado);
+               $('#ciudad').val(response.ciudad);
+               $('#correo').val(response.correo);
+               $('#grado-academico').val(response.gradoAcademico);
+               $('#institucion-procedencia').val(response.institucion);
+//             $('#tipo-institucion').val(response.tipoInstitucion);
+               var otroTipoInstitucion = false;
+               $.each(['tecnologica', 'politecnica', 'autonoma', 'instTecnologico', 'centroInvestifacion'], function (index, value) {
+                    if (response.tipoInstitucion === value) {
+                         otroTipoInstitucion = false;
+                         return false;
+                    } else {
+                         otroTipoInstitucion = true;
+                    }
+               });
+               if (otroTipoInstitucion) {
+                    $('#tipo-institucion').val('otro');
+                    $('#lbl-input-tipo-institucion').removeClass('hidden');
+                    $('#input-tipo-institucion').removeClass('hidden');
+                    $('#input-tipo-institucion').val(response.tipoInstitucion);
+               } else {
+                    $('#tipo-institucion').val(response.tipoInstitucion);
+                    $('#input-tipo-institucion').val(response.tipoInstitucion);
+                    $('#lbl-input-tipo-institucion').addClass('hidden');
+                    $('#input-tipo-institucion').addClass('hidden');
+               }
+
+               $('#asistencia-cica').val(response.asistenciaCica);
+          }, 'json');
+		  $('#modal-registro-autor').on('shown.bs.modal', function () {
+          	$('#nombre').focus();
+    	  }).modal('show');
+     }
+     if (id[0] === 'borrar') {
+          var idArticulo = $('#id-articulo-registro').val();
+          var idAutor = id[1];
+          $.post('registroarticulo/borrarAutor', {idArticulo: idArticulo, idAutor: idAutor}, function (response) {
+               if (response === 'error-null') {
+                    toastr.options.closeButton = true;
+                    toastr.error("No se ha indicado a que art&iacute;culo pertence.");
+               }
+
+               if (response === 'error-borrar') {
+                    toastr.options.closeButton = true;
+                    toastr.error("No se pudo borrar al autor.");
+               }
+
+               if (response === 'error-validacion') {
+                    toastr.options.closeButton = true;
+                    toastr.error("No se tienen los permisos para realizar el cambio.");
+               }
+
+               if (response === 'true') {
+				numAutores--;
+				if (numAutores <= 2) {
+					$('#btn-agregar-autor').removeClass('hidden');
+				}					   
+					$.ajax({
+						url: "registroarticulo/getAutoresArticulo",
+						type: 'POST',
+						data: 'id='+idArticulo,
+						cache: false,
+						success: function (data) {
+							$('#detalles-articulo-autores').empty();
+							$('#tbl-articulo-autores').empty();
+							$('#tbl-articulo-autores').html(data);
+						}
+					});
+               }
+
+          });
+     }
+
 });
