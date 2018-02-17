@@ -80,8 +80,8 @@ class Misarticulos extends Controller {
                        '<th class="text-center">Recibido</th>' .
                        '<th class="text-center">Dictaminado</th>' .
                        '<th class="text-center">Aviso de cambio</th>' .
-                       '<th class="text-center">Registro asistencia</th>' .
-                       '<th class="text-center">Gafete</th>' .
+                       '<th class="text-center">Edici&oacute;n</th>' .
+                       /*'<th class="text-center">Gafete</th>' .*/
                        '</tr>' .
                        '</thead>';
                $tabla .= '<tbody>';
@@ -115,17 +115,17 @@ class Misarticulos extends Controller {
                     $tabla .= '<td class="text-center td-tabla">' . $articulo['artRecibido'] . '</td>';
                     $tabla .= '<td class="text-center td-tabla">' . $articulo['artDictaminado'] . '</td>';
                     $tabla .= '<td class="text-center td-tabla">' . $articulo['artAvisoCambio'] . '</td>';
-                    if ($articulo['artDictaminado'] == 'si') {
-                        $tabla .= '<td class="text-center"><a href="registroasistencia?id='.$articulo['artId'].'"><span class="glyphicon glyphicon-pencil"></span> Ir al formato</a></td>'; 
+                    if ($articulo['artAvisoCambio'] == 'si') {
+                        $tabla .= '<td class="text-center"><a href="registroarticulo?id='.$articulo['artId'].'"><span class="glyphicon glyphicon-pencil"></span> Editar</a></td>'; 
                     }else{
                         $tabla .= '<td class="text-center td-tabla"></td>';
                     }
                     
-                    if ($articulo['art_validacion_deposito'] == 'si') {
+                    /*if ($articulo['art_validacion_deposito'] == 'si') {
                         $tabla .= '<td class="text-center"><a href="gafete?id='.$articulo['artId'].'"><span class="glyphicon glyphicon-share-alt"></span> Generar</a></td>'; 
                     }else{
                         $tabla .= '<td class="text-center td-tabla"></td>';
-                    }
+                    }*/
                     
                     $tabla .= '</tr>';
                }
@@ -325,7 +325,46 @@ class Misarticulos extends Controller {
 
           echo $response;
      }
+     function get_show_AutoresArticulo() {
+          $idArticulo = $_POST['id'];
+          $response = '';
+          if (!empty($idArticulo)) {
+               $responseDB = $this->model->get_autores_articulo($idArticulo);
+               //$cambio = $this->model->validacion_cambio_articulo($idArticulo);
+               $tabla = '';
+               foreach ($responseDB as $autor) {
+                    $tabla .= '<tr>';
+                    $tabla .= '<td class="hidden">' . $autor['autId'] . '</td>';
+                    $tabla .= '<td><i class="glyphicon glyphicon-user"></i> ' . $autor['autNombre'] . ' ' . $autor['autApellidoPaterno'] . ' ' . $autor['autApellidoMaterno'] . '</td>';
+                    $tabla .= '</td>';
+                    $tabla .= '</tr>';
+               }
+               $response = $tabla;
+          }
 
+          echo $response;
+     }
+	
+	function get_show_DetallesArticulo(){
+          $idArticulo = $_POST['id'];
+          $responseDB = $this->model->get_detalles_articulo($idArticulo);
+          $archivo = $this->model->get_ultima_version_archivo($idArticulo);
+		  $archivo = explode('/', $archivo);
+		  if(count($archivo)>1){
+		  	$archivo = $archivo[1];
+		  }else{
+		  	$archivo = "Ningun archivo cargado...";
+		  }
+          
+          $response = array(
+              'nombre' => $responseDB['artNombre'],
+              'area' => $responseDB['artAreaTematica'],
+              'archivo' => $archivo,
+              'tipo' => $responseDB['artTipo']
+          );
+		echo json_encode($response);
+	}
+	
      function getDetallesArticulo() {
           $idArticulo = $_POST['id'];
           $responseDB = $this->model->get_detalles_articulo($idArticulo);
@@ -335,7 +374,6 @@ class Misarticulos extends Controller {
           $response = array(
               'nombre' => $responseDB['artNombre'],
               'area' => $responseDB['artAreaTematica'],
-//            'archivo' => $responseDB['artArchivo'],
               'archivo' => $archivo,
               'tipo' => $responseDB['artTipo'],
               'cambio' => $responseDB['artAvisoCambio'],

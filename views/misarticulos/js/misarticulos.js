@@ -63,19 +63,14 @@ function registro_autor_dependencia_estado() {
 
 $("#tbl-articulos tbody tr td.td-tabla").click(function (event) {
      var registro = $(this).parent('tr');
-     $('#li-cartas').removeClass('active');
-     $('#cartas').removeClass('active');
-     $('#li-constancia').addClass('hidden');
-     $('#li-constancia').removeClass('active');
-     $('#constancia').removeClass('active');
-     $('#li-detalles').addClass('active');
-     $('#detalles').addClass('active');
+     /*$('#li-detalles').addClass('active');
+     $('#detalles').addClass('active');*/
      $('#tbl-ver-articulo-autores').empty();
      $('#ver-articulo-nombre').empty();
-     $('#update-articulo-id').empty();
+     /*$('#update-articulo-id').empty();
      $('#btn-agregar-autor').addClass('hidden');
      $('#btn-subir-version').addClass('hidden');
-     $('#li-cartas').addClass('hidden');
+     $('#li-cartas').addClass('hidden');*/
      var id = registro.find("td").eq(0).html();
      var nombre = registro.find("td").eq(1).html();
      var area = registro.find("td").eq(2).html();
@@ -102,32 +97,36 @@ $("#tbl-articulos tbody tr td.td-tabla").click(function (event) {
                break;
      }
      $('#ver-articulo-area').val(area);
-     $.post('misarticulos/getAutoresArticulo', {id: id}, function (response) {
+	
+	
+     $.post('misarticulos/get_show_AutoresArticulo', {id: id}, function (response) {
           $('#tbl-ver-articulo-autores').append(response);
      });
+	
+	
      //====================CARTA DE ACEPTACION==============================
-     $.post('misarticulos/getCartaAceptacion', {id: id}, function (datos) {
+     /*$.post('misarticulos/getCartaAceptacion', {id: id}, function (datos) {
     	if(datos.archivo!== null){
     		var strCartaAceptacion="<a href='docs/"+ datos.archivo+"' class='btn btn-link'><i class='glyphicon glyphicon-save-file'></i> Carta de aceptaci&oacute;n</a>";
     		$('#cartaaceptacion-archivo').html("<a href='docs/"+ datos.archivo+"' class='btn btn-link'><i class='glyphicon glyphicon-save-file'></i> Carta de aceptaci&oacute;n</a>");
     	}
-     },'json');
+     },'json');*/
      //====================CONSTANCIA==============================
-     var strConstancia="<a href='constancia/generar?id="+id+"' class='btn btn-primary'><span class='glyphicon glyphicon-save'></span> descarga de Constancia</a>";
+     /*var strConstancia="<a href='constancia/generar?id="+id+"' class='btn btn-primary'><span class='glyphicon glyphicon-save'></span> descarga de Constancia</a>";*/
  	 //var strConstancia="<button class='genera_constancia' value='12' ><span class='glyphicon glyphicon-file'></span> Generar constancia</button>";
     	//var strConstancia="<button id='generacion_constancia' value='"+id+"' type='submit' class='btn btn-info pull-right'><span class='glyphicon glyphicon-file'></span> Generar constancia</button>";
-     $('#link_constancia').html(strConstancia);
+     /*$('#link_constancia').html(strConstancia);*/
      //=========================FIN DE CARTA DE ACEPTACION==================     
-     $.post('misarticulos/getDetallesArticulo', {id: id}, function (data) {
-          if (data.cambio === 'si') {
+     $.post('misarticulos/get_show_DetallesArticulo', {id: id}, function (data) {
+          /*if (data.cambio === 'si') {
                $('#ver-articulo-nombre').removeAttr('disabled');
                $('#ver-articulo-area').removeAttr('disabled');
                $('#ver-articulo-tipo').removeAttr('disabled');
                $('#btn-guardar-cambios').removeClass('hidden');
                $('#btn-subir-version').removeClass('hidden');
                $('#btn-agregar-autor').removeClass('hidden');
-          }
-          if (data.dictaminado === 'si') {
+          }*/
+          /*if (data.dictaminado === 'si') {
                $('#li-cartas').removeClass('hidden');
 //               $.post('misarticulos/getEstatusCartas', {id: id}, function (response) {
 //                    if (response === 'no') {
@@ -158,30 +157,32 @@ $("#tbl-articulos tbody tr td.td-tabla").click(function (event) {
                          toastr.info('Descarga las formatos, llenalos y sube tus archivos para continuar con el proceso.');
 //                    }
 //               });
-          }
+          }*/
           $('#ver-articulo-tipo').val(data.tipo);
           $('#ver-articulo-archivo').html(data.archivo);
      }, 'json');
-     $.post('misarticulos/getEstatusRecibo', {id: id}, function (response) {
+     /*$.post('misarticulos/getEstatusRecibo', {id: id}, function (response) {
           if (response === 'no') {
                $('#input-recibo-pago').removeAttr('disabled');
           }
-     });
-     $.post('misarticulos/getCartas',{id:id},function(response){
+     });*/
+     /*$.post('misarticulos/getCartas',{id:id},function(response){
           $('#documentos-actuales').empty();
           $('#documentos-actuales').html(response);
-     });
+     });*/
      //VALIDAR QUE LA PRESENTACION DEL ARTOCULO SE HALLA REALIZA
-     $.get('misarticulos/validarPresentacionArt',{id:id},function(response){
+     /*$.get('misarticulos/validarPresentacionArt',{id:id},function(response){
     	 if(response)
     		 $('#li-constancia').removeClass('hidden');
-     });
+     });*/
      //$('#modal-ver-articulo').modal('show');
 
      $('#modal-ver-articulo').on('shown.bs.modal', function () {
      }).modal('show');
      
 });
+
+
  /*   $("#constancia_pdf").find("form").on("submit", function (event) {
         //event.preventDefault();
 		//var buttons = document.getElementById("constancia_pdf");

@@ -67,6 +67,30 @@ class Registroarticulo_Model extends Model {
         }
         return $data;
     }
+	
+	
+    public function get_version_articulo($idArticulos) {
+        $query = "SELECT ".
+                    "COUNT(verId) AS version ".
+                "FROM ".
+                    "tblVersionesArticulos ".
+                "WHERE ".
+                    "artId=$idArticulos";
+        $sth = $this->db->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+        $sth->execute();
+        $count = $sth->rowCount();
+        $data = NULL;
+        if ($count > 0) {
+            $data = $sth->fetchAll();
+            $data = $data[0];
+            $data = $data['version'];
+        } else {
+            $data = FALSE;
+        }
+        return $data;
+    }	
+	
     /***************************************************
 	FUNCION PARA CREAR UN NUEVO ARTICULO
 	****************************************************/
@@ -128,8 +152,8 @@ class Registroarticulo_Model extends Model {
     
     //    Valida que el nombre del articulo no este registrado
     public function existe_articulo($articulo) {
-		echo var_dump($articulo);
-		if(empty($articulo[idArticulo])){
+		if(empty($articulo['idArticulo'])){
+			
 			$query = "SELECT ".
 						"artId ".
 					"FROM ".
@@ -334,6 +358,35 @@ class Registroarticulo_Model extends Model {
         return $data;
     }
     
+	
+    public function get_det_art_autor($idAutor,$idArticulo) {
+        $query = "SELECT ".
+                    "artNombre,".
+                    "artAreaTematica,".
+                    "artArchivo,".
+                    "artTipo ".
+                "FROM ".
+                    "tblArticulos INNER JOIN tblautoresarticulos ON tblArticulos.artId=tblautoresarticulos.artId ".
+                "WHERE ".
+                    "tblautoresarticulos.artId=:idArticulo AND tblautoresarticulos.autId=:idAutor AND tblArticulos.artAvisoCambio='si'";
+		$sth=$this->db->prepare($query);
+		$sth->execute(array(
+			':idArticulo'=>$idArticulo,
+			':idAutor'=>$idAutor)
+		);
+		$sth->setFetchMode(PDO::FETCH_ASSOC);
+        $count = $sth->rowCount();
+        $data = NULL;
+        if ($count > 0) {
+            $data = $sth->fetchAll();
+            $data = $data[0];
+        } else {
+            $data = FALSE;
+        }
+		return $data;
+		
+    }
+	
     public function get_detalles_articulo($idArticulo) {
         $query = "SELECT ".
                     "artNombre,".
@@ -521,6 +574,26 @@ class Registroarticulo_Model extends Model {
         }
         return $data;
     }
+	
+	public function update_estatus_cambios($idArticulo, $estatus) {
+		$query = "UPDATE ".
+					"tblArticulos ".
+				"SET ".
+					"artAvisoCambio='$estatus' ".
+				"WHERE ".
+					"artId=$idArticulo";
+		$sth = $this->db->prepare($query);
+		try {
+			$sth->execute();
+			$data = TRUE;
+		} catch (PDOException $exc) {
+			error_log($query);
+			error_log($exc);
+			$data = FALSE;
+		}
+		return $data;
+    }
+	
     public function registro_tabla_documentos($idArticulo) {
         $query = "INSERT INTO ".
                     "tblDocumentos".
@@ -574,5 +647,13 @@ class Registroarticulo_Model extends Model {
         return $data;
         
     }	
-    
+
+	function fncGetVerArticulos($id){
+		$sth=$this->db->prepare('SELECT artId as articulo, verArchivo as archivo,verFecha as fecha FROM tblVersionesArticulos WHERE artId='.$id);
+		$sth->setFetchMode(PDO::FETCH_ASSOC);
+		$sth->execute();
+		$data=$sth->fetchall();
+		return $data;
+	}
+		
 }

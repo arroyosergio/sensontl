@@ -192,8 +192,6 @@ $(':file').change(function () {
 });
 
 
-
-
 function activarOpcionMenu(){
     var id = $('#navbar li.active').attr('id');
     $('#'+id).removeClass('active');
@@ -270,6 +268,7 @@ $("#uploadfile").submit(function(event){
 FUNCTION: Actualiza o Registra nuevo articulo 
 ******************************************************/
 $('#form-registro-articulo').submit(function () {
+	
     var url = $(this).attr('action');
     var data = $(this).serialize();
     $.post(url, data, function (response) {
@@ -287,12 +286,27 @@ $('#form-registro-articulo').submit(function () {
 			toastr.options.closeButton = true;
 			toastr.error("No se pudo realizar el registro.");
 		}
+
+		if (response === 'error-actualizacion') {
+			toastr.options.closeButton = true;
+			toastr.error("Violaci&oacute;n de actualizaci&oacute;n.");
+		}		
+
+		if (response === 'actualizado') {
+			toastr.options.closeButton = true;
+			toastr.success("El Articulo se actualizo correctamente.");
+		}
+		
 		if($.isNumeric( response )){
 			$("#contenedor-archivo-art").removeClass('hidden');
 			toastr.options.closeButton = true;
 			toastr.success("El Articulo se registro correctamente");
 			$("#id-articulo").val(response);
 			$("#id-articulo-registro").val(response);
+			$.post('registroarticulo/fncGetVerArticulos', {id_articulo:response}, function (response) {
+				$("#file-list").empty();
+				$("#file-list").html(response);
+			});
 		}
        
     });	

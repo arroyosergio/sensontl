@@ -28,6 +28,18 @@ class Registroarticulo extends Controller {
     }
 
     function index() {
+		if(isset($_GET['id'])){
+			$this->view->detalleArticulo= json_decode($this->get_det_art_autor(Session::get('idAutor'),$_GET['id']));
+		}else{
+			$response = json_encode(array(
+				'id'     => "new",
+				'nombre' => "",
+				'area' => "",
+				'archivo' => "",
+				'tipo' => ""
+			));
+			$this->view->detalleArticulo=json_decode($response);
+		}
         $this->view->selectPaises = $this->selectPaises();
         $this->view->render("registroarticulo/index");
     }
@@ -67,18 +79,23 @@ class Registroarticulo extends Controller {
 	
 		$idArticulo = $_POST['id-articulo'];
         $file = $_FILES['archivo']['name'];
+		//VALIDA LA NUEVA VERSION DEL ARTICULO
+		$version = $this->model->get_version_articulo($idArticulo);
+		$version += 1;
+		$file = 'v'.$version . '_' . $file;
 		// Check if file already exists
 		if (!file_exists(DOCS.$idArticulo)) {
 			mkdir(DOCS.$idArticulo, 0777, TRUE);
 		}
-		if (file_exists(DOCS .$idArticulo .'/v1_'. $file)) {
-			unlink(DOCS .$idArticulo .'/v1_'. $file);
+		if (file_exists(DOCS .$idArticulo .'/'. $file)) {
+			unlink(DOCS .$idArticulo .'/'. $file);
 		}
-		if (!move_uploaded_file($_FILES['archivo']['tmp_name'], DOCS .$idArticulo .'/v1_'. $file)) {
+		if (!move_uploaded_file($_FILES['archivo']['tmp_name'], DOCS .$idArticulo .'/'. $file)) {
 		    echo 'error-subir-archivo';
 		} else {
-		    $file = $idArticulo . '/'. 'v1_'.$file;
+		    $file = $idArticulo . '/'.$file;
 		    $this->model->registro_version_articulo($idArticulo, $file);
+			//$this->model->update_estatus_cambios($idArticulo, 'no');
 			echo $idArticulo;
 		}
 		 
@@ -89,7 +106,8 @@ class Registroarticulo extends Controller {
         $nombreArticulo = strtoupper($_POST['nombre']);
         $area = $_POST['area-tematica'];
         $tipo = $_POST['tipo-articulo'];
-		
+		$operacion=$_POST['tipo_operacion'];
+		//SE VALIDA LA INSTANCIA DE id-articulo-registro PARA CONOCER SI SE ESTA ACTUALIZADON O INSERTANDO
 		$idArticulo= isset($_POST['id-articulo-registro'])?$_POST['id-articulo-registro']:"";
 
 		$articulo = array(
@@ -98,16 +116,18 @@ class Registroarticulo extends Controller {
 			'idArticulo' => $idArticulo,
 			'idAutor' => Session::get('idAutor'),
 			'tipo' => $tipo
-		);		
+		);
+		
 		if(!empty($idArticulo)){
 				$existeArticulo = $this->model->existe_articulo($articulo);
 				if ($existeArticulo) {
 					echo 'error-articulo-repetido';
 				} else {
 					$responseDB=$this->model->update_articulo($articulo);
+					echo 'actualizado';
 				}			
 		}
-		else{
+		elseif($operacion=="insertar" && empty($idArticulo)){
 			$existeArticulo = $this->model->existe_articulo($articulo);
 			if ($existeArticulo) {
 				echo 'error-articulo-repetido';
@@ -124,6 +144,8 @@ class Registroarticulo extends Controller {
 						echo $idArticulo;
 				}
 			}
+		}elseif($operacion=="actualizar" && empty($idArticulo)){
+			echo 'error-actualizacion';
 		}
 	}
 
@@ -195,6 +217,26 @@ class Registroarticulo extends Controller {
         }
     }
     
+     function get_show_AutoresArticulo() {
+          $idArticulo = $_POST['id'];
+          $response = '';
+          if (!empty($idArticulo)) {
+               $responseDB = $this->model->get_autores_articulo($idArticulo);
+               //$cambio = $this->model->validacion_cambio_articulo($idArticulo);
+               $tabla = '';
+               foreach ($responseDB as $autor) {
+                    $tabla .= '<tr>';
+                    $tabla .= '<td class="hidden">' . $autor['autId'] . '</td>';
+                    $tabla .= '<td><i class="glyphicon glyphicon-user"></i> ' . $autor['autNombre'] . ' ' . $autor['autApellidoPaterno'] . ' ' . $autor['autApellidoMaterno'] . '</td>';
+                    $tabla .= '</td>';
+                    $tabla .= '</tr>';
+               }
+               $response = $tabla;
+          }
+
+          echo $response;
+     }	
+	
      function getAutoresArticulo() {
           $idArticulo = $_POST['id'];
           $response = '';
@@ -245,8 +287,21 @@ class Registroarticulo extends Controller {
         echo $response;
     }*/
     
+	function get_det_art_autor($idAutor,$idArticulo) {
+        $responseDB = $this->model->get_det_art_autor($idAutor,$idArticulo);
+		$response = array(
+			'id'     => $responseDB['artNombre']!=NULL?$idArticulo:NULL,
+			'nombre' => $responseDB['artNombre'],
+			'area' => $responseDB['artAreaTematica'],
+			'archivo' => $responseDB['artArchivo'],
+			'tipo' => $responseDB['artTipo']
+		);
+		$response=json_encode($response);
+		return $response;
+    }
+	
     function getDetallesArticulo() {
-        $idArticulo = $_POST['id'];
+        $idArticulo = $_POST['id_articulo'];
         $responseDB = $this->model->get_detalles_articulo($idArticulo);
         $response = array(
             'nombre' => $responseDB['artNombre'],
@@ -394,6 +449,22 @@ class Registroarticulo extends Controller {
             $data = FALSE;
         }
         return $data;
-    }	
+    }
+	
+    function fncGetVerArticulos(){
+    	$responseDB = $this->model->fncGetVerArticulos($_POST['id_articulo']);
+    	$versiones = "<div>";
+    	
+    	if (!$responseDB) {
+    		$versiones.="<div>No exiten art&iacute;culos cargados</div>";
+    	}else{ 
+    		foreach ($responseDB as $articulo) {
+    			$versiones.="<div class='row'><div class='col-md-1'><span class='glyphicon glyphicon-floppy-save'></div>".
+    					     "<div class='col-md-8'>".$ruta.$articulo['archivo']. strtoupper($articulo['archivo'])."</div></div>";
+    		}
+    	}
+    	$versiones.="</div>";
+    	echo ($versiones);
+    } 	
 	
 }

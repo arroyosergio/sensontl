@@ -1,4 +1,6 @@
- <div class="info-container">
+ 
+
+        <div class="info-container">
        <div class="row">
         <!-- uncomment code for absolute positioning tweek see top comment in css -->
         <!-- <div class="absolute-wrapper"> </div> -->
@@ -53,19 +55,21 @@
 							<div class="row">
 								<div class="form-group">
 									<label for=""><b>Nombre del art&iacute;culo:</b></label>
-									<input id="articulo-nombre" type="text" class="form-control" autofocus="" name="nombre">
+									<input id="articulo-nombre" type="text" value="<?php echo $this->detalleArticulo->nombre ?>" class="form-control" autofocus="" name="nombre">
 								</div>
 							
 								<div class="col-sm-6 area-tematica">
 									<div class="form-group">
 										<label for=""><b>&Aacute;rea tematica:</b></label>
-										<select name="area-tematica" id="articulo-area-tematica" class="form-control">
-											<option value="CAYS">Ciencias administrativas y sociales</option>
-											<option value="EFC">Experiencia en formaci&oacute;n CA</option>
-											<option value="CA">Ciencias agropecuarias</option>
-											<option value="CNYE">Ciencias naturales y exactas</option>
-											<option value="CIYT">Ciencias de ingenier&iacute;a y tecnolog&iacute;a</option>
-											<option value="E">Educaci&oacute;n</option>
+										<select name="area-tematica" id="articulo-area-tematica"  class="form-control">
+										
+															
+											<option value="CAYS" <?php if ($this->detalleArticulo->area=='CAYS') echo 'selected="selected"'; ?>>Ciencias administrativas y sociales</option>
+											<option value="EFC" <?php if ($this->detalleArticulo->area=='EFC') echo 'selected="selected"'; ?>>Experiencia en formaci&oacute;n CA</option>
+											<option value="CA" <?php if ($this->detalleArticulo->area=='CA') echo 'selected="selected"'; ?>>Ciencias agropecuarias</option>
+											<option value="CNYE" <?php if ($this->detalleArticulo->area=='CNYE') echo 'selected="selected"'; ?>>Ciencias naturales y exactas</option>
+											<option value="CIYT" <?php if ($this->detalleArticulo->area=='CIYT') echo 'selected="selected"'; ?>>Ciencias de ingenier&iacute;a y tecnolog&iacute;a</option>
+											<option value="E" <?php if ($this->detalleArticulo->area=='E') echo 'selected="selected"'; ?>>Educaci&oacute;n</option>
 										</select>
 									</div>
 								</div>
@@ -73,15 +77,16 @@
 									<div class="form-group">
 										<label for=""><b>Tipo de art&iacute;culo:</b></label>
 										<select name="tipo-articulo" id="tipo-articulo" class="form-control">
-											<option value="extenso">Extenso</option>
-											<option value="poster">Poster</option>
+											<option value="extenso" <?php if ($this->detalleArticulo->tipo=='extenso') echo 'selected="selected"'; ?>>Extenso</option>
+											<option value="poster" <?php if ($this->detalleArticulo->tipo=='poster') echo 'selected="selected"'; ?>>Poster</option>
 										</select>
 									</div>
 								</div><br>
                                     <div class="frame-bottons frame-buttons">
                                         <div class=" text-right col-lg-12 col-sm-12">
                                              <button id="btn-guardar" type="submit" data-toggle="tooltip" title="Guardar"  class="btn btn-default" ><i class="fa fa-save fa-2x" aria-hidden="true"></i></button> 
-                                             <input id="id-articulo-registro" name="id-articulo-registro" type="text" class="hidden">
+                                             <input id="id-articulo-registro" value="<?php echo $this->detalleArticulo->id=='new'?"":$this->detalleArticulo->id ?>" name="id-articulo-registro" type="text" class="hidden">
+										  <input id="tipo_operacion" value="<?php echo $this->detalleArticulo->id=='new'?"insertar":"actualizar"?>" name="tipo_operacion" type="text" class="hidden">
                                         </div>
                                     </div>
                                  </div>
