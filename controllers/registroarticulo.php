@@ -77,7 +77,7 @@ class Registroarticulo extends Controller {
 	
 	function updloadFile(){
 	
-		$idArticulo = $_POST['id-articulo'];
+		$idArticulo = $_POST['id-articulo-file'];
         $file = $_FILES['archivo']['name'];
 		//VALIDA LA NUEVA VERSION DEL ARTICULO
 		$version = $this->model->get_version_articulo($idArticulo);
@@ -95,7 +95,6 @@ class Registroarticulo extends Controller {
 		} else {
 		    $file = $idArticulo . '/'.$file;
 		    $this->model->registro_version_articulo($idArticulo, $file);
-			//$this->model->update_estatus_cambios($idArticulo, 'no');
 			echo $idArticulo;
 		}
 		 
@@ -147,12 +146,13 @@ class Registroarticulo extends Controller {
 		}elseif($operacion=="actualizar" && empty($idArticulo)){
 			echo 'error-actualizacion';
 		}
+		$this->model->update_estatus_cambios($idArticulo, 'no');
 	}
 
     function registroAutor() {
 		$tipoMovimiento=$_POST['tipo-movimiento'];
-		$idAutor=$_POST['id-autor-registro'];
-        $idArticulo=$_POST['id-articulo-autor'];
+		$idAutor=$_POST['id-autor-autores'];
+        $idArticulo=$_POST['id-articulo-autores'];
 		$nombre = $_POST['nombre'];
         $apellidoPaterno = $_POST['apellido-paterno'];
         $apellidoMaterno = $_POST['apellido-materno'];
@@ -458,9 +458,11 @@ class Registroarticulo extends Controller {
     	if (!$responseDB) {
     		$versiones.="<div>No exiten art&iacute;culos cargados</div>";
     	}else{ 
+			$versiones="<div>Versiones Cargadas:</div><br>";
     		foreach ($responseDB as $articulo) {
-    			$versiones.="<div class='row'><div class='col-md-1'><span class='glyphicon glyphicon-floppy-save'></div>".
-    					     "<div class='col-md-8'>".$ruta.$articulo['archivo']. strtoupper($articulo['archivo'])."</div></div>";
+    			$versiones.="<div class='row'>".
+    					     "<div class='col-md-12'>". strtoupper($articulo['archivo']).
+					       "</div></div>";
     		}
     	}
     	$versiones.="</div>";

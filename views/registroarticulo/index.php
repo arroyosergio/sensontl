@@ -62,8 +62,6 @@
 									<div class="form-group">
 										<label for=""><b>&Aacute;rea tematica:</b></label>
 										<select name="area-tematica" id="articulo-area-tematica"  class="form-control">
-										
-															
 											<option value="CAYS" <?php if ($this->detalleArticulo->area=='CAYS') echo 'selected="selected"'; ?>>Ciencias administrativas y sociales</option>
 											<option value="EFC" <?php if ($this->detalleArticulo->area=='EFC') echo 'selected="selected"'; ?>>Experiencia en formaci&oacute;n CA</option>
 											<option value="CA" <?php if ($this->detalleArticulo->area=='CA') echo 'selected="selected"'; ?>>Ciencias agropecuarias</option>
@@ -110,7 +108,7 @@
 										 </div>
 									 </div>  
 									 <br>
-									<div class="form-group">
+									<div id="container-btn-files" class="form-group">
 										<span class="btn btn-success fileinput-button">
 											<i class="glyphicon glyphicon-plus"></i>
 											<span>Seleccionar archivo</span>
@@ -124,7 +122,7 @@
 											<i class="glyphicon glyphicon-upload"></i>
 											<span>Iniciar carga</span>
 										</button>									
-										 <input id="id-articulo" name="id-articulo" type="text" class="hidden">
+										 <input id="id-articulo-file" name="id-articulo-file" type="text" class="hidden">
 
 									</div>	
 								</form>							
@@ -167,8 +165,8 @@
 									<h4 class="modal-title">Registro de autor</h4>
 								</div>
 								<div class="modal-body">
-									<input id="id-autor-registro" name="id-autor-registro" type="text" class="hidden">
-									<input id="id-articulo-autor" name="id-articulo-autor" type="text" class="hidden">
+									<input id="id-autor-autores" name="id-autor-autores" type="text" class="hidden">
+									<input id="id-articulo-autores" name="id-articulo-autores" type="text" class="hidden">
 									<input id="tipo-movimiento" name="tipo-movimiento" type="text" class="hidden">
 									<div class="row">
 										<div class="col-sm-4">

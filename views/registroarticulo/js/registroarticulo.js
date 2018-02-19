@@ -78,7 +78,7 @@ $('.borrar-autor').click(function (){
 
 $('#btn-aceptar-registro').click(function () {
     var autorContacto = $('input[name="auto-contacto"]:checked').val();
-    var idArticulo = $("#id-autor-registro").val();
+    var idArticulo = $("#id-autor-autores").val();
     $.post('registroarticulo/asignarAutorContacto', {idAutor: autorContacto, idArticulo:idArticulo}, function (response) {
         $(location).attr('href', 'misarticulos');
     });
@@ -139,7 +139,7 @@ $('#form-registro-autor').submit(function(){
             });
 
             $('#form-registro-autor input').val('');
-			$('#id-articulo-autor').val(id);
+			$('#id-articulo-autores').val(id);
             
         }
     });
@@ -201,7 +201,7 @@ function activarOpcionMenu(){
 $("#uploadfile").submit(function(event){
 	event.preventDefault();
 	var progressBar = document.getElementById("progressBar");
-	var idArticulo  = $("#id-articulo").val();
+	var idArticulo  = $("#id-articulo-file").val();
     //información del formulario
     var formData = new FormData($(this)[0]);
     var message = "";
@@ -245,12 +245,13 @@ $("#uploadfile").submit(function(event){
                 toastr.options.closeButton = true;
                 toastr.error("No se pudo cargar el archivo.");
             }
-            
             if ($.isNumeric(response)) {
-				$('#id-articulo-autor').val(response);
+				$('#id-articulo-autores').val(response);
 				$('#modal-autores').removeClass('hidden');
                 toastr.options.closeButton = true;
                 toastr.success("El archivo se cargo...");
+    			$("#container-btn-files").hide("slow");
+				$('#modal-autores').removeClass('hidden');
 			}
         },
         //si ha ocurrido un error
@@ -295,19 +296,42 @@ $('#form-registro-articulo').submit(function () {
 		if (response === 'actualizado') {
 			toastr.options.closeButton = true;
 			toastr.success("El Articulo se actualizo correctamente.");
+			if($('#tipo_operacion').val()=="actualizar"){
+				$("#contenedor-archivo-art").removeClass('hidden');
+				var idArticulo=$("#id-articulo-registro").val();
+				$("#id-articulo-file").val(idArticulo);
+				$("#id-articulo-autores").val(idArticulo);
+				$.post('registroarticulo/fncGetVerArticulos', {id_articulo:idArticulo}, function (response) {
+					$("#file-list").empty();
+					$("#file-list").html(response);
+				});
+				$('#modal-autores').removeClass('hidden');				
+				$.ajax({
+					url: "registroarticulo/getAutoresArticulo",
+					type: 'POST',
+					data: 'id='+idArticulo,
+					cache: false,
+					success: function (data) {
+						$('#tbl-articulo-autores').html(data);
+					}
+				});
+				$('#form-registro-autor input').val('');
+				$('#id-articulo-autores').val(idArticulo);
+
+			}
 		}
 		
 		if($.isNumeric( response )){
 			$("#contenedor-archivo-art").removeClass('hidden');
 			toastr.options.closeButton = true;
 			toastr.success("El Articulo se registro correctamente");
-			$("#id-articulo").val(response);
+			$("#id-articulo-file").val(response);
 			$("#id-articulo-registro").val(response);
 			$.post('registroarticulo/fncGetVerArticulos', {id_articulo:response}, function (response) {
 				$("#file-list").empty();
 				$("#file-list").html(response);
 			});
-		}
+		 }
        
     });	
     return false;
@@ -329,7 +353,7 @@ $('#tipo-institucion').change(function(){
 
 $('#cancelar-registro').click(function(){
     $('#cargando').removeClass('hidden');
-    var idArticulo = $('#id-articulo-autor').val();
+    var idArticulo = $('#id-articulo-autores').val();
     $.post('registroarticulo/borrarRegistroArticulo',{id:idArticulo}, function(response){
         $('#cargando').hide();
         if (response === 'true') {
@@ -346,7 +370,7 @@ $('#tbl-articulo-autores').click(function (e) {
                $.post('registroarticulo/getDetallesAutor', {id: id[1]}, function (response) {
                //**************Manda el id a los campos ocultos ************
 			   $('#tipo-movimiento').val('actualizar');
-			   $('#id-autor-registro').val(id[1]);
+			   $('#id-autor-autores').val(id[1]);
                //***********************************************************
 			   $('#nombre').val(response.nombre);
                $('#apellido-paterno').val(response.apellidoPaterno);
