@@ -8,11 +8,19 @@ class Index extends Controller {
             /*'public/plugins/toastr/toastr.min.css',
             'public/css/animate.min.css',
             'views/index/css/index.css',*/
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 01b2ef7747411dbd891e5d1fc8fe3811c20e0c5b
             'public/bootstrap/css/bootstrap.min.css',
             'public/fontawesome/css/font-awesome.min.css',
             'public/css/animate.min.css',
             'public/css/fluidbox.min.css',
+<<<<<<< HEAD
             'views/index/css/index.css'
+=======
+            'public/css/style.css'
+>>>>>>> 01b2ef7747411dbd891e5d1fc8fe3811c20e0c5b
         );
         $this->view->js = array(
             /*'public/plugins/toastr/toastr.min.js',
@@ -20,10 +28,16 @@ class Index extends Controller {
             'views/index/js/wow.js',
             'views/index/js/index.js',
         	'views/index/js/bs-hover-dropdown.js'*/
+<<<<<<< HEAD
 
             'public/js/jquery-2.1.4.min.js',
             'public/js/bootstrap.min.js',
             /*'public/js/index.js',*/
+=======
+            'public/js/jquery-2.1.4.min.js',
+            'public/js/bootstrap.min.js',
+            'public/js/index.js',
+>>>>>>> 01b2ef7747411dbd891e5d1fc8fe3811c20e0c5b
             'public/js/jquery.fluidbox.min.js'
         );
         
