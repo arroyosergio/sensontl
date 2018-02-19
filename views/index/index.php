@@ -1,6 +1,5 @@
 
         <div class="container main_container">
-<<<<<<< HEAD
           <div class="row container-img">
 			   <a href="http://placehold.it/2000x1000" title="" data-fluidbox>
 					<picture>
@@ -9,14 +8,12 @@
 					</picture>
 				</a> 
            </div>
-=======
            <a href="http://placehold.it/2000x1000" title="" data-fluidbox>
 				<picture>
 					<source media="(max-width: 650px)" srcset="http://placehold.it/400x400">
 					<img src="http://placehold.it/800x300" alt="" class="img-fluid img-responsive image_center feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown;" src="http://placehold.it/800x300" alt="Responsive image">
 				</picture>
             </a> 
->>>>>>> 01b2ef7747411dbd891e5d1fc8fe3811c20e0c5b
             <div>
                 <h2 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown;">Congreso Interdisciplinario de Cuerpos Académicos </h2>
                 

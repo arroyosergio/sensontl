@@ -46,7 +46,6 @@
         		</div>
         	</div>
         </foother>
-<<<<<<< HEAD
         
     <!--  MODAL LOGIN -->
     <div id="modal-login" class="modal fade" tabindex="-1" role="dialog"  aria-hidden="true">
@@ -85,10 +84,8 @@
         <script src="<?php echo URL; ?>public/plugins/jquery-2.1.4.min.js"></script>
         <script src="<?php echo URL; ?>public/plugins/toastr/toastr.min.js"></script>
         <script src="<?php echo URL; ?>public/js/general.js"></script>
-=======
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>
->>>>>>> 01b2ef7747411dbd891e5d1fc8fe3811c20e0c5b
         <?php 
             if (isset($this->js)) {
                 foreach ($this->js as $js) {
