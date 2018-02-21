@@ -9,17 +9,22 @@ class dashboard extends Controller{
         Session::init();
         $logged=Session::get('sesion');
         $this->view->css = array(
-            'public/plugins/toastr/toastr.min.css',
-            'views/dashboard/css/custom.css',
-            'public/plugins/datatable/jquery.datatables.min.css'
+			'public/bootstrap/css/bootstrap.min.css',
+            'public/fontawesome/css/font-awesome.min.css',
+            'public/css/animate.min.css',
+            'public/css/fluidbox.min.css',
+            'views/dashboard/css/dashboard.css',
+			//'views/dashboard/css/perfil-menu.css',
+			'public/plugins/datatable/jquery.datatables.min.css',
+			'views/dashboard/css/menu.css'
         );
+				
         $this->view->js = array(
-            "views/dashboard/js/dashboard.js",
-            'public/plugins/datatable/jquery.datatables.min.js',
-            "public/plugins/toastr/toastr.min.js"
-
+			'public/js/jquery-2.1.4.min.js',
+			'public/bootstrap/js/bootstrap.min.js',
+            'views/dashboard/js/dashboard.js',
+			'public/plugins/datatable/jquery.datatables.min.js'
         );
-
         $role=Session::get('perfil');
       if($logged==false || $role!='administrador'){
             Session::destroy();
@@ -105,9 +110,9 @@ class dashboard extends Controller{
             $responseDB=$this->model->fncGetCorreoAutor($_POST['id']);
             if($responseDB[0]['CORREO']!=NULL){
             	$mensaje="<h1>Estimado autor:</h1><h2>Su trabajo fue recibido correctamente registrado con el Id No. ".$_POST['id'].", Espere pr&oacute;ximamente el dictamen del comit&eacute; arbitral</h2>".
-                       "<h3>atte.<br /> Comit&eacute; Organizador CICA 2017.<br />UTSOE</h3>";
+                       "<h3>atte.<br /> Comit&eacute; Organizador CICA 2018.<br />UTSOE</h3>";
             	$mensaje1="Estimado autor:Su trabajo fue recibido correctamente registrado con el Id No. ".$_POST['id'].", Espere pr&oacute;ximamente el dictamen del comit&eacute; arbitral".
-            			"atte. Comit&eacute; Organizador CICA 2017.  UTSOE";
+            			"atte. Comit&eacute; Organizador CICA 2018.  UTSOE";
             	$asunto="Recibimos art&iacute;culo";
                 $enviado=$this->fncSendMail($responseDB[0]['CORREO'],$asunto,$mensaje,$mensaje1);
             }
@@ -124,21 +129,21 @@ class dashboard extends Controller{
     	if($campo=='Dictaminado'){
     		$responseDB=$this->model->fncGetCorreoAutor($idArticulo);
     		if($responseDB[0]['CORREO']!=NULL){
-    			$asunto="Dictamen del art&iacute;culo";
+    			$asunto="Dictamen del artículo";
     			$mensaje="<h1>Estimado autor:</h1><h2>".$comentario."</h2>".
-    					"<h3>atte.<br /> Comit&eacute; Organizador CICA 2017.<br />UTSOE</h3>";
+    					"<h3>atte.<br /> Comit&eacute; Organizador CICA 2018.<br />UTSOE</h3>";
     			$mensaje1="Estimado autor:".$comentario.
-    					"atte. Comit&eacute; Organizador CICA 2017.   UTSOE";
+    					"atte. Comit&eacute; Organizador CICA 2018.   UTSOE";
     			$enviado=$this->fncSendMail($responseDB[0]['CORREO'],$asunto,$mensaje,$mensaje1);
     		}
     	}else if($campo=='AvisoCambio'){
     		$responseDB=$this->model->fncGetCorreoAutor($idArticulo);
     		if($responseDB[0]['CORREO']!=NULL){
-    			$asunto="Solicitud de cambios del art&iacute;culo";
+    			$asunto="Solicitud de cambios del artículo";
     			$mensaje="<h1>Estimado autor:</h1><h2>".$comentario."</h2>".
-    					"<h3>atte.<br /> Comit&eacute; Organizador CICA 2017.<br />UTSOE</h3>";  
+    					"<h3>atte.<br /> Comit&eacute; Organizador CICA 2018.<br />UTSOE</h3>";  
     			$mensaje="Estimado autor:".$comentario."<br/>".
-    					"atte. Comit&eacute; Organizador CICA 2017. UTSOE";
+    					"atte. Comit&eacute; Organizador CICA 2018. UTSOE";
     			$enviado=$this->fncSendMail($responseDB[0]['CORREO'],$asunto,$mensaje,$mensaje1);
     		}
     	}
@@ -147,23 +152,23 @@ class dashboard extends Controller{
     
     function fncSendMail($correo,$asunto,$mensaje,$mensajeSinF){
     	try {
-    		$mail = new PHPMailer;
-    		$mail->SetFrom("contacto@cica2017.org", "CICA2017");
-    		$mail->FromName = "CICA2017";
-    		$mail->addAddress($correo);
-    		$mail->addCC('contacto@cica2017.org');
-    		$mail->isHTML(true);
-    		$mail->Subject =html_entity_decode($asunto); 
-    		$mail->Body = $mensaje;
-    		$mail->AltBody =$mensajeSinF; 
-    		$mail->CharSet = 'UTF-8';
-    		$exito = $mail->Send();
-    		if($exito)
-    			$enviado="Correo-ok";
-    			else
-    				$enviado="Correo-bad";
+			//Apartado para enviar correo
+			$this->mail->SetFrom("administracion@higo-software.com", "CICA2018");
+			$this->mail->FronName="Cica2018";
+			$this->mail->addAddress($correo);
+			$this->mail->addCC('contacto@cica2017.org');
+			$this->mail->isHTML(TRUE);
+			$this->mail->Subject = utf8_decode($asunto);
+			$this->mail->Body = $mensaje;
+			$this->mail->AltBody ='Problemas de compatibilidad con el navegador'; 
+			$this->mail->CharSet="UTF-8";	
+			$enviado="Correo-ok";
+			if (!$this->mail->send()) {
+				error_log("Error al enviar el correo a $correo:" . $this->mail->ErrorInfo);
+				$enviado="Correo-bad";
+			}
     	} catch (Exception $e) {
-    		$enviado=$e->getMessage();
+    		$enviado="Correo-bad";;
     	}
     	return $enviado;
     }
@@ -509,7 +514,7 @@ class dashboard extends Controller{
             // Save Excel 2007 file
             $callStartTime = microtime(true);
             $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-            $file="articulosCica2017.xlsx"; //file location 
+            $file="articulosCica2018.xlsx"; //file location 
             $objWriter->save($_SERVER['DOCUMENT_ROOT'].'/xls/'.$file);
             //TIPO DE ARCHIVO QUE SE DESCARGARA
             header('Content-Type: application/xls');
@@ -519,67 +524,74 @@ class dashboard extends Controller{
             }
             
     function generarGafete() {
-        if (empty($_POST['id']) || empty($_POST['nombre-articulo']) || empty($_POST['nombre-asistente']) || empty($_POST['tipo-asistente'])) {
-            header("location: ../dashboard?status=error-null");
-        } else {
-            $nombreEvento = "Congreso Interdisciplinario de Cuerpos AcadÃ©micos 2017";
-            $nombreEvento = utf8_decode($nombreEvento);
+		try{
+			if (empty($_POST['id']) || empty($_POST['nombre-articulo']) || empty($_POST['nombre-asistente']) || empty($_POST['tipo-asistente'])) {
+				header("location: ../dashboard?status=error-null");
+			} else {
+				$nombreEvento = "Congreso Interdisciplinario de Cuerpos AcadÃ©micos 2017";
+				$nombreEvento = utf8_decode($nombreEvento);
 
-            $fecha = "17 y 18 de noviembre de 2017 Guanajuato, Gto.";
-            $lugar = "Centro de Convenciones y Auditorio Pueblito de Rocha s/n " .
-                    "Guanajuato, Gto.";
-
-
-            $pdf = $this->GeneratePDF;
-
-            $pdf->AddPage();
-            $pdf->AddFont('Sansation', '', 'Sansation_Bold.php');
-            $pdf->SetMargins(20, 20, 10);
-            $pdf->SetDrawColor(217, 217, 217);
-            $pdf->SetLineWidth(1.5);
-            $pdf->SetFont('Sansation', '', 12);
-
-            $pdf->Rect(65, 10, 70, 10);
-            $pdf->Rect(65, 10, 70, 120);
-
-//        LOGO CICA
-            $pdf->Image('./public/img/cica2016.png', 84, 22, 35, 45);
+				$fecha = "17 y 18 de noviembre de 2018 Guanajuato, Gto.";
+				$lugar = "Centro de Convenciones y Auditorio Pueblito de Rocha s/n " .
+						"Guanajuato, Gto.";
 
 
-//        CODIGO DE BARRAS
-            $pdf->Rect(65, 115, 70, 15);
-            $pdf->EAN13(72, 116, $_POST['id'], 8, .60);
+				$pdf = $this->GeneratePDF;
 
-//        PONENCIA
-            $pdf->SetXY(65, 67);
-            $nombreArticulo = $_POST['nombre-articulo'];
-            $nombreArticulo = substr($nombreArticulo, 0, 100);
-            $pdf->MultiCell(70, 6, utf8_decode($nombreArticulo), 0, 'C', false);
+				$pdf->AddPage();
+				$pdf->AddFont('Sansation', '', 'Sansation_Bold.php');
+				$pdf->SetMargins(20, 20, 10);
+				$pdf->SetDrawColor(217, 217, 217);
+				$pdf->SetLineWidth(1.5);
+				$pdf->SetFont('Sansation', '', 12);
 
-//        AUTOR
-            $pdf->SetXY(65, 94);
-            $pdf->SetFontSize(14);
-            $pdf->MultiCell(70, 6, $_POST['nombre-asistente'], 0, 'C', false);
+				$pdf->Rect(65, 10, 70, 10);
+				$pdf->Rect(65, 10, 70, 120);
 
-//        TIPO DE ASISTENTE
-            $pdf->SetXY(65, 105);
-            $pdf->SetFillColor(15, 117, 188);
-            $pdf->SetFontSize(16);
-            $pdf->SetTextColor(255, 255, 255);
-            $tipo = $_POST['tipo-asistente'];
-            if ($tipo == 'general') {
-                $tipo = 'publico general';
-            }
-            $pdf->MultiCell(70, 10, utf8_decode(strtoupper($tipo)), 0, 'C', TRUE);
+	//        LOGO CICA
+				$pdf->Image('./public/img/cica2017.png', 84, 22, 35, 45);
 
-            $pdf->SetFontSize(12);
-            $pdf->SetTextColor(0, 0, 0);
 
-            $pdf->SetFillColor(217, 217, 217);
-            $pdf->Circle(101, 15, 3);
+	//        CODIGO DE BARRAS
+				$pdf->Rect(65, 115, 70, 15);
+				$pdf->EAN13(72, 116, $_POST['id'], 8, .60);
 
-            $pdf->Output('I', 'gafete.pdf');
-        }
+	//        PONENCIA
+				$pdf->SetXY(65, 67);
+				$nombreArticulo = $_POST['nombre-articulo'];
+				$nombreArticulo = substr($nombreArticulo, 0, 100);
+				$pdf->MultiCell(70, 6, utf8_decode($nombreArticulo), 0, 'C', false);
+
+	//        AUTOR
+				$pdf->SetXY(65, 94);
+				$pdf->SetFontSize(14);
+				$pdf->MultiCell(70, 6, $_POST['nombre-asistente'], 0, 'C', false);
+
+	//        TIPO DE ASISTENTE
+				$pdf->SetXY(65, 105);
+				$pdf->SetFillColor(15, 117, 188);
+				$pdf->SetFontSize(16);
+				$pdf->SetTextColor(255, 255, 255);
+				$tipo = $_POST['tipo-asistente'];
+				if ($tipo == 'general') {
+					$tipo = 'publico general';
+				}
+				$pdf->MultiCell(70, 10, utf8_decode(strtoupper($tipo)), 0, 'C', TRUE);
+
+				$pdf->SetFontSize(12);
+				$pdf->SetTextColor(0, 0, 0);
+
+				$pdf->SetFillColor(217, 217, 217);
+				$pdf->Circle(101, 15, 3);
+				//DESCARGA EL ARCHIVO EN EL NAVEGADOR CON EL NOMBRE DE Cica_art_articulo.PDF
+				//$pdf->Output('Constanci_Cica2017.pdf','D');
+				$pdf->Output('I','gafete.pdf');
+			}		
+		}
+		catch(Exception  $ex){
+			echo $ex->getMessage();
+		}	
+
     }
 
     
@@ -644,7 +656,7 @@ class dashboard extends Controller{
 		   		$pdf->Cell(10,10,$nombreArticulo,0,1);
 		   	}
 		   	//DESCARGA EL ARCHIVO EN EL NAVEGADOR CON EL NOMBRE DE Cica_art_articulo.PDF
-		   	$pdf->Output('Constanci_Cica2017.pdf','D');
+		   	$pdf->Output('Const_Cica2018.pdf','D');
     }
     
     function get_autores_articulo(){

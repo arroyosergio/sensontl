@@ -92,3 +92,21 @@
 #listaTrabajos tr span {
     cursor: pointer;
 }
+
+
+.row-gen-doc{
+	display: inline-block;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.panel-listatrabajos{
+	display: inline-block;
+	width: 85%;
+	margin-left: 0.5em;
+}
+.container-principal{
+	width: auto;
+	
+}
+

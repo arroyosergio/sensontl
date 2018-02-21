@@ -1,6 +1,6 @@
 <?php
 
-//require('fpdf.php');
+require('fpdf.php');
 
 class PDF_EAN13 extends FPDF {
 

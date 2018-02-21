@@ -32,7 +32,7 @@ class Dashboard_Model extends Model {
                             "tblPaises".
                         " WHERE  ".
                             "tblArticulos.autContacto=tblAutores.autid".
-                        " AND tblPaises.pais_id=tblAutores.autPais";
+                        " AND tblPaises.pais_id=tblAutores.autPais ORDER BY tblArticulos.artId desc";
 		$sth=$this->db->prepare($query);
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
 		$sth->execute();
@@ -64,10 +64,11 @@ class Dashboard_Model extends Model {
 	}
 
 	function fncGetVerArticulos($id){
-		
-		$sth=$this->db->prepare('SELECT artId as articulo, verArchivo as archivo,verFecha as fecha FROM tblVersionesArticulos WHERE artId='.$id);
+		$sth=$this->db->prepare('SELECT artId as articulo, verArchivo as archivo,verFecha as fecha FROM tblVersionesArticulos WHERE artId=:id');
+		$sth->execute(array(
+			':id'=>$id
+		));
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
-		$sth->execute();
 		$data=$sth->fetchall();
 		return $data;
 	}
@@ -100,9 +101,9 @@ class Dashboard_Model extends Model {
 		$sth=$this->db->prepare("SELECT tblArticulos.artId AS ID,tblArticulos.artNombre as ARTICULO,tblArticulos.artAreaTematica as AREA,tblArticulos.artTipo AS TIPO,CONCAT(tblAutores.autNombre,' ',tblAutores.autApellidoPaterno,' ',tblAutores.autApellidoMaterno) AS AUTOR, tblAutores.autCorreo AS CORREO,tblArticulos.artRecibido AS RECIBIDO".
 				                ",tblArticulos.artDictaminado AS DICTAMINADO,tblArticulos.artAvisoCambio AS AVISOCAMBIO,tblAutores.autAsistenciaCica AS ASISTENCIACICA ,tblAutores.autCiudad AS CIUDAD,tblAutores.autEstado AS ESTADO,tblAutores.autGradoAcademico AS GRADOACADEMICO,tblAutores.autInstitucionProcedencia AS PROCEDENCIA,".
 								"tblPaises.pais_nombre AS PAIS,tblAutores.autTipoInstitucion AS TIPOINSTITUCION  FROM tblAutores,tblArticulos,tblAutoresArticulos,tblPaises WHERE tblArticulos.artId=tblAutoresArticulos.artId AND tblAutores.autId= tblAutoresArticulos.autId AND tblPaises.pais_id=tblAutores.autPais");
-                                                        error_log("SELECT tblArticulos.artId AS ID,tblArticulos.artNombre as ARTICULO,tblArticulos.artAreaTematica as AREA,tblArticulos.artTipo AS TIPO,CONCAT(tblAutores.autNombre,' ',tblAutores.autApellidoPaterno,' ',tblAutores.autApellidoMaterno) AS AUTOR, tblAutores.autCorreo AS CORREO,tblArticulos.artRecibido AS RECIBIDO".
-				                ",tblArticulos.artDictaminado AS DICTAMINADO,tblArticulos.artAvisoCambio AS AVISOCAMBIO,tblAutores.autAsistenciaCica AS ASISTENCIACICA ,tblAutores.autCiudad AS CIUDAD,tblAutores.autEstado AS ESTADO,tblAutores.autGradoAcademico AS GRADOACADEMICO,tblAutores.autInstitucionProcedencia AS PROCEDENCIA,".
-								"tblPaises.pais_nombre AS PAIS,tblAutores.autTipoInstitucion AS TIPOINSTITUCION  FROM tblAutores,tblArticulos,tblAutoresArticulos,tblPaises WHERE tblArticulos.artId=tblAutoresArticulos.artId AND tblAutores.autId= tblAutoresArticulos.autId AND tblPaises.pais_id=tblAutores.autPais");
+                                                        //error_log("SELECT tblArticulos.artId AS ID,tblArticulos.artNombre as ARTICULO,tblArticulos.artAreaTematica as AREA,tblArticulos.artTipo AS TIPO,CONCAT(tblAutores.autNombre,' ',tblAutores.autApellidoPaterno,' ',tblAutores.autApellidoMaterno) AS AUTOR, tblAutores.autCorreo AS CORREO,tblArticulos.artRecibido AS RECIBIDO".
+				                //",tblArticulos.artDictaminado AS DICTAMINADO,tblArticulos.artAvisoCambio AS AVISOCAMBIO,tblAutores.autAsistenciaCica AS ASISTENCIACICA ,tblAutores.autCiudad AS CIUDAD,tblAutores.autEstado AS ESTADO,tblAutores.autGradoAcademico AS GRADOACADEMICO,tblAutores.autInstitucionProcedencia AS PROCEDENCIA,".
+								//"tblPaises.pais_nombre AS PAIS,tblAutores.autTipoInstitucion AS TIPOINSTITUCION  FROM tblAutores,tblArticulos,tblAutoresArticulos,tblPaises WHERE tblArticulos.artId=tblAutoresArticulos.artId AND tblAutores.autId= tblAutoresArticulos.autId AND tblPaises.pais_id=tblAutores.autPais");
                 $sth->setFetchMode(PDO::FETCH_ASSOC);
 		$sth->execute();
 		$data=$sth->fetchall();

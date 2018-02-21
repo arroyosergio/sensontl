@@ -73,7 +73,7 @@ class resetpassword extends Controller {
                         $this->mail->addAddress($correo);
                         $this->mail->isHTML(TRUE);
                         $this->mail->Subject = utf8_decode('Restauración de contraseña');
-                        $this->mail->Body = "Tu nueva contrase&ntilde;a para entrar al portal es <br/><b>$password</b>";
+                        $this->mail->Body = "Tu nueva contrase&ntilde;a para entrar al portal de CICA2018 es : <br/><b>$password</b>";
 						$this->mail->CharSet="UTF-8";
                         if (!$this->mail->send()) {
                             error_log("Error al enviar el correo para nueva contraseña a $correo:" . $this->mail->ErrorInfo);
