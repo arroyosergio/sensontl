@@ -104,7 +104,14 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $nombreUsuario; ?><span class="caret"></span></a>
                             <ul class="dropdown-menu sub-menu">
 
-                                <li><a href="perfil"><i class="fa fa-address-card" aria-hidden="true"></i> Perfil</a></li>
+							  <?php 
+								  if (Session::get('perfil') == 'autor') {
+									echo '<li><a href="perfil"><i class="fa fa-address-card" aria-hidden="true"></i> Perfil</a></li>';
+								  }
+								  if (Session::get('perfil') == 'administrador') {
+									echo '<li><a href="dashboard"><i class="fa fa-address-card" aria-hidden="true"></i> Panel de control</a></li>';
+								  }
+							   ?>
                                 <li role="presentation" class="divider line-divider"></li>
                                 <li><a href="index/cerrarSesion"><i class="fa fa-sign-out" aria-hidden="true"></i> logout</a></li>  
 
@@ -112,7 +119,7 @@
                         </li>
                     <?php  
                         }else{
-                    ?>   
+                    ?>  
 
                          <li id="mSesion">
 							 <a href="#" id="user-login" >

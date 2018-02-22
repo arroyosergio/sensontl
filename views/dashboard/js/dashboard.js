@@ -11,7 +11,12 @@ $(document).ready(function () {
                "loadingRecords": "Cargando...",
                "processing": "Procesando..."
           },
-          "orderCellsTop": true
+          "orderCellsTop": true,
+		  "order": [ 0, 'desc' ],
+		 "ordering": true,
+		 "responsive": true,
+		 "pageLength": 20,
+         "lengthMenu": [[20, 40, 60, -1], [20, 40, 60, "Todos"]]
      });
 
      //EVITA LA SELECCION DE TEXTO AL DAR DOBLE CLICK 
@@ -33,47 +38,47 @@ $(document).ready(function () {
                $('#datosautores').html(response);
                $('#detalletrabajo').modal('show');
           });
-          $.post('dashboard/getCartaOriginalidad', {id: data[0]}, function (response) {
+          /*$.post('dashboard/getCartaOriginalidad', {id: data[0]}, function (response) {
                $('#div-carta-originalidad').html(response);
           });
           $.post('dashboard/getCartaDerechos', {id: data[0]}, function (response) {
                $('#div-carta-derechos').html(response);
-          });
+          });*/
           //=========================CARTA ACEPTACION ==================
-          $.post('dashboard/getCartaAceptacion',{id:idArticulo},function(response){
+          /*$.post('dashboard/getCartaAceptacion',{id:idArticulo},function(response){
         	    $('#documentos-actuales').empty();
         	    $('#documentos-actuales').html(response);
-        	});
+        	});*/
           //============================================================
-          $.post('dashboard/getEstatusCartas',{id:idArticulo}, function(response){
+          /*$.post('dashboard/getEstatusCartas',{id:idArticulo}, function(response){
                var estatusCartas = $('input:radio[name=validacion-cartas]');
                if (response === 'si') {
                     estatusCartas.filter('[value=si]').prop('checked',true);
                }else{
                     estatusCartas.filter('[value=no]').prop('checked',true);
                }
-          });
-          $.post('dashboard/getEstatusRecibo',{id:idArticulo}, function(response){
+          });*/
+          /*$.post('dashboard/getEstatusRecibo',{id:idArticulo}, function(response){
                var estatusCartas = $('input:radio[name=validacion-recibo]');
                if (response === 'si') {
                     estatusCartas.filter('[value=si]').prop('checked',true);
                }else{
                     estatusCartas.filter('[value=no]').prop('checked',true);
                }
-          });
-          $.post('dashboard/getReciboPago',{id:idArticulo}, function(response){
+          });*/
+          /*$.post('dashboard/getReciboPago',{id:idArticulo}, function(response){
                $('#div-recibo-pago').html(response);
-          });
+          });*/
           
 
      });
-     
-    
 });
 
-//Genera constancia
+
+//===================================================
+//METODOS PARA GENERAR CONSTANCIA EN FORMA MANUAL 
+//===================================================
 $('#frm-generar-constancia').submit(function () {
-	//event.preventDefault ? event.preventDefault() : (event.returnValue = false); 
  	var url = $(this).attr('action');
     var data = $(this).serialize();
     $.post('dashboard/generarConstancia', data, function (response) {
@@ -83,56 +88,17 @@ $('#frm-generar-constancia').submit(function () {
     $('#modal-generar-constancia').modal('hide');
  });
 
-
 $('#btn_Generar_Constancia').click(function () {
-
 	$('#modal-generar-constancia input').val('');
     $('#modal-generar-constancia').on('shown.bs.modal', function () {
         $('#nombre-articulo').focus();
     }).modal('show');
 });
+//  FIN DE METODOS PARA GENERA CONSTANCIAS
 
-
-
-
-// Validacion de cartas
-$("#btn-form-validacion-cartas").click(function () {
-     var estatus = $("input[name=validacion-cartas]:checked").val();
-     $.post('dashboard/updateEstatusCartas', {id: idArticulo, estatus: estatus}, function (response) {
-          if (response === 'false') {
-               toastr.options.closeButton = true;
-               $('#detalletrabajo').modal('hide');
-               toastr.error("Ocurrio un error al actualizar el estatus de los documentos");
-          }
-          if (response === 'true') {
-               toastr.options.closeButton = true;
-               $('#detalletrabajo').modal('hide');
-               toastr.success("Se actualizo el estus de los documentos");
-          }
-     });
-
-});
-
-// Validacion de recibo
-$("#btn-form-validacion-recibo").click(function () {
-     var estatus = $("input[name=validacion-recibo]:checked").val();
-     $.post('dashboard/updateEstatusRecibo', {id: idArticulo, estatus: estatus}, function (response) {
-          if (response === 'false') {
-               toastr.options.closeButton = true;
-               $('#detalletrabajo').modal('hide');
-               toastr.error("Ocurrio un error al actualizar el estatus de los documentos");
-          }
-          if (response === 'true') {
-               toastr.options.closeButton = true;
-               $('#detalletrabajo').modal('hide');
-               toastr.success("Se actualizo el estus de los documentos");
-          }
-     });
-
-});
-
-
-//EXPORTACION A EXCEL
+//=============================
+//METODO PARA EXPORTACION A EXCEL
+//=============================
 $("#exportXLS").click(function (event) {
      $.ajax({
           url: 'dashboard/fncExportaExcell',
@@ -141,7 +107,7 @@ $("#exportXLS").click(function (event) {
                var loc = window.location;
                var pathName = loc.pathname.substring(0, loc.pathname.lastIndexOf('/') + 1);
                path = loc.href.substring(0, loc.href.length - ((loc.pathname + loc.search + loc.hash).length - pathName.length));
-               window.location.href = path + 'xls/articulosCica2017.xlsx';
+               window.location.href = path + 'xls/articulosCica2018.xlsx';
           },
           //si ha ocurrido un error
           error: function () {
@@ -149,7 +115,9 @@ $("#exportXLS").click(function (event) {
      });
 });
 
-//DESCARGAR ARCHIVO
+//=================================
+//METODO PARA DESCARGAR ARCHIVO
+//=================================
 $("#listaTrabajos tbody span").click(function (event) {
      var parametros = {
           "ID": event.target.id
@@ -177,13 +145,9 @@ $("#listaTrabajos tbody span").click(function (event) {
      //window.location.href = path+'docs/'+event.target.id;  //redirecciona
 });
 
-
-$('#btn-cancelar-usuario').click(function (event) {
-     event.preventDefault();
-     $('#modal_Capturar_usuario').modal('hide');
-});
-
-//RUTINA PARA ENVIAR COMENTARIO AL AUTOR
+//=========================================
+//METODO PARA ENVIAR COMENTARIO AL AUTOR
+//=========================================
 $('#dialog-form').find("form").on("submit", function (event) {
      event.preventDefault();
      $.ajax({
@@ -211,14 +175,15 @@ $('#dialog-form').find("form").on("submit", function (event) {
      });
 });
 
-//RUTINA PARA VALIDAR CHECKBOX
+//======================================
+//METODO PARA VALIDAR CHECKBOX
+//======================================
 $("#listaTrabajos tbody tr  input").click(function (event) {
      var $input = $(this);
      var objCheck = event.target;
      if (objCheck.name == "Dictaminado" && $input.is(":checked")) {
           $('#modal-comentarios').on('shown.bs.modal', function () {
-//               $('#comentario1').text("Le informamos que el comité arbitral del CICA 2016 a dictaminado su trabajo como  Aceptado, Descarge desde la plataforma las cartas correspondientes");
-               $('#comentario1').text("Le informamos que su trabajo fue aceptado. Le solicitamos descargar las cartas de originalidad y cesiónn de derechos y subirlos firmados y escaneados en formato PDF.");
+               $('#comentario1').text("Le informamos que su trabajo fue aceptado. Le solicitamos descargar las cartas de originalidad y cesión de derechos y subirlos firmados y escaneados en formato PDF.");
                $('#idArticulo').val(objCheck.id);
                $('#campo').val(objCheck.name);
                $('#comentario1').focus();
@@ -261,15 +226,77 @@ $("#listaTrabajos tbody tr  input").click(function (event) {
 
 });
 
-$('#prueba a').click(function (e) {
+//=================================
+//METODO PARA GENERAR GAFETE
+//=================================
+$('#form-generar-gafete').submit(function(){
+    var action = $(this).attr('action');
+    var data = $(this).serialize();
+});
+
+//=======================================
+//METODO PARA ACTIVAR LA OPCION DEL MENU
+//=======================================
+function activarOpcionMenu() {
+     var id = $('#navbar li.active').attr('id');
+     $('#' + id).removeClass('active');
+     $('#btn-articulos').addClass('active');
+}
+
+
+// Validacion de cartas
+/*$("#btn-form-validacion-cartas").click(function () {
+     var estatus = $("input[name=validacion-cartas]:checked").val();
+     $.post('dashboard/updateEstatusCartas', {id: idArticulo, estatus: estatus}, function (response) {
+          if (response === 'false') {
+               toastr.options.closeButton = true;
+               $('#detalletrabajo').modal('hide');
+               toastr.error("Ocurrio un error al actualizar el estatus de los documentos");
+          }
+          if (response === 'true') {
+               toastr.options.closeButton = true;
+               $('#detalletrabajo').modal('hide');
+               toastr.success("Se actualizo el estus de los documentos");
+          }
+     });
+
+});*/
+
+// Validacion de recibo
+/*$("#btn-form-validacion-recibo").click(function () {
+     var estatus = $("input[name=validacion-recibo]:checked").val();
+     $.post('dashboard/updateEstatusRecibo', {id: idArticulo, estatus: estatus}, function (response) {
+          if (response === 'false') {
+               toastr.options.closeButton = true;
+               $('#detalletrabajo').modal('hide');
+               toastr.error("Ocurrio un error al actualizar el estatus de los documentos");
+          }
+          if (response === 'true') {
+               toastr.options.closeButton = true;
+               $('#detalletrabajo').modal('hide');
+               toastr.success("Se actualizo el estus de los documentos");
+          }
+     });
+
+});*/
+
+
+/*$('#btn-cancelar-usuario').click(function (event) {
+     event.preventDefault();
+     $('#modal_Capturar_usuario').modal('hide');
+});*/
+
+
+
+/*$('#prueba a').click(function (e) {
      e.preventDefault();
      $(this).tab('show');
-});
+});*/
 
 //=================================================================
 //Subir carta de aceptacion
 //=================================================================
-$('#input-carta-aceptacion').change(function (event) {
+/*$('#input-carta-aceptacion').change(function (event) {
    var id = idArticulo;//$('#update-articulo-id').val();
    var files = event.target.files;
    var data = new FormData();
@@ -320,18 +347,8 @@ $('#input-carta-aceptacion').change(function (event) {
         }
    });
    return false;
-});
+});*/
 
-$('#form-generar-gafete').submit(function(){
-    var action = $(this).attr('action');
-    var data = $(this).serialize();
-});
-
-function activarOpcionMenu() {
-     var id = $('#navbar li.active').attr('id');
-     $('#' + id).removeClass('active');
-     $('#li-panelcontrol').addClass('active');
-}
 
 
 

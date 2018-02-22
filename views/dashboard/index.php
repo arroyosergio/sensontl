@@ -1,10 +1,17 @@
-<div class="container">
-    <div class="container">
-        <ol class="breadcrumb">
+ <div class="info-container">
+       <div class="row">
+        <!-- uncomment code for absolute positioning tweek see top comment in css -->
+        <!-- <div class="absolute-wrapper"> </div> -->
+        <!-- Menu -->
+
+    <?php include  MENUADMIN;?>
+
+   <div class="container container-principal">
+       <!-- <ol class="breadcrumb">
             <li><a href="index">Inicio</a></li>
             <li class="active">Dashboard</li>
-        </ol>
-        <div class="row">
+        </ol> -->
+        <div class="row row-gen-doc">
             <div class="col-sm-12 pull-right">
                 <button type="button" id="exportXLS" class="btn btn-info"><span class="glyphicon glyphicon-file"></span> Exportar excel</button>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-generar-gafete"><span class="glyphicon glyphicon-share-alt"></span> Generar Gafete</button>
@@ -12,12 +19,12 @@
             </div>
         </div>
         <br>
-        <div class="panel panel-default">
+        <div class="panel panel-default panel-listatrabajos">
             <div class="panel-heading">
                 <h3 class="panel-title">Art&iacute;culos registrados</h3>
             </div>
             <div class="panel-body">
-                <table id="listaTrabajos" class="table table-responsive">
+                <table id="listaTrabajos" class="table table-responsive hover stripe">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -29,7 +36,7 @@
                             <th>ENTREGADO</th>
                             <th>DICTAMINADO</th>
                             <th>ACTIVAR CAMBIOS</th>
-                            <th>VALIDAR DEPOSITO</th>
+                            <!--<th>VALIDAR DEPOSITO</th>-->
                         </tr>
                     </thead>
                     <tbody>
@@ -45,8 +52,8 @@
                             echo '<td class="recibido"><p><input type="checkbox" name="Recibido" id='.$value['ID'].' '.($value['RECIBIDO']=='si'?'checked':'').'/></p></td>';
                             echo '<td class="dictaminado"><p><input type="checkbox" name="Dictaminado" id='.$value['ID'].' '.($value['DICTAMINADO']=='si'?'checked':'').'/></p></td>';
                             echo '<td class="aviso"> <p><input type="checkbox" name="AvisoCambio" id='.$value['ID'].' '.($value['AVISOCAMBIO']=='si'?'checked':'').'/></p></td>';
-                            echo '<td class="deposito"> <p><input type="checkbox" name="_validacion_deposito" id='.$value['ID'].' '.($value['DEPOSITO']=='si'?'checked':'').'/></p></td>';
-                            echo '</tr>';
+                           // echo '<td class="deposito"> <p><input type="checkbox" name="_validacion_deposito" id='.$value['ID'].' '.($value['DEPOSITO']=='si'?'checked':'').'/></p></td>';
+                            echo '</tr>'; 
                         } 
                         ?>
                     </tbody>
@@ -56,7 +63,7 @@
                 <b><em>Nota:</em></b> Para ver las opciones del art&iacute;culo dar doble clic en el registro de la tabla.
             </div>
         </div>
-        <!-- MODEL PARA LA DESCARGA DE ARCHIVOS-->
+        <!-- MODAL PARA LA DESCARGA DE ARCHIVOS-->
         <div class="modal fade" id="descargaArchivos" role="dialog" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -82,68 +89,13 @@
                         <h4 class="modal-title">Detalles del art&iacute;culo</h4>
                     </div>
                     <div class="modal-body">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="active" role="presentation"><a href="#detalles" aria-controls="detalles" role="tab" data-toggle="tab">Detalles</a></li>
-                            <li class="" role="presentation"><a href="#cartas" aria-controls="cartas" role="tab" data-toggle="tab">Cartas</a></li>
-                            <li class="" role="presentation"><a href="#recibo" aria-controls="cartas" role="tab" data-toggle="tab">Recibo</a></li>
-                        </ul>
-                        <div class="tab-content">
-                            <div id="detalles" class="tab-pane active" role="tabpanel">
-                            <br>
-                                <div id="datosarticulo"></div>
-                                <h4>Autores:</h4>
-                                <hr>
-                                <div id="datosautores" class="container-fluid" style="overflow-x:scroll; white-space: nowrap;"></div>
-                            </div>
-                            <div id="cartas" class="tab-pane" role="tabpanel">
-                                <br>
-                                <form>
-                                    <div id="div-carta-originalidad" class="form-group"></div>
-                                    <div id="div-carta-derechos" class="form-group"></div>
-                                    <div id="div-validacion-derechos">
-                                        <label><b>¿Los documentos est&aacute;n validados? :</b></label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="validacion-cartas" value="si"> S&iacute;
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="validacion-cartas" value="no" checked="true"> No
-                                        </label>
-                                    </div>
-                                    <div class="form-group">
-			            				<label for=""><b>Carta de aceptaci&oacute;n:</b></label>
-			            				<input id="input-carta-aceptacion" type="file" name="aceptacion" >
-			            				<p class="help-block">Solo se permiten archivos con extensi&oacute;n .pdf</p>
-			            			</div>
-			            			<div class="row">
-		            					<div class="col-sm-12">
-		            						<div id="documentos-actuales" class="row"></div>
-		            					</div>
-		            				</div>
-                                    
-                                </form>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Cerrar</button>
-                                    <!-- <button id="btn-form-validacion-cartas" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i> Aceptar</button> -->
-                                </div>
-                            </div>
-                            <div id="recibo" class="tab-pane" role="tabpanel">
-                                <br>
-                                <form action="">
-                                    <div id="div-recibo-pago" class="form-group"></div>
-                                    <label for=""><b>¿Validar recibo de pago? :</b></label>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="validacion-recibo" value="si"> S&iacute;
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="validacion-recibo" value="no" checked="true"> No
-                                    </label>
-                                </form>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Cerrar</button>
-                                  <!--   <button id="btn-form-validacion-recibo" class="btn btn-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Aceptar</button> -->
-                                </div>
-                            </div>
-                        </div>
+						<div id="detalles">
+						<br>
+							<div id="datosarticulo"></div>
+							<h4>Autores:</h4>
+							<hr>
+							<div id="datosautores" class="container-fluid" style="overflow-x:scroll; white-space: nowrap;"></div>
+						</div>
                     </div>
                 </div>
             </div>
@@ -176,6 +128,7 @@
                 </div>
             </form>
         </div>
+        <!--MODAL PARA LA GENERACION DE GAFETES-->
         <div id="" title="">
             <form id="form-generar-gafete" method="post" action="dashboard/generarGafete">
                 <div id="modal-generar-gafete" class="modal fade" tabindex="-1" role="dialog">
@@ -216,7 +169,7 @@
                 </div>
             </form>
         </div>
-
+       <!-- MODAL PARA LA GENERACION DE CONSTANCIAS-->
         <div id="Gen_constancia" title="">
             <form id="frm-generar-constancia" method="post" action="dashboard/generarConstancia">
                 <div id="modal-generar-constancia" class="modal fade" tabindex="-1" role="dialog">
@@ -258,6 +211,9 @@
             </form>
         </div>
 
-
+	</div>
+        <!-- termine frame-container -->   
+        
     </div>
+
 </div>

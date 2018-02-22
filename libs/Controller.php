@@ -5,7 +5,7 @@ class Controller {
     function __construct() {
 //        echo "main controller <br/>";
         $this->view = new View();
-       
+	
     }
     
     public function loadModel($modelName) {
@@ -62,6 +62,8 @@ class Controller {
         }
     }
     
+	
+	
 //    public function loadBarCodeEAN13() {
 //        $fileClass = 'libs/pdf/ean13.php';
 //        if (file_exists($fileClass)) {
