@@ -13,7 +13,9 @@ class Index extends Controller {
             'public/css/animate.min.css',
             'public/css/fluidbox.min.css',
             'views/index/css/index.css',
-            'public/css/style.css'
+            'public/css/style.css',
+            'public/css/responsiveslides.css',
+            
         );
         $this->view->js = array(
             /*'public/plugins/toastr/toastr.min.js',
@@ -27,7 +29,8 @@ class Index extends Controller {
             'public/js/jquery-2.1.4.min.js',
             'public/js/bootstrap.min.js',
             'public/js/index.js',
-            'public/js/jquery.fluidbox.min.js'
+            'public/js/jquery.fluidbox.min.js',
+            'public/js/responsiveslides.min.js',
         );
         
     }

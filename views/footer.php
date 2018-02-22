@@ -24,7 +24,42 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-6 wow fadeInUp animated" data-wow-duration="2.5s" data-wow-delay="4s" data-wow-animation-name="fadeInUp" style="visibility: visible; animation-duration: 2.5s; animation-delay: .9s; animation-name: fadeInUp;">
-                          <h4>Gobierno del Estado de Guanajuato</h4>
+                          <!--<h4>Gobierno del Estado de Guanajuato</h4>-->
+                          <table>
+                                <tr>
+                                    <td>
+                                        <div class="sep">
+                                            <img src="<?php echo URL.'public/images/sep.png'; ?>" alt="" title=""height="200" width="150" class="img-fluid img-responsive" />
+                                        </div>        
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <div class="anut">
+                                            <img hspace="100" src="<?php echo URL.'public/images/anut.png'; ?>" alt="" title="" height="200" width="200" class="img-fluid img-responsive" />
+                                        </div>        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="ingenio">
+                                            <img align="right" src="<?php echo URL.'public/images/ingenio.png'; ?>" alt="" title=""height="100" width="150" class="img-fluid img-responsive" />
+                                        </div>
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <div class="gto">
+                                            <img hspace="100" src="<?php echo URL.'public/images/gto.png'; ?>" alt="" title=""height="150" width="150" class="img-fluid img-responsive" />
+                                        </div>
+                                        
+                                    </td>
+                                    
+                                </tr>
+                            </table>
                     </div>
         		</div>
         	</div>
@@ -98,6 +133,14 @@
                     // You can use any kind of selectors for jQuery Fluidbox
                     $('.main_container a[data-fluidbox]').fluidbox();
                     $('.navbar-header a[data-fluidbox]').fluidbox();
+                });
+                $(function () {
+                     $("#imagenesInsitucionales").responsiveSlides({
+                        auto: true,
+                        pager: false,
+                        nav: false,
+                        speed: 800
+                      });
                 });
         </script>
     </body>

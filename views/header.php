@@ -84,7 +84,7 @@
 
                             <li><a href="registroautores" >Registro</a></li>
 
-                            <li><a href="registro">Registro</a></li>
+                            <!--<li><a href="registro">Registro</a></li>-->
 
                         </ul>
                     </li>
@@ -115,21 +115,9 @@
                     ?>   
 
                          <li id="mSesion">
-							 <a href="#" id="user-login" ><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;Iniciar sesión</a>                          
-							<!--  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Iniciar sesión<span class="caret"></span></a>
-                           <ul class="dropdown-menu sub-menu">
-
-                         <li id="mSesion" class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Iniciar sesión<span class="caret"></span></a>
-                            <ul class="dropdown-menu sub-menu">
-
-                                <li><a href="autores/index.html">Autor</a></li>
-                                <li><a href="editor/index.html">Editor</a></li>
-                                <li><a href="contador/index.html">Contador</a></li>
-                                <li><a href="administrador/index.html">Administrador</a></li>
-
-                            </ul>-->
-
+							 <a href="#" id="user-login" >
+                                <!-- <i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;-->
+                              Iniciar sesión</a>                          
                             </ul>
 
                         </li>

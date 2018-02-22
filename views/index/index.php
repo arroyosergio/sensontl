@@ -1,29 +1,70 @@
 
         <div class="container main_container">
-          <div class="row container-img">
-			   <a href="http://placehold.it/2000x1000" title="" data-fluidbox>
-					<picture>
-						<source media="(max-width: 650px)" srcset="http://placehold.it/400x400">
-						<img src="http://placehold.it/800x300" alt="" class="img-fluid img-responsive image_center feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown;" >
-					</picture>
-				</a> 
-           </div>
-           <a href="http://placehold.it/2000x1000" title="" data-fluidbox>
+           <!-- <a href="http://placehold.it/2000x1000" title="" data-fluidbox>
 				<picture>
 					<source media="(max-width: 650px)" srcset="http://placehold.it/400x400">
 					<img src="http://placehold.it/800x300" alt="" class="img-fluid img-responsive image_center feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown;" src="http://placehold.it/800x300" alt="Responsive image">
 				</picture>
-            </a> 
-            <div>
+            </a> -->
+            
+            <!-- Slideshow 4 -->
+            <div class="row">
+              <ul class="rslides" id="imagenesInsitucionales">
+                <li>
+                  <img src="http://placehold.it/800x300" class="img-fluid img-responsive "/>
+                
+                  <p class="caption"><font size="2em"> Imagen institucional 1</font></p>
+                </li>
+                <li>
+                  <img src="http://placehold.it/800x300" class="img-fluid img-responsive"/>
+                  <p class="caption"><font size="2em"> Imagen institucional 2</font></p>
+                </li>
+                <li>
+                  <img src="http://placehold.it/800x300" class="img-fluid img-responsive"/>
+                  <p class="caption"><font size="2em"> Imagen institucional 3</font></p>
+                </li>
+              </ul>
+            </div>
+            
+            
+             <div>
                 <h2 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown;">Congreso Interdisciplinario de Cuerpos Académicos </h2>
                 
-                 <p>Et malesuada fames ac turpis egestas maecenas pharetra. Ut sem viverra aliquet eget sit. At consectetur lorem donec massa sapien faucibus et molestie. Feugiat nisl pretium fusce id. Purus sit amet volutpat consequat mauris nunc congue. Amet porttitor eget dolor morbi non. Est sit amet facilisis magna etiam tempor. Nunc sed id semper risus in hendrerit gravida. Lacus sed turpis tincidunt id. Metus dictum at tempor commodo.</p>
+                 <p>El CICA en está su sexta edición, tiene el placer de invitarle a ser parte de este gran evento que impulsa la colaboración entre académicos y cientifícos, fortaleciendo la formación de cuerpos académicos y grupos de investigación de Instituciones de Educación Superior de índole nacional e internacional.</p>
                 
-                <p>Urna et pharetra pharetra massa massa ultricies mi quis hendrerit. Adipiscing elit pellentesque habitant morbi tristique senectus et netus et. At elementum eu facilisis sed odio morbi quis commodo odio. Non consectetur a erat nam at lectus. Duis at consectetur lorem donec. Non curabitur gravida arcu ac. Sed lectus vestibulum mattis ullamcorper velit. Non blandit massa enim nec dui nunc mattis.</p>
+                <h3 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown; font-size:1.5em"> <p class="text-left">Objetivo del CICA</p></h3>
                 
-                <p>Nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit. Vulputate eu scelerisque felis imperdiet proin fermentum. In eu mi bibendum neque egestas congue quisque. Magna eget est lorem ipsum dolor sit amet consectetur. Diam ut venenatis tellus in metus vulputate eu scelerisque felis. Diam sit amet nisl suscipit adipiscing bibendum est. Vel risus commodo viverra maecenas accumsan. Faucibus a pellentesque sit amet. Facilisis magna etiam tempor orci.</p>
+                <p>Crear un foro para académicos e investigadores de diferentes países para presentar y discutir resultados y propuetas en relación a las áreas temáticas del congreso, promoviendo y fortaleciendo la divulgación de la investigación y desarrollo tecnológico de los grupos colegiados y de investigación académica y/o cuerpos académicos de las instituciones de educación superior, desde una perspectiva global.</p>
+                
+                <h3 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown; font-size:1.5em"><p class="text-left">El congreso está dirigido a</p></h3>
+                
+                <p>Miembros de cuerpos académicos, grupos de investigación, integrantes de redes y representantes institucionales del Programa para el Desarrollo Profesional Docente de Instituciones de Educación Superior, instituciones de investigación y desarrollo tecnológico, así como organismos y público con inclinación hacía alguna de las diferentes áreas temáticas del congreso.</p>
+                
+                <h3 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown; font-size:1.5em"><p class="text-left">Productos de calidad</p></h3>
+                
+                <ul>
+                    <li>Publicación de trabajos aceptados en Journals internacionales cientifícos indizados con registro ISSN, y ante el Registro Nacional de Instituciones y Empresas Científicas y Tecnológicas. RENIECYT - CONACYT.</li>
+                    <li>Certificación de derechos de autor reconocidos por la SEP (opcional).
+                        <br>
+                        <strong>Perfil:</strong> Sección patentes "Derechos de autor".
+                        <br>
+                        <strong>Perfil:</strong> Sección "Producción académica".
+                    </li>
+                </ul>
+                
+                <h3 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown; font-size:1.5em"><p class="text-left">Las áreas temáticas del congreso</p></h3>
+                
+                <ul>
+                    <li>Ciencias agropecuarias.</li>
+                    <li>Ciencias naturales y exactas.</li>
+                    <li>Ciencias de ingeniería y tecnología.</li>
+                    <li>Educación</li>
+                    <li>Ciencias sociales y administrativas.</li>
+                    <li>Experiencias en la formación y operación de cuerpos académicos y redes.</li>
+                </ul>
+                
             
-                <h2 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown; font-size:1.5em">Se invita a los académicos e investigadores de los siguientes paises </h2>
+                <h3 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown; font-size:1.5em"> <p class="text-left">Se invita a los académicos e investigadores de los siguientes paises</p></h3>
             
 				<div class="gallery animated fadeIn">
 
