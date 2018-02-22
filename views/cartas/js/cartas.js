@@ -9,7 +9,13 @@ $(document).ready(function () {
                "infoEmpty": "No hay registros disponibles",
                "loadingRecords": "Cargando...",
                "processing": "Procesando..."
-          }
+          },
+		 "orderCellsTop": true,
+		 "order": [ 0, 'desc' ],
+		 "ordering": true,
+		 "responsive": true,
+		 "pageLength": 20,
+         "lengthMenu": [[20, 40, 60, -1], [20, 40, 60, "Todos"]]
      });
      
      $('#chkvalidacion-cartas').click(function (event) {
@@ -103,7 +109,7 @@ $('.detalles').click(function(){
 function activarOpcionMenu() {
      var id = $('#navbar li.active').attr('id');
      $('#' + id).removeClass('active');
-     $('#li-cartas').addClass('active');
+     $('#btn-ver-cartas').addClass('active');
 }
 
 //Validación de cartas

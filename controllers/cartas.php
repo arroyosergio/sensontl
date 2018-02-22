@@ -6,16 +6,22 @@ class cartas extends Controller {
           parent::__construct();
           Session::init();
           $logged = Session::get('sesion');
+
           $this->view->css = array(
-              'public/plugins/toastr/toastr.min.css',
-              'views/dashboard/css/custom.css',
-              'public/plugins/datatable/jquery.datatables.min.css',
-          	  'views/cartas/css/cartas.css'         		
+			'public/bootstrap/css/bootstrap.min.css',
+			'public/fontawesome/css/font-awesome.min.css',
+			'public/css/animate.min.css',
+			'public/css/fluidbox.min.css',			  
+              //'views/dashboard/css/custom.css',
+            'public/plugins/datatable/jquery.datatables.min.css',
+          	'views/cartas/css/cartas.css',
+			'views/misarticulos/css/menu.css'
           );
           $this->view->js = array(
-              'public/plugins/datatable/jquery.datatables.min.js',
-              "public/plugins/toastr/toastr.min.js",
-              "views/cartas/js/cartas.js"
+			'public/js/jquery-2.1.4.min.js',
+			'public/bootstrap/js/bootstrap.min.js',
+            'public/plugins/datatable/jquery.datatables.min.js',
+			'views/cartas/js/cartas.js'
           );
 
           $role = Session::get('perfil');
