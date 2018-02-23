@@ -2,8 +2,8 @@
    <div class="row">
 	<?php include  MENUADMIN;?>
 
-	<div class="container">
-		<div class="row">
+	<div class="container container-listatrabajos">
+		<div class="row row-cartas">
 			<div class="col-sm-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -27,8 +27,8 @@
 					</div>
 					<div class="modal-body">
 					   <div id="cartas" class="tab-pane" role="tabpanel">
-							  <div id="div-carta-originalidad" class="form-group col-sm-4"" ></div>
-							  <div id="div-carta-derechos" class="form-group col-sm-8""></div>
+							  <div id="div-carta-originalidad" class="form-group col-sm-6" ></div>
+							  <div id="div-carta-derechos" class="form-group col-sm-6"></div>
 							  <div id="div-validacion-derechos">
 								 <label><b>Validar cartas de Originalidad y Ceci&oacute;n de derechos:</b></label>
 								 <label class="radio-inline">
@@ -46,17 +46,32 @@
 								 </div>
 							  </div>
 							  <hr>
-							  <div class="form-group">
-								<label for=""><b>Carta de aceptaci&oacute;n:</b></label>
-								<input id="input-carta-aceptacion" type="file" name="aceptacion" >
-								<p class="help-block" >Solo se permiten archivos con extensi&oacute;n .pdf</p>
-							  </div>
-							  <div class="row">
-								<div class="col-sm-12" >
-								   <div id="documentos-actuales" class="row"></div>
-								   <span id="id_Articulo_carta_aceptacion" class="hidden"></span>
-								</div>
-							  </div>
+						   <div>
+						   	<label for=""><b>Carta de aceptaci&oacute;n:</b></label>
+						   </div>
+						    <form id="uploadfile" enctype="multipart/form-data" action="cartas/subir_carta_aceptacion" method="POST">
+							  	<div class="form-group">
+									<span class="btn btn-success fileinput-button">
+										<i class="glyphicon glyphicon-plus"></i>
+										<span>Seleccionar archivo</span>
+										<input type="file" id="archivo" name="archivo">
+									</span>							
+	
+									<button id="cargar" name="cargar" type="submit" class="btn btn-primary">
+										<i class="glyphicon glyphicon-upload"></i>
+										<span>Iniciar carga</span>
+									</button>									
+									 <input id="id-articulo-file" name="id-articulo-file" type="text" class="hidden">
+									<p class="help-block" >Solo se permiten archivos con extensi&oacute;n .pdf</p>
+								  </div>
+								  <div class="row">
+									<div class="col-sm-12" >
+										  <div id="file-list"><!-- COLOCA LAS CARACTERISTICAS DEL ARCHIVOS SELECCIONADO-->
+										</div>
+									   <div id="documentos-actuales" class="row"></div>
+									</div>
+							  	</div>
+						   </form>
 					   </div>
 					</div>
 					<div class="modal-footer">

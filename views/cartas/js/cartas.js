@@ -1,6 +1,9 @@
 var blnModif=false;
 $(document).ready(function () {
      activarOpcionMenu();
+	 fileList=document.getElementById("file-list");
+	 $("#cargar").hide();
+	
      $('#tbl-cartas').DataTable({
           "language": {
                "search": "Buscar:",
@@ -75,6 +78,7 @@ $(document).ready(function () {
              }
         });
      });
+	$(this).scrollTop(0);
 });
 
 $('.detalles').click(function(){
@@ -83,8 +87,9 @@ $('.detalles').click(function(){
 		     location.reload();
 		// this handler is detached after it has run once
     });
-    
-     $.post('dashboard/getCartaOriginalidad', {id: $(this).attr('carta')}, function (response) {
+	var idArticulo=$(this).attr('carta');
+    $('#id-articulo-file').val(idArticulo);
+    $.post('dashboard/getCartaOriginalidad', {id: $(this).attr('carta')}, function (response) {
          $('#div-carta-originalidad').html(response);
     });
     $.post('dashboard/getCartaDerechos', {id: $(this).attr('carta')}, function (response) {
@@ -102,6 +107,7 @@ $('.detalles').click(function(){
         	 $("#chkvalidacion-cartas").attr('checked', false);
          }
     });
+	$("#file-list").empty();
     
 }); 
 
@@ -129,58 +135,109 @@ $("#btn-form-validacion-cartas").click(function () {
      });
 });
 
-//=================================================================
-//Subir carta de aceptacion
-//=================================================================
-$('#input-carta-aceptacion').change(function (event) {
-	var id = $('#id_Articulo_carta_aceptacion').html();
-	var files = event.target.files;
-	var data = new FormData();
-	$.each(files, function (key, value)
-	{
-      data.append(key, value);
-    });
-    data.append('idArticulo', id);
-    $.ajax({
-	  url: 'cartas/subir_carta_aceptacion',
-      type: 'POST',
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      beforeSend: function () {
-           $('#cargando').removeClass('hidden');
-      },
-      success: function (response) {
-           if (response === 'error-formato-archivo') {
-                toastr.options.closeButton = true;
-                toastr.error("El formato del archivo no es valido.");
-           }
-
-           if (response === 'error-null') {
-                toastr.options.closeButton = true;
-                toastr.error("No se ha indicado a que art&iacute;culo pertence.");
-           }
-
-           if (response === 'error-subir-archivo') {
-                toastr.options.closeButton = true;
-                toastr.error("No se pudo subir el archivo.");
-           }
-           if (response === 'error-validacion') {
-                toastr.options.closeButton = true;
-                toastr.error("No se tienen los permisos para realizar el cambio.");
-           }
-           if (response === 'true') {
-                $('#cargando').addClass('hidden');
-                toastr.options.closeButton = true;
-                toastr.success("Se subio la carta de aceptaci&oacute;n");
-           }
-           $('#cargando').addClass('hidden');
-
-      },
-      error: function (response) {
-           message = $("<span class='error'>Ha ocurrido un error.</span>");
-      }
- });
- return false;
+//=================================
+//METODO PARA SELECCIONAR ARCHIVO
+//=================================
+$(':file').change(function () {
+	var li = document.createElement("li"),
+		progressBarContainer = document.createElement("div"),
+		progressBar = document.createElement("div"),		
+    	div = document.createElement("div");
+	var fileInfo;	
+	progressBarContainer.className = "progress-bar-container";
+	progressBar.className = "progress-bar";
+	progressBar.id="progressBar";
+	
+	li.appendChild(div);
+	
+	var file = $("#archivo")[0].files[0];
+    var fileName = file.name;
+    fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
+   if(fileExtension=="pdf"){
+	   $("#file-list").empty();
+	   //$("#cargar").show("slow");
+	   $("#cargar").fadeToggle("slow", "linear")
+		// Present file info and append it to the list of files
+		fileInfo = "<div><strong>Nombre:</strong> " + file.name + "</div>";
+		fileInfo += "<div><strong>Tamano:</strong> " + parseInt(file.size / 1024, 10) + " kb</div>";
+		fileInfo += "<div><strong>Tipo:</strong> " + file.type + "</div>";
+		div.innerHTML = fileInfo;
+	    fileList.appendChild(li);
+		progressBarContainer.appendChild(progressBar);
+		li.appendChild(progressBarContainer);
+	   
+   } else{
+	  toastr.options.closeButton = true;
+      toastr.error("Tipo de archivo incorrecto ");
+   }
 });
+
+//=============================================
+//METODO PARA CARGA EL DOCUMENTO SELECCIONADO
+//=============================================
+$("#uploadfile").submit(function(event){
+	event.preventDefault();
+	var progressBar = document.getElementById("progressBar");
+    //información del formulario
+    var formData = new FormData($(this)[0]);
+    //hacemos la petición ajax  
+    $.ajax({
+        url: 'cartas/subir_carta_aceptacion',
+        type: 'POST',
+        // Form data
+        //datos del formulario
+        data: formData,
+        //necesario para subir archivos via ajax
+        cache: false,
+        contentType: false,
+        processData: false,
+        //mientras enviamos el archivo
+        beforeSend: function () {
+			progressBar.style.width =  "0%";
+        },
+		// this part is progress bar
+		xhr: function () {
+			var xhr = new window.XMLHttpRequest();
+			xhr.upload.addEventListener("progress", function (evt) {
+				if (evt.lengthComputable) {
+					var percentComplete = evt.loaded / evt.total;
+					percentComplete = parseInt(percentComplete * 100);
+     			    progressBar.style.width = percentComplete+'%';
+					progressBar.innerHTML = percentComplete+ " %"; 
+				}
+			}, false);
+			return xhr;
+		},
+
+        //una vez finalizado correctamente
+        success: function (response) {
+            //$('#cargando').addClass('hidden');
+			if(response==='error-null'){
+                toastr.options.closeButton = true;
+                toastr.error("Imposible ligar la carta con el art&iacute;culo.");				
+			}
+            if (response === 'error-archivo') {
+                toastr.options.closeButton = true;
+                toastr.error("No selecciono nig&uacute;n archivo.");
+            }
+            if (response === 'error-subir-archivo') {
+                toastr.options.closeButton = true;
+                toastr.error("No se pudo cargar el archivo.");
+            }
+            if (response==='true') {
+				$("#cargar").hide("slow");
+				//$('#tbl-cartas').DataTable().ajax.reload()
+                toastr.options.closeButton = true;
+                toastr.success("La carta se cargo correctamente...");
+			}
+        },
+        //si ha ocurrido un error
+        error: function () {
+                toastr.options.closeButton = true;
+                toastr.error("Un error a ocurrido!<br>Intentelo mas tarde...");
+        }
+    });
+    return false;	
+});
+
+
