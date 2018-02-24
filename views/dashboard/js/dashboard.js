@@ -1,6 +1,7 @@
 var idArticulo = '';
 $(document).ready(function () {
      activarOpcionMenu();
+	$(this).scrollTop(0);
      $('#listaTrabajos').DataTable({
           "language": {
                "search": "Buscar:",

@@ -6,16 +6,22 @@ class cartas extends Controller {
           parent::__construct();
           Session::init();
           $logged = Session::get('sesion');
+
           $this->view->css = array(
-              'public/plugins/toastr/toastr.min.css',
-              'views/dashboard/css/custom.css',
-              'public/plugins/datatable/jquery.datatables.min.css',
-          	  'views/cartas/css/cartas.css'         		
+			'public/bootstrap/css/bootstrap.min.css',
+			'public/fontawesome/css/font-awesome.min.css',
+			'public/css/animate.min.css',
+			'public/css/fluidbox.min.css',			  
+              //'views/dashboard/css/custom.css',
+            'public/plugins/datatable/jquery.datatables.min.css',
+          	'views/cartas/css/cartas.css',
+			'views/misarticulos/css/menu.css'
           );
           $this->view->js = array(
-              'public/plugins/datatable/jquery.datatables.min.js',
-              "public/plugins/toastr/toastr.min.js",
-              "views/cartas/js/cartas.js"
+			'public/js/jquery-2.1.4.min.js',
+			'public/bootstrap/js/bootstrap.min.js',
+            'public/plugins/datatable/jquery.datatables.min.js',
+			'views/cartas/js/cartas.js'
           );
 
           $role = Session::get('perfil');
@@ -133,8 +139,8 @@ class cartas extends Controller {
  
      function subir_carta_aceptacion() {
      	$response = '';
-     	$idArticulo = $_POST['idArticulo'];
-     	if (!empty($idArticulo)) {
+     	$idArticulo = $_POST['id-articulo-file'];
+		 if (!empty($idArticulo)) {
      		$existeCarta = $this->model->existe_carta_aceptacion($idArticulo);
      		if ($existeCarta != FALSE) {
      			try {
@@ -144,23 +150,17 @@ class cartas extends Controller {
      				error_log($exc->getTraceAsString());
      			}
      		}
-     		$file = $_FILES[0]['name'];
-     		$formatoArchivo = explode('.', $file);
-     		$formatoArchivo = end($formatoArchivo);
-     		if ($formatoArchivo != 'pdf') {
-     			echo 'error-formato-archivo';
-     		} else {
-     			if (!move_uploaded_file($_FILES[0]['tmp_name'], DOCS . $idArticulo . '/' . $file)) {
-     				echo 'error-subir-archivo';
-     			} else {
-     				$this->model->registro_carta_aceptacion($idArticulo, $idArticulo . '/' . $file);
-     				echo 'true';
-     			}
-     		}
-     	} else {
-     		$response = 'error-null';
-     	}
-     	echo $response;
+     		$file = $_FILES['archivo']['name'];
+			if (!move_uploaded_file($_FILES['archivo']['tmp_name'], DOCS . $idArticulo . '/' . $file)) {
+				echo 'error-subir-archivo';
+			} else {
+				$this->model->registro_carta_aceptacion($idArticulo, $idArticulo . '/' . $file);
+				echo 'true';
+			}
+		} else {
+			$response = 'error-null';
+		}
+		echo $response;
      }
       
      function getCartaAceptacion() {
@@ -191,36 +191,35 @@ class cartas extends Controller {
      	if($responseDB[0]['CORREO']!=NULL){
      		$asunto="Validaci&oacute;n de cartas de aceptaci&oacute;n y originalidad";
      		$mensaje="<h1>Estimado autor:</h1><h2>".$comentario."</h2>".
-     		  		  "<h3>atte.<br /> Comit&eacute; Organizador CICA 2016.<br />UTSOE</h3>";
+     		  		  "<h3>atte.<br /> Comit&eacute; Organizador CICA 2018.<br />UTSOE</h3>";
      		$mensaje1="Estimado autor:".$comentario.
-     		          "atte. Comit&eacute; Organizador CICA 2016.   UTSOE";
+     		          "atte. Comit&eacute; Organizador CICA 2018.   UTSOE";
      		$enviado=$this->fncSendMail($responseDB[0]['CORREO'],$asunto,$mensaje,$mensaje1);
      	}
      	echo $enviado;
      }
      
-     function fncSendMail($correo,$asunto,$mensaje,$mensajeSinF){
-     	try {
-     		$mail = new PHPMailer;
-     		$mail->SetFrom("contacto@cica2016.org", "CICA2016");
-     		$mail->FromName = "CICA2016";
-     		$mail->addAddress($correo);
-     		$mail->addCC('contacto@cica2016.org');
-     		$mail->isHTML(true);
-     		$mail->Subject =html_entity_decode($asunto);
-     		$mail->Body = $mensaje;
-     		$mail->AltBody =$mensajeSinF;
-     		$mail->CharSet = 'UTF-8';
-     		$exito = $mail->Send();
-     		if($exito)
-     			$enviado="Correo-ok";
-     			else
-     				$enviado="Correo-bad";
-     	} catch (Exception $e) {
-     		$enviado=$e->getMessage();
-     	}
-     	return $enviado;
-     
-     }     
-     
+    function fncSendMail($correo,$asunto,$mensaje,$mensajeSinF){
+    	try {
+			//Apartado para enviar correo
+			$this->mail->SetFrom("administracion@higo-software.com", "CICA2018");
+			$this->mail->FronName="Cica2018";
+			$this->mail->addAddress($correo);
+			$this->mail->addCC('contacto@cica2017.org');
+			$this->mail->isHTML(TRUE);
+			$this->mail->Subject = html_entity_decode($asunto);
+			$this->mail->Body = $mensaje;
+			$this->mail->AltBody ='Problemas de compatibilidad con el navegador'; 
+			$this->mail->CharSet="UTF-8";	
+			$enviado="Correo-ok";
+			if (!$this->mail->send()) {
+				error_log("Error al enviar el correo a $correo:" . $this->mail->ErrorInfo);
+				$enviado="Correo-bad";
+			}
+    	} catch (Exception $e) {
+    		$enviado="Correo-bad";;
+    	}
+    	return $enviado;
+    }	
+	
 }
