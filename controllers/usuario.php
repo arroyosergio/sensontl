@@ -7,14 +7,21 @@ class usuario extends Controller{
         Session::init();
         $logged=Session::get('sesion');
         $this->view->css = array(
-            'public/plugins/toastr/toastr.min.css',
+            'public/bootstrap/css/bootstrap.min.css',
+            'public/fontawesome/css/font-awesome.min.css',
+            'public/css/animate.min.css',
+            'public/css/fluidbox.min.css',
+            'public/plugins/datatable/jquery.datatables.min.css',
+			'views/usuario/css/menu.css',
+            'public/css/general.css',
             'views/usuario/css/usuario.css',
-            'public/plugins/datatable/jquery.datatables.min.css'
+            
         );
         $this->view->js = array(
+            'public/js/jquery-2.1.4.min.js',
+			'public/bootstrap/js/bootstrap.min.js',
+			'public/plugins/datatable/jquery.datatables.min.js',
             'views/usuario/js/usuario.js',
-            'public/plugins/datatable/jquery.datatables.min.js',
-            'public/plugins/toastr/toastr.min.js'
         );
 
       $role=Session::get('perfil');

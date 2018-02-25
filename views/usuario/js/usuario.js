@@ -126,7 +126,9 @@ $('#form-editar-registro').submit(function(){
  $(".operaciones").click(function (event) {
         var accion =$(".accion",this).attr("name");
         var idusr = $(".accion",this).val();
+     
         if(accion=='eliminar'){
+            
             if(!confirm("Estas Seguro de Eliminar al Usuario?")){
                 return false;
             };
@@ -134,7 +136,7 @@ $('#form-editar-registro').submit(function(){
                 "id" : idusr
             };
             $.ajax({
-                url: 'usuarios/delete',
+                url: 'usuario/delete',
                 type: 'POST',
                 // datos del formulario
                 data: parametros,
@@ -155,7 +157,8 @@ $('#form-editar-registro').submit(function(){
                 }
             });
          }else if(accion=='editar') {
-            $.post( "usuarios/edit",{id:idusr},  function( dato ) {
+             
+            $.post( "usuario/edit",{id:idusr},  function( dato ) {
                 $('#ecorreo').val(dato[0].usuCorreo);
                 $('#erole').val(dato[0].usuTipo);
                 $('#usrid').val(idusr);
@@ -165,6 +168,6 @@ $('#form-editar-registro').submit(function(){
                 $('#modal-editar-registro').modal('show');
 
             }, "json");
-
+                
          }
     });

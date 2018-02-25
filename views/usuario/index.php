@@ -1,16 +1,9 @@
         <div class="info-container">
            <div class="row">
-                <?php 
-                    //menu lateral
-                    require_once 'views/administrador.php';
-                ?>
+                <?php include  MENUADMIN;?>
                 <!-- Main Content -->
-                <div class="container-fluid">
-                    <div class="side-body">
-                           
-                            
-               
-               
+                <div class="container-fluid container-principal">
+                    <div class="side-body">   
                             <form id="form-nuevo-registro" action="usuario/nuevoRegistro" method="post">
                                 <div id="modal-nuevo-registro" class="modal fade" tabindex="-1" role="dialog">
                                     <div class="modal-dialog">
@@ -119,8 +112,10 @@
                                         //echo '<td width="10%">'.$value['usuId'].'</td>';
                                         echo '<td width="70%">'.$value['usuCorreo'].'</td>';
                                         echo '<td width="10%">'.$value['usuTipo'].'</td>';
-                                        echo '<td width="10%" class="operaciones"><input type="hidden" class="accion" name="editar" id="Editar" value="'.$value['usuId'].'"/><span class="glyphicon glyphicon-pencil"> Editar</span></td>';
-                                        echo '<td width="1%" class="operaciones"><input type="hidden" class="accion" name="eliminar" id="Eliminar" value="'.$value['usuId'].'"/><span class="glyphicon glyphicon-remove"> Eliminar</span></td>';
+                                        
+                                        echo '<td width="10%" class="operaciones"><input type="hidden" class="accion" name="editar" id="editar" value="'.$value['usuId'].'"/><span class="glyphicon glyphicon-pencil"> Editar</span></td>';
+                                        
+                                        echo '<td width="1%" class="operaciones"><input type="hidden" class="accion" name="eliminar" id="eliminar" value="'.$value['usuId'].'"/><span class="glyphicon glyphicon-remove"> Eliminar</span></td>';
                                         echo '</tr>';
                                     } ?>
                                     </tbody>
