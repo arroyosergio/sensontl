@@ -1,6 +1,0 @@
-#listaUsuarios tr .operaciones span {
-    cursor: pointer;
-}
-#listaUsuarios tr .operaciones span:hover {
-    color: blue;
-}
