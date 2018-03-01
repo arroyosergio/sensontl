@@ -280,5 +280,5 @@ $("#btn-aceptar-cartas").click(function(Event){
 function activarOpcionMenu() {
      var id = $('#navbar li.active').attr('id');
      $('#' + id).removeClass('active');
-     $('#li-mis-articulos').addClass('active');
+     $('#btnCtrlCartas').addClass('active');
 }

@@ -16,7 +16,7 @@
                         <form id="form-info-perfil" action="perfil/guardarCambiosPerfil" method="post">
                             <div class="frame-title row">
                                 <div class="logo-frame col-lg-1 col-sm-1"><i  data-toggle="tooltip" title="Perfil del Autor " class="fa fa-address-card fa-2x animated bounceIn" aria-hidden="true"></i></div>
-                                <div class="frame-title-text text-left logo-frame col-lg-11 col-sm-11"><p>Cambiar contraseña</p></div>
+                                <div class="frame-title-text text-left logo-frame col-lg-11 col-sm-11"><p>Perfil de usuario</p></div>
                             </div>
 						    <div class="frame-message row">
 						     <div class="col-lg-12 col-sm-12">

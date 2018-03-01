@@ -23,7 +23,7 @@ $(document).ready(function () {
      
      $('#chkvalidacion-cartas').click(function (event) {
     	 blnModif=true;
-    	 var id = $('#id_Articulo_carta_aceptacion').html();
+    	 var id = $('#id-articulo-file').val();
     	 var status='no';
     	 if($("#chkvalidacion-cartas").is(':checked'))
     		  status='si'; 

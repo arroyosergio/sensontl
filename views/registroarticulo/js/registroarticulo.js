@@ -195,7 +195,7 @@ $(':file').change(function () {
 function activarOpcionMenu(){
     var id = $('#navbar li.active').attr('id');
     $('#'+id).removeClass('active');
-    $('#li-mis-articulos').addClass('active');
+    $('#btnArticulos').addClass('active');
 }
 
 $("#uploadfile").submit(function(event){

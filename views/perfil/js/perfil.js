@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	activarOpcionMenu();
     $("#pais").change(function () {
         dependencia_estado();
     });
@@ -136,4 +137,10 @@ function dependencia_estado() {
         $('#estado').attr('disabled', false);
         $('#estado').append(response);
     });
+}
+
+function activarOpcionMenu() {
+     var id = $('#navbar li.active').attr('id');
+     $('#' + id).removeClass('active');
+     $('#btnPerfil').addClass('active');
 }

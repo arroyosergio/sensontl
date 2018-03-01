@@ -585,7 +585,7 @@ $('#tbl-ver-articulo-autores').click(function (e) {
 function activarOpcionMenu() {
      var id = $('#navbar li.active').attr('id');
      $('#' + id).removeClass('active');
-     $('#li-mis-articulos').addClass('active');
+     $('#btnArticulos').addClass('active');
 }
 
 /*

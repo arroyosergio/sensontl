@@ -129,6 +129,7 @@ class cartas extends Controller {
      function updateEstatusCartas() {
      	$idArticulo = $_POST['idArticulo'];
      	$estatus= $_POST['status'];
+		 echo $idArticulo. " ". $estatus;
      	$responseDB = $this->model->update_estatus_cartas($idArticulo, $estatus);
      	$response = 'false';
      	if ($responseDB) {

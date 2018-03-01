@@ -5,42 +5,7 @@
         <!-- uncomment code for absolute positioning tweek see top comment in css -->
         <!-- <div class="absolute-wrapper"> </div> -->
         <!-- Menu -->
-        <div class="side-menu">
-
-            <nav class="navbar navbar-default" role="navigation">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <div class="brand-wrapper">
-                    <!-- Hamburger -->
-                    <button type="button" class="navbar-toggle">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-            </div>
-            <!-- Main Menu -->
-            <div class="side-menu-container ">
-                <ul class="nav navbar-nav">
-
-                    <li class="active"><a href="#"><span><i class="fa fa-address-card fa-2x" aria-hidden="true"></i></span> Perfil del autor</a></li>
-                    <li><a href="misarticulos"><span> <i class="fa fa-language fa-2x" aria-hidden="true"></i></span> Registro de articulos</a></li>
-                    <li><a href="#"><span><i class="fa fa-users fa-2x" aria-hidden="true"></i></span> Registro de co-autores</a></li>
-                    <li><a href="#"><span><i class="fa fa-creative-commons fa-2x" aria-hidden="true"></i></span> Cartas</a></li>
-                    <li><a href="#"><span><i class="fa fa-copyright fa-2x" aria-hidden="true"></i></span> Carta de Aceptacion</a></li>
-                    <li><a href="#"><span><i class="fa fa-user-plus fa-2x" aria-hidden="true"></i></span> Registro de pago</a></li>
-                    <li><a href="#"><span><i class="fa fa-money fa-2x" aria-hidden="true"></i></span> Facturacion</a></li>
-                    <li><a href="#"><span><i class="fa fa-id-badge fa-2x" aria-hidden="true"></i></span> Imprmir Gafete</a></li>
-                    <li><a href="#"><span><i class="fa fa-certificate fa-2x" aria-hidden="true"></i></span> Constancia</a></li>
-                    <!--<li class="active"><a href="#"><span class="glyphicon glyphicon-plane"></span> Active Link</a></li>-->
-                    <li><a href="#"><span><i class="fa fa-plug fa-2x" aria-hidden="true"></i></span> Cambiar contraseña</a></li>
-                    <li><a href="../index.html"><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i> logout</a></li>
-
-                </ul>
-            </div><!-- /.navbar-collapse -->
-            </nav>
-        </div>
+		 <?php include  MENULATERAL;?>
            
             <!-- Main Content -->
 			<div class="container container-registroart">

@@ -20,13 +20,11 @@
 										<div class="form-group">
 											<input type="password" class="form-control" name="rpassword" placeholder="Repetir Contrase&ntilde;a">
 										</div>
-
-								
-						  </div>
-						  <div class="panel-footer foother-reg-autores text-right">
-								<a href="index" type="button" class="btn btn-default btn-responsive"><i class="glyphicon glyphicon-remove"></i> Cancelar</a>
-							<button class="btn btn-primary btn-responsive"><i class="glyphicon glyphicon-ok"></i> Aceptar</button>
-						 </div>	
+						  		</div>
+							  <div class="panel-footer foother-reg-autores text-right">
+									<a href="index" type="button" class="btn btn-default btn-responsive"><i class="glyphicon glyphicon-remove"></i> Cancelar</a>
+								<button class="btn btn-primary btn-responsive"><i class="glyphicon glyphicon-ok"></i> Aceptar</button>
+							 </div>	
 						 </form>				
 					 </div>
            			</div>
