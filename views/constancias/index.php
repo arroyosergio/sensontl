@@ -9,13 +9,13 @@
 						<br>
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title">Art&iacute;culos con carta de aceptaci&oacute;n</h3>
+								<h3 class="panel-title">Constancias de Art&iacute;culos</h3>
 							</div>
 							<div class="panel-body">
 								<?php echo $this->tblArticulos; ?>
 							</div>
 							<div class="panel-footer">
-								<b><em>Nota: </em></b><br><i class="glyphicon glyphicon-ok"> </i>&nbsp;Para descargar la carta de aceptaci&oacute;n dar clic en el id correspondiente. 
+								<b><em>Nota: </em></b><br><i class="glyphicon glyphicon-ok"> </i>&nbsp;Para descargar la constancia del art&iacute;culo dar clic en el id correspondiente. 
 							</div>
 						</div>
 					</div>

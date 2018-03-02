@@ -96,10 +96,10 @@
 					<form id="form-login" action="index/login" class="new-placeholder" method="post">
 						<div class="modal-body">
 							<div class="form-group">
-								<input type="text" id="login-correo" name="correo" placeholder="Correo" class="form-control">
+								<input type="text" id="login-correo" name="correo" placeholder="Correo" class="form-control" autocomplete="off" >
 							</div>
 							<div class="form-group">
-								<input type="password" id="login-password" name="password" placeholder="Contrase&ntilde;a" class="form-control">
+								<input type="password" id="login-password" name="password" placeholder="Contrase&ntilde;a" class="form-control" autocomplete="off" >
 							</div>
 							<a href="resetpassword">¿Recordar contrase&ntilde;a?</a>
 						</div>

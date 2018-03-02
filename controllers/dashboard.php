@@ -521,7 +521,7 @@ class dashboard extends Controller{
             //proporcionar un nombre de fichero recomendado y forzar al navegador el mostarar el dialogo para guardar el fichero.
             header('Content-Disposition: attachment; filename="'.$file.'"'); 
             readfile($_SERVER['DOCUMENT_ROOT'].'/xls/'.$file);
-            }
+    }
             
     function generarGafete() {
 		try{
@@ -584,7 +584,6 @@ class dashboard extends Controller{
 				$pdf->SetFillColor(217, 217, 217);
 				$pdf->Circle(101, 15, 3);
 				//DESCARGA EL ARCHIVO EN EL NAVEGADOR CON EL NOMBRE DE Cica_art_articulo.PDF
-				//$pdf->Output('Constanci_Cica2017.pdf','D');
 				$pdf->Output('I','gafete.pdf');
 			}		
 		}

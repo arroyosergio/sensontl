@@ -26,15 +26,15 @@
                                                     <div class="col-sm-6">
 														<div class="form-group">
 															<label for=""><b>Contrase&ntilde;a actual:</b></label>
-															<input id="pass_contra" type="password" class="form-control" name="password-actual" autofocus>
+															<input id="pass_contra" type="password" class="form-control" name="password-actual" autocomplete="off"  autofocus>
 														</div>
 														<div class="form-group">
 															<label for=""><b>Nueva Contrase&ntilde;a:</b></label>
-															<input type="password" class="form-control" name="nuevo-password">
+															<input type="password" class="form-control" name="nuevo-password" autocomplete="off" >
 														</div>
 														<div class="form-group">
 															<label for=""><b>Repetir contrase&ntilde;a:</b></label>
-															<input type="password" class="form-control" name="rpassword">
+															<input type="password" class="form-control" name="rpassword" autocomplete="off" >
 														</div>                                                     
                                                     </div>
 
