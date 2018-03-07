@@ -210,9 +210,14 @@ $("#form-subir-cartas-derechos").submit(function(event){
 
 $("#tbl-articulos tbody tr td.td-tabla").click(function (event) {
 
+	$('#input-carta-originalidad').val('');
+	$('#input-carta-derechos').val('');
 	
 	$("#cargar_cesion").hide();
 	$("#cargar_originalidad").hide();
+
+	$('#input-carta-originalidad').attr('disabled','disabled');
+	$('#input-carta-derechos').attr('disabled','disabled');
 	
 	$("#file-carta-origen").text('Ningun archivo seleccionado...');
 	$("#file-carta-derechos").text('Ningun archivo seleccionado...');
@@ -233,6 +238,7 @@ $("#tbl-articulos tbody tr td.td-tabla").click(function (event) {
 			   $('#input-carta-originalidad').removeAttr('disabled');
 			   $('#input-carta-derechos').removeAttr('disabled');
 		  }	
+
 		  if (objJson.cambio === 'no') {
 				$('#btn-aceptar-cartas').hide();	  
 		  }	

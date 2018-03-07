@@ -16,7 +16,7 @@ $(document).ready(function () {
 function activarOpcionMenu(){
     var id = $('#navbar li.active').attr('id');
     $('#'+id).removeClass('active');
-    $('#li-usuarios').addClass('active');
+    $('#btn-usuarios').addClass('active');
 }
 
 $('#btnNuevoUsuario').click(function () {

@@ -114,6 +114,32 @@ class cartas extends Controller {
      	echo $response;
      }
      
+
+	
+     function getCambioCartas() {
+     	$idArticulo = $_POST['id'];
+     	$responseDB = $this->model->get_cambio_cartas($idArticulo);
+     	if (!empty($responseDB)) {
+     		$validado=$responseDB['validado'];
+     	}else{
+     		$validado="no";
+     	}
+     		
+     	echo $validado;
+     }	
+
+	
+	function updateCambioCartas(){
+     	$idArticulo = $_POST['idArticulo'];
+     	$estatus= $_POST['status'];
+     	$responseDB = $this->model->update_cambio_cartas($idArticulo, $estatus);
+     	$response = 'false';
+     	if ($responseDB) {
+     		$response = 'true';
+     	}
+     	echo $response;	
+	}
+
      function getEstatusCartas() {
      	$idArticulo = $_POST['id'];
      	$responseDB = $this->model->get_estatus_cartas($idArticulo);
@@ -124,12 +150,11 @@ class cartas extends Controller {
      	}
      		
      	echo $validado;
-     }
-
+     }	
+	
      function updateEstatusCartas() {
      	$idArticulo = $_POST['idArticulo'];
      	$estatus= $_POST['status'];
-		 echo $idArticulo. " ". $estatus;
      	$responseDB = $this->model->update_estatus_cartas($idArticulo, $estatus);
      	$response = 'false';
      	if ($responseDB) {

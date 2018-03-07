@@ -2,18 +2,25 @@
 
 class control_asistencia extends Controller {
 
+	
     function __construct() {
         parent::__construct();
         Session::init();
         $logged = Session::get('sesion');
         $this->view->css = array(
-            'public/plugins/toastr/toastr.min.css',
-            'public/plugins/datatable/jquery.datatables.min.css'
+			'public/bootstrap/css/bootstrap.min.css',
+            'public/fontawesome/css/font-awesome.min.css',
+            'public/css/animate.min.css',
+            'public/css/fluidbox.min.css',
+            'public/plugins/datatable/jquery.datatables.min.css',
+            'views/control_asistencia/css/ctrl_asistencia.css',
+		    'views/control_asistencia/css/menu.css'
         );
         $this->view->js = array(
+			'public/js/jquery-2.1.4.min.js',
+			'public/bootstrap/js/bootstrap.min.js',
             'public/plugins/datatable/jquery.datatables.min.js',
-            "public/plugins/toastr/toastr.min.js",
-            "views/control_asistencia/js/control_asistencia.js",
+			'views/control_asistencia/js/control_asistencia.js'
         );
 
         $role = Session::get('perfil');

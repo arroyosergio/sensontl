@@ -111,6 +111,9 @@
 								  if (Session::get('perfil') == 'administrador') {
 									echo '<li><a href="dashboard"><i class="fa fa-address-card" aria-hidden="true"></i> Panel de control</a></li>';
 								  }
+								  if (Session::get('perfil') == 'editor') {
+									echo '<li><a href="editores"><i class="fa fa-address-card" aria-hidden="true"></i> Panel de control</a></li>';
+								  }							
 							   ?>
                                 <li role="presentation" class="divider line-divider"></li>
                                 <li><a href="index/cerrarSesion"><i class="fa fa-sign-out" aria-hidden="true"></i> logout</a></li>  

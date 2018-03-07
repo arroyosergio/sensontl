@@ -7,17 +7,22 @@ class Editores extends Controller {
         Session::init();
         $logged = Session::get('sesion');
         $this->view->css = array(
-            'public/plugins/toastr/toastr.min.css',
-            'views/dashboard/css/custom.css',
-            'public/plugins/datatable/jquery.datatables.min.css'
+			'public/bootstrap/css/bootstrap.min.css',
+            'public/fontawesome/css/font-awesome.min.css',
+            'public/css/animate.min.css',
+            'public/css/fluidbox.min.css',
+            'public/plugins/datatable/jquery.datatables.min.css',
+            'views/editores/css/editores.css',
+		    'views/editores/css/menu.css'
         );
         $this->view->js = array(
+			'public/js/jquery-2.1.4.min.js',
+			'public/bootstrap/js/bootstrap.min.js',
             'public/plugins/datatable/jquery.datatables.min.js',
-            "public/plugins/toastr/toastr.min.js",
-            "views/editores/js/editores.js",
-        );
-
-        $role = Session::get('perfil');
+			'views/editores/js/editores.js'
+        );		
+		
+       $role = Session::get('perfil');
         if ($logged == false) {
             Session::destroy();
             header('location:index');
@@ -37,7 +42,7 @@ class Editores extends Controller {
         if (!$responseDB) {
             return '<h1>No hay artículos registrados</h1>';
         } else {
-            $tabla .= '<table class="table table-striped table-hover" id="tbl-articulos">' .
+            $tabla = '<table class="table table-striped table-hover" id="tbl-articulos">' .
                     '<thead>' .
                     '<tr>' .
                     '<th>Id</th>' .
@@ -51,7 +56,7 @@ class Editores extends Controller {
                 $tabla .= '<tr>';
                 $tabla .= '<td>' . $articulo['artId'] . '</td>';
                 $tabla .= '<td>' . $articulo['artNombre'] . '</td>';
-                $tabla .= '<td class="text-center"><a href="docs/'.$this->getUltimaVersionArticulo($articulo['artId']).'"><span class="glyphicon glyphicon-save"></span> Descargar</a></td>';
+                $tabla .= '<td class="text-center"><a href="./docs/'.$this->getUltimaVersionArticulo($articulo['artId']).'"><span class="glyphicon glyphicon-save"></span> Descargar</a></td>';
                 if ($articulo['revision_editor'] == 'si') {
                     $tabla .= '<td class="text-center"><input type="checkbox" class="revisado" value="'.$articulo['artId'].'" checked></td>';
                 } else {

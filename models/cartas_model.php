@@ -106,6 +106,48 @@ class cartas_Model extends Model {
 		}
 		return $data;
 	}
+
+	function get_cambio_cartas($idArticulo) {
+		$query = "SELECT ".
+				"art_cambio_cartas as validado ".
+				"FROM ".
+				"tblarticulos ".
+				"WHERE ".
+				"artId=$idArticulo";
+		$sth = $this->db->prepare($query);
+		$sth->setFetchMode(PDO::FETCH_ASSOC);
+		$sth->execute();
+		$count = $sth->rowCount();
+		$data = NULL;
+		if ($count > 0) {
+               $data = $sth->fetchAll();
+               $data = $data[0];
+		} else {
+			$data = FALSE;
+		}
+		return $data;
+	}
+	
+	function update_cambio_cartas($idArticulo, $estatus){
+		$query = "UPDATE ".
+				"tblarticulos ".
+				"SET ".
+				"art_cambio_cartas='".$estatus."' ".
+				"WHERE ".
+				"artId=$idArticulo";
+	
+		$data = NULL;
+		$sth   = $this->db->prepare($query);
+		try {
+			$sth->execute();
+			$data = TRUE;
+		} catch (PDOException $exc) {
+			error_log($query);
+			error_log($exc);
+			$data = FALSE;
+		}
+		return $data;
+	}
 	
 	function update_estatus_cartas($idArticulo, $estatus) {
 		$query = "UPDATE ".

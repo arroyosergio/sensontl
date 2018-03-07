@@ -30,14 +30,20 @@
 							  <div id="div-carta-originalidad" class="form-group col-sm-6" ></div>
 							  <div id="div-carta-derechos" class="form-group col-sm-6"></div>
 							  <div id="div-validacion-derechos">
-								 <label><b>Validar cartas de Originalidad y Ceci&oacute;n de derechos:</b></label>
 								 <label class="radio-inline">
 									 <input type="checkbox" name="validacion-cartas" id="chkvalidacion-cartas" />
-								 </label>
+								 </label>&nbsp;&nbsp;
+								<label><b>Validar cartas de Originalidad y Ceci&oacute;n de derechos.</b></label>				 
 							  </div>
+							  <div id="div-cambios-cartas">
+								 <label class="radio-inline">
+									 <input type="checkbox" name="act-cambios-cartas" id="chkact-cambios-cartas" />
+								 </label>&nbsp;&nbsp;
+							     <label><b>Activar cambios para control de cartas.</b></label>								 
+							  </div>							  
 							  <div id="div-enviar-correo">
 								 <div >
-								  <label><b>Correo de validacion para las cartas :</b></label>
+								  <label><b>Correo de validacion para las cartas/activaci&oacute;n de cambios </b></label>
 								  <textarea class="form-control" rows="4"  id="comentario_val_cartas" name="comentario_val_cartas" autofocus></textarea>
 								 </div>
 								 <br/>
@@ -61,7 +67,7 @@
 										<i class="glyphicon glyphicon-upload"></i>
 										<span>Iniciar carga</span>
 									</button>									
-									 <input id="id-articulo-file" name="id-articulo-file" type="text" class="hidden">
+									<input id="id-articulo-file" name="id-articulo-file" type="text" class="hidden">
 									<p class="help-block" >Solo se permiten archivos con extensi&oacute;n .pdf</p>
 								  </div>
 								  <div class="row">

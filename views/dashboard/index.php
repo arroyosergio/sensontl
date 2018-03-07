@@ -11,11 +11,11 @@
             <li><a href="index">Inicio</a></li>
             <li class="active">Dashboard</li>
         </ol> -->
-        <div class="row row-gen-doc">
-            <div class="col-sm-12 pull-right">
+        <div class="row row-gen-doc pull-right">
+            <div class="col-sm-12">
                 <button type="button" id="exportXLS" class="btn btn-info"><span class="glyphicon glyphicon-file"></span> Exportar excel</button>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-generar-gafete"><span class="glyphicon glyphicon-share-alt"></span> Generar Gafete</button>
-                <button type="button" id="btn_Generar_Constancia" class="btn btn-success"><span class="glyphicon glyphicon-share-alt"></span> Generar Constancia</button>
+                <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-generar-gafete"><span class="glyphicon glyphicon-share-alt"></span> Generar Gafete</button>
+                <button type="button" id="btn_Generar_Constancia" class="btn btn-success"><span class="glyphicon glyphicon-share-alt"></span> Generar Constancia</button> -->
             </div>
         </div>
         <br>

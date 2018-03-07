@@ -1,6 +1,5 @@
-.container-misarticulos{
-	width: 85%;
-	display: inline-block;
+.frame{
+	margin-top: 2em;
 }
 
 /*Extra small devices (portrait phones, less than 576px)*/ 
@@ -189,3 +188,5 @@
     }
 
 }
+
+

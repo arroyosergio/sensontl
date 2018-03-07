@@ -273,6 +273,10 @@ $('#form-registro-articulo').submit(function () {
     var url = $(this).attr('action');
     var data = $(this).serialize();
     $.post(url, data, function (response) {
+		if(response==='error-apertura'){
+			toastr.options.closeButton = true;
+			toastr.error("Revise las fechas de apertura y cierre de recepci&oacute;n de art&iacute;culos");
+		}
 		if (response === 'error-null') {
 			toastr.options.closeButton = true;
 			toastr.error("Ning&uacute;n campo puede ir vacio.");

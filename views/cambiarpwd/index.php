@@ -4,7 +4,19 @@
         <!-- <div class="absolute-wrapper"> </div> -->
         <!-- Menu -->
 
-    <?php include  MENULATERAL;?>
+      <?php 
+ 	  $role=Session::get('perfil');      
+      if($role=='administrador'){
+		include  MENUADMIN;  
+	  }
+      if($role=='autor'){
+    	include  MENULATERAL;
+	  }  
+      if($role=='editor'){
+    	include  MENUEDITOR;
+	  }   ?>
+    
+    
     <div class="container-fluid">
         <div class="side-body">
           <!-- Frame-container contiene los elementos para desplegar en el marco  -->
@@ -12,7 +24,7 @@
 				<div class="frame container-fluid">
                         <form id="form-cambiar-password" action="cambiarpwd/cambiarpasswd" method="post">
                             <div class="frame-title row">
-                                <div class="logo-frame col-lg-1 col-sm-1"><i  data-toggle="tooltip" title="Perfil del Autor " class="fa fa-address-card fa-2x animated bounceIn" aria-hidden="true"></i>
+                                <div class="logo-frame col-lg-1 col-sm-1"><i  data-toggle="tooltip" title="Perfil del Autor " class="fa fa-plug fa-2x animated bounceIn" aria-hidden="true"></i>
                                 </div>
                                 <div class="frame-title-text text-left logo-frame col-lg-11 col-sm-11"><p>Cambiar contraseña</p>
                                 </div>

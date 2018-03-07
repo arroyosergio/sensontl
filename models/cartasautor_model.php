@@ -59,7 +59,7 @@ class cartasautor_Model extends Model {
         $query = "UPDATE ".
                     "tblArticulos ".
                 "SET ".
-                    "artAvisoCambio='$estatus' ".
+                    "art_cambio_cartas='$estatus' ".
                 "WHERE ".
                     "artId=$idArticulo";
         $sth = $this->db->prepare($query);
@@ -80,7 +80,7 @@ class cartasautor_Model extends Model {
                     "artAreaTematica,".
 //                    "artArchivo,".
                     "artTipo,".
-                    "artAvisoCambio,".
+                    "art_cambio_cartas,".
                     "artDictaminado ".
                 "FROM ".
                     "tblArticulos ".

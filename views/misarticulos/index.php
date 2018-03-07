@@ -11,12 +11,15 @@
 					<li><a href="index">Inicio</a></li>
 					<li class="active">Mis art&iacute;culos</li>
 				</ol> -->
-				<a href="registroarticulo" id="btn-registro-articulo" class="btn btn-success pull-right"><i class="glyphicon glyphicon-plus-sign"></i> Registrar articulo</a>
-				<div class="row row-misarticulos">
-					<div class="col-sm-12 mis-articulos">
+				<div class="row pull-right">
+					<a href="registroarticulo" id="btn-registro-articulo" class="btn btn-success pull-right"><i class="glyphicon glyphicon-plus-sign"></i> Registrar articulo</a>
+				</div>
+				
+				<!-- <div class="row row-misarticulos"> -->
+					
 						<!-- <h5>Para poder validar su participaci&oacute;n favor de completar el formato de registro. <a href="registroasistencia">IR AL FORMATO</a></h5> -->
-						<br>
-						<div class="panel panel-default">
+						
+						<div class="panel panel-default panel-listatrabajos">
 							<div class="panel-heading">
 								<h3 class="panel-title">Art&iacute;culos registrados</h3>
 							</div>
@@ -28,7 +31,7 @@
 								<br><i class="glyphicon glyphicon-ok"> </i>&nbsp;Para poder editar alguno de lo art&iacute;culo, debe dar clic en el link de editar que se muestra a la derecha de la tabla superior. 								                    
 							</div>
 						</div>
-					</div>
+				
 					<div class="col-sm-12 datos-deposito">
 						<div class="panel panel-default">
 							<div class="panel-heading">
@@ -65,7 +68,7 @@
 							<div class="panel-footer"></div>
 						</div>
 					</div>					
-				</div>
+				
 
 				<div id="modal-ver-articulo" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 					<!-- <form action="misarticulos/updateArticulo" method="post" id="form-update-articulo"> -->

@@ -1,3 +1,85 @@
+#tbl-articulos tr {
+    cursor: pointer;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+#file-carta-derechos,#file-carta-origen{
+	padding-left: 0px;
+}
+
+input[type="file"]{
+    color: transparent;
+}
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  -ms-filter: 'alpha(opacity=0)';
+  font-size: 200px !important;
+  direction: ltr;
+  cursor: pointer;
+}
+
+/* Fixes for IE < 8 */
+@media screen\9 {
+  .fileinput-button input {
+    filter: alpha(opacity=0);
+    font-size: 100%;
+    height: 100%;
+  }
+}
+
+.centrado {
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.row-misarticulos{
+	display: inline-block;
+	width: 85%;
+}
+.container-misarticulos{
+	width: auto;
+	
+}
+
+.progress-bar-container{
+	padding-bottom: 1em;
+}
+
+.doc-cargados{
+	background-color: #337ab7;
+	color: white;
+	text-align: center;
+	height: 1.3em;
+}
+
 /*Extra small devices (portrait phones, less than 576px)*/ 
 @media (max-width: 575px) { 
 	.titulo_congreso{
@@ -112,6 +194,10 @@
 	    width: 200px;
     }
 	
+	/*  MIS ARTICULOS    */
+	.container-misarticulos	{
+		margin-top: 2em;
+	}
 }
 
 /* Large devices (desktops, 992px and up)*/
@@ -145,6 +231,10 @@
 	    height: 150px;
 	    width: 200px;
     }
+	/*  MIS ARTICULOS    */
+	.container-misarticulos	{
+		margin-top: 2em;
+	}	
 
 }
 
@@ -182,5 +272,23 @@
 	    height: auto;
 	    width: 200px;
     }
-
+	/*  MIS ARTICULOS    */
+	.container-misarticulos	{
+		margin-top: 1em;
+			
+	}
+	
+	.mis-articulos{
+		padding: 0px;
+		margin-left: 1em;
+	}
+	.row-misarticulos{
+		display: inline-block;
+		
+	}
+	.datos-deposito{
+		padding: 0px;
+	}
 }
+
+

@@ -11,6 +11,7 @@ class Registroarticulo extends Controller {
             header("location: index");
             exit;
         }
+		
         $this->view->css = array(
 			'public/bootstrap/css/bootstrap.min.css',
             'public/fontawesome/css/font-awesome.min.css',
@@ -102,51 +103,60 @@ class Registroarticulo extends Controller {
 	}
 	
     function registroArticulo() {
-        $nombreArticulo = strtoupper($_POST['nombre']);
-        $area = $_POST['area-tematica'];
-        $tipo = $_POST['tipo-articulo'];
-		$operacion=$_POST['tipo_operacion'];
-		//SE VALIDA LA INSTANCIA DE id-articulo-registro PARA CONOCER SI SE ESTA ACTUALIZADON O INSERTANDO
-		$idArticulo= isset($_POST['id-articulo-registro'])?$_POST['id-articulo-registro']:"";
+		$fecha_actual = new DateTime('now', new DateTimeZone('America/Mexico_City'));
+        $fecha_actual->format('Y-m-d');
+        $fecha_apertura = new DateTime(FECHAAPERTURA);
+		$fecha_cierre = new DateTime(FECHACIERRE);
+		if($fecha_actual >= $fecha_apertura && $fecha_actual<= $fecha_cierre){
+			$nombreArticulo = strtoupper($_POST['nombre']);
+			$area = $_POST['area-tematica'];
+			$tipo = $_POST['tipo-articulo'];
+			$operacion=$_POST['tipo_operacion'];
+			//SE VALIDA LA INSTANCIA DE id-articulo-registro PARA CONOCER SI SE ESTA ACTUALIZADON O INSERTANDO
+			$idArticulo= isset($_POST['id-articulo-registro'])?$_POST['id-articulo-registro']:"";
 
-		$articulo = array(
-			'nombre' => $nombreArticulo,
-			'area' => $area,
-			'idArticulo' => $idArticulo,
-			'idAutor' => Session::get('idAutor'),
-			'tipo' => $tipo
-		);
-		
-		if(!empty($idArticulo)){
+			$articulo = array(
+				'nombre' => $nombreArticulo,
+				'area' => $area,
+				'idArticulo' => $idArticulo,
+				'idAutor' => Session::get('idAutor'),
+				'tipo' => $tipo
+			);
+
+			if(!empty($idArticulo)){
+					$existeArticulo = $this->model->existe_articulo($articulo);
+					if ($existeArticulo) {
+						echo 'error-articulo-repetido';
+					} else {
+						$responseDB=$this->model->update_articulo($articulo);
+						echo 'actualizado';
+					}			
+			}
+			elseif($operacion=="insertar" && empty($idArticulo)){
 				$existeArticulo = $this->model->existe_articulo($articulo);
 				if ($existeArticulo) {
 					echo 'error-articulo-repetido';
 				} else {
-					$responseDB=$this->model->update_articulo($articulo);
-					echo 'actualizado';
-				}			
-		}
-		elseif($operacion=="insertar" && empty($idArticulo)){
-			$existeArticulo = $this->model->existe_articulo($articulo);
-			if ($existeArticulo) {
-				echo 'error-articulo-repetido';
-			} else {
-				$responseDB = $this->model->registro_articulo($articulo);
-				if (!$responseDB) {
-					echo 'error-registro';
-				} else {
-					$idArticulo = $responseDB;
-						$this->model->registro_tabla_documentos($idArticulo);
-						$idAutor = $this->model->get_id_autor(Session::get('id'));
-						$responseDB = $this->model->registro_autor_articulo($idArticulo, $idAutor);
-						//falta verificar el insert
-						echo $idArticulo;
+					$responseDB = $this->model->registro_articulo($articulo);
+					if (!$responseDB) {
+						echo 'error-registro';
+					} else {
+						$idArticulo = $responseDB;
+							$this->model->registro_tabla_documentos($idArticulo);
+							$idAutor = $this->model->get_id_autor(Session::get('id'));
+							$responseDB = $this->model->registro_autor_articulo($idArticulo, $idAutor);
+							//falta verificar el insert
+							echo $idArticulo;
+					}
 				}
+			}elseif($operacion=="actualizar" && empty($idArticulo)){
+				echo 'error-actualizacion';
 			}
-		}elseif($operacion=="actualizar" && empty($idArticulo)){
-			echo 'error-actualizacion';
+			$this->model->update_estatus_cambios($idArticulo, 'no');			
+		}else{
+			echo "error-apertura";
 		}
-		$this->model->update_estatus_cambios($idArticulo, 'no');
+
 	}
 
     function registroAutor() {

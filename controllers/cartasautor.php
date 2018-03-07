@@ -113,7 +113,7 @@ class cartasautor extends Controller {
           $response = array(
               'area' => $responseDB['artAreaTematica'],
               'tipo' => $responseDB['artTipo'],
-              'cambio' => $responseDB['artAvisoCambio'],
+              'cambio' => $responseDB['art_cambio_cartas'],
               'dictaminado' => $responseDB['artDictaminado']
           );
           echo json_encode($response);

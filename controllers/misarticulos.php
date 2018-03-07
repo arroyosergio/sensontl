@@ -72,6 +72,13 @@ class Misarticulos extends Controller {
                $tabla = '<h2 class="text-center">No tienes nig&uacute;n art&iacute;culo registrado</h2>';
           } else {
                $tabla .= '<table class="table table-striped table-hover" id="tbl-articulos">' .
+				       '<col width="3%">'.
+  					   '<col width="55%">'.
+				   	   '<col width="18%">'.
+				       '<col width="6%">'.
+				       '<col width="6%">'.
+				       '<col width="6%">'.
+				       '<col width="6%">'.
                        '<thead>' .
                        '<tr>' .
                        '<th class="">Id</th>' .
@@ -81,7 +88,6 @@ class Misarticulos extends Controller {
                        '<th class="text-center">Dictaminado</th>' .
                        '<th class="text-center">Aviso de cambio</th>' .
                        '<th class="text-center">Edici&oacute;n</th>' .
-                       /*'<th class="text-center">Gafete</th>' .*/
                        '</tr>' .
                        '</thead>';
                $tabla .= '<tbody>';

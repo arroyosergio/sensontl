@@ -50,6 +50,37 @@ $(document).ready(function () {
         });
      });
      
+	
+     $('#chkact-cambios-cartas').click(function (event) {
+    	 blnModif=true;
+    	 var id = $('#id-articulo-file').val();
+    	 var status='no';
+    	 if($("#chkact-cambios-cartas").is(':checked'))
+    		  status='si'; 
+         $.ajax({
+             url: 'cartas/updateCambioCartas',
+             type: 'POST',
+             //datos del formulario
+             data: {"idArticulo":id,
+            	    "status":status
+                   },
+             //una vez finalizado correctamente
+             success: function (response) {
+                  if (response) {
+                       toastr.options.closeButton = true;
+                       toastr.success("Proceso realizado...");
+                  } else  {
+                       toastr.options.closeButton = true;
+                       toastr.error("Proceso no realizado...");
+                  }
+             },
+             //si ha ocurrido un error
+             error: function (response) {
+             }
+        });
+     });
+	
+	
      $('#btn_enviar').click(function (event) {
     	 var id = $('#id_Articulo_carta_aceptacion').html();
     	 var comentario = $('#comentario_val_cartas').val();
@@ -78,6 +109,7 @@ $(document).ready(function () {
              }
         });
      });
+	
 	$(this).scrollTop(0);
 });
 
@@ -107,6 +139,13 @@ $('.detalles').click(function(){
         	 $("#chkvalidacion-cartas").attr('checked', false);
          }
     });
+    $.post('cartas/getCambioCartas',{id:$(this).attr('carta')}, function(response){
+         if (response == 'si') {
+        	 $("#chkact-cambios-cartas").attr('checked', true);
+         }else{
+        	 $("#chkact-cambios-cartas").attr('checked', false);
+         }
+    });	
 	$("#file-list").empty();
     
 }); 

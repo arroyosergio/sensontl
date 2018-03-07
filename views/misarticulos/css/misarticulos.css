@@ -27,6 +27,22 @@
     transform: translate(-50%, -50%);
 }
 
+.row-misarticulos{
+	width: 85%;
+}
+
+/*  MIS ARTICULOS    */
+.container-misarticulos	{
+	width: 85%;
+	display: inline-block;
+}
+
+.panel-listatrabajos{
+	width: 100%;
+	display: inline-block;
+	margin-top: 1em;
+}
+
 /*Extra small devices (portrait phones, less than 576px)*/ 
 @media (max-width: 575px) { 
 	.titulo_congreso{
@@ -67,6 +83,11 @@
 	    height: 30px;
 	    width: 40px;
     }
+	/*  MIS ARTICULOS    */
+	.container-misarticulos	{
+		width: 100%;
+		display: inline-block;
+	}	
 }
 
 /* Small devices (landscape phones, 576px and up)*/
@@ -106,7 +127,11 @@
 	    height: 120px;
 	    width: 150px;
     }
-
+	/*  MIS ARTICULOS    */
+	.container-misarticulos	{
+		width: 100%;
+		display: inline-block;
+	}
 
 }
 
@@ -215,6 +240,7 @@
 	  padding: 10px;
 	  width: 300px;
 	}
+	
     img.img_responsive {
 	    height: auto;
 	    width: 200px;
@@ -229,6 +255,7 @@
 	}
 	.row-misarticulos{
 		display: inline-block;
+		padding-left: 0.5em;
 	}
 	.datos-deposito{
 		padding: 0px;

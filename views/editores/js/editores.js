@@ -50,5 +50,5 @@ function mostrarAlerta(tipo, mensaje) {
 function activarOpcionMenu() {
      var id = $('#navbar li.active').attr('id');
      $('#' + id).removeClass('active');
-     $('#li-editores').addClass('active');
+     $('#btnArticulos_editor').addClass('active');
 } 
