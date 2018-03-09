@@ -1,7 +1,7 @@
         <foother class="foother">
         	<div class="container foother-container">
         		<div class="row">
-                    <div class="col-lg-3 col-sm-3   wow fadeInUp animated " data-wow-duration="2.5s" data-wow-delay="4s" data-wow-animation-name="fadeInUp" style="visibility: visible; animation-duration: 2.5s; animation-delay: .1s; animation-name: fadeInUp;">
+                    <div class="col-lg-4 col-sm-4   wow fadeInUp animated " data-wow-duration="2.5s" data-wow-delay="4s" data-wow-animation-name="fadeInUp" style="visibility: visible; animation-duration: 2.5s; animation-delay: .1s; animation-name: fadeInUp;">
                         <div class="contact-info">
                             <h4 class="foother_title">Información de contacto</h4>
                             <address>
@@ -23,7 +23,7 @@
                             <p><a href="noticias">Noticias</a></p>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-sm-6 wow fadeInUp animated" data-wow-duration="2.5s" data-wow-delay="4s" data-wow-animation-name="fadeInUp" style="visibility: visible; animation-duration: 2.5s; animation-delay: .9s; animation-name: fadeInUp;">
+                    <div class="col-lg-5 col-sm-5 wow fadeInUp animated" data-wow-duration="2.5s" data-wow-delay="4s" data-wow-animation-name="fadeInUp" style="visibility: visible; animation-duration: 2.5s; animation-delay: .9s; animation-name: fadeInUp;">
                           <!--<h4>Gobierno del Estado de Guanajuato</h4>-->
                           <table>
                                 <tr>
@@ -55,9 +55,7 @@
                                         <div class="gto">
                                             <img hspace="100" src="<?php echo URL.'public/images/gto.png'; ?>" alt="" title=""height="150" width="150" class="img-fluid img-responsive" />
                                         </div>
-                                        
                                     </td>
-                                    
                                 </tr>
                             </table>
                     </div>

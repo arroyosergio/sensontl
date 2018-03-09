@@ -7,14 +7,24 @@ class Depositos extends Controller {
         Session::init();
         $logged = Session::get('sesion');
         $this->view->css = array(
-            'public/plugins/toastr/toastr.min.css',
-            'views/dashboard/css/custom.css',
-            'public/plugins/datatable/jquery.datatables.min.css'
+            'public/bootstrap/css/bootstrap.min.css',
+            'public/fontawesome/css/font-awesome.min.css',
+            'public/css/animate.min.css',
+            'public/css/fluidbox.min.css',
+            
+            //'public/plugins/toastr/toastr.min.css',
+            //'views/dashboard/css/custom.css',
+            'public/plugins/datatable/jquery.datatables.min.css',
+            'views/depositos/css/depositos.css',
+            'views/depositos/css/menu.css'
         );
         $this->view->js = array(
+            'public/js/jquery-2.1.4.min.js',
+			'public/bootstrap/js/bootstrap.min.js',
+            
             'public/plugins/datatable/jquery.datatables.min.js',
-            "public/plugins/toastr/toastr.min.js",
             "views/depositos/js/depositos.js",
+            //"public/plugins/toastr/toastr.min.js",
         );
 
         $role = Session::get('perfil');
@@ -37,7 +47,7 @@ class Depositos extends Controller {
         if (!$responseDB) {
             $response .= '<h1 class="text-center">No hay dep&oacute;sitos registrados.</h1>';
         } else {
-            $response = '<table id="tbl-depositos" class="table table-hover dataTable">';
+            $response = '<table id="listaDepositos" class="table table-hover dataTable">';
             $response .= '<thead>';
             $response .= '<tr>';
             $response .= '<th>Id</th>';

@@ -7,20 +7,19 @@
 				</picture>
             </a> -->
             
-            <!-- Slideshow 4 -->
             <div class="row">
               <ul class="rslides" id="imagenesInsitucionales">
                 <li>
-                  <img src="http://placehold.it/800x300" class="img-fluid img-responsive "/>
+                  <img src="<?php echo URL.'public/images/institucional1.jpg'; ?>" class="img-fluid img-responsive "/>
                 
                   <p class="caption"><font size="2em"> Imagen institucional 1</font></p>
                 </li>
                 <li>
-                  <img src="http://placehold.it/800x300" class="img-fluid img-responsive"/>
+                  <img src="<?php echo URL.'public/images/institucional2.jpg'; ?>" class="img-fluid img-responsive"/>
                   <p class="caption"><font size="2em"> Imagen institucional 2</font></p>
                 </li>
                 <li>
-                  <img src="http://placehold.it/800x300" class="img-fluid img-responsive"/>
+                  <img src="<?php echo URL.'public/images/institucional3.jpg'; ?>" class="img-fluid img-responsive"/>
                   <p class="caption"><font size="2em"> Imagen institucional 3</font></p>
                 </li>
               </ul>
@@ -114,6 +113,8 @@
                     <a href="<?php echo URL.'public/images/paises/large/venezuela.jpg'; ?>" title="" data-fluidbox class="col-3" >
                         <img src="<?php echo URL.'public/images/paises/venezuela.jpeg'; ?>" alt="" title=""height="150" width="300" class="img-fluid img-responsive" />
                     </a>
+                    
 				</div>
             </div>
         </div>
+        <br/>
