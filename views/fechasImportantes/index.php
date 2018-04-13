@@ -9,11 +9,11 @@
 					<div class="frame container-fluid">
 						<div class="frame-title row">
 							<div class="logo-frame col-lg-1 col-sm-1"><i class="fa fa-calendar-check-o fa-2x" aria-hidden="true"></i></div>
-							<div class="frame-title-text text-left logo-frame col-lg-11 col-sm-11"><p>14/Ago/18  Última fecha de recepción de trabajos.</p></div>
+							<div class="frame-title-text text-left logo-frame col-lg-11 col-sm-11"><p>26/May/2018  Periodo de recepción de trabajos.</p></div>
 						</div>
 						<div class="frame-message row">
 						    <div class="col-lg-12 col-sm-12">
-							<p>Invitamos a todos los interesados a enviar sus trabajos en el periodo del 27 de marzo al 14 de agosto del 2018.</p>
+							<p>Invitamos a todos los interesados a enviar sus trabajos en el periodo 20 de febrero al 26 de mayo de 2018.</p>
 						    </div>
 						</div>
 					</div>
@@ -23,7 +23,7 @@
             
             
             <!-- Inicio de una fecha importante -->
-			<div class="frame-container">
+			<!--<div class="frame-container">
 					<div class="frame container-fluid">
 						<div class="frame-title row">
 							<div class="logo-frame col-lg-1 col-sm-1"><i class="fa fa-calendar-check-o fa-2x" aria-hidden="true"></i></div>
@@ -36,7 +36,7 @@
 						</div>
 					</div>
             </div>
-            <br>
+            <br>-->
             <!-- Final de una fecha importante -->
             
             <br>
