@@ -7,13 +7,22 @@ class Depositospublico extends Controller {
         Session::init();
         $logged = Session::get('sesion');
         $this->view->css = array(
-            'public/plugins/toastr/toastr.min.css',
-            'views/dashboard/css/custom.css',
-            'public/plugins/datatable/jquery.datatables.min.css'
+            'public/bootstrap/css/bootstrap.min.css',
+            'public/fontawesome/css/font-awesome.min.css',
+            'public/css/animate.min.css',
+            'public/css/fluidbox.min.css',
+            
+            //'public/plugins/toastr/toastr.min.css',
+            //'views/dashboard/css/custom.css',
+            'public/plugins/datatable/jquery.datatables.min.css',
+            'views/depositospublico/css/depositospub.css',
+            'views/depositospublico/css/menu.css'
         );
         $this->view->js = array(
+            'public/js/jquery-2.1.4.min.js',
+			'public/bootstrap/js/bootstrap.min.js',
+            
             'public/plugins/datatable/jquery.datatables.min.js',
-            "public/plugins/toastr/toastr.min.js",
             "views/depositospublico/js/depositospub.js",
         );
 
@@ -138,24 +147,28 @@ class Depositospublico extends Controller {
         $comentarios = $_POST['comentarios'];
         if (!empty($regid) && !empty($comentarios)) {
             $correoContacto = $this->model->get_correo_contacto($regid);
+            
+            $asunto= html_entity_decode('Formato de asistencia CICA 2016 recibido.');
+            $mensaje = $comentarios;
+            
             try {
-                $mail = new PHPMailer;
-                $mail->SetFrom("contacto@cica2016.org", "CICA2016");
-                $mail->FromName = "CICA2016";
-                $mail->addAddress($correoContacto);
-                $mail->addCC('contacto@cica2016.org');
-                $mail->isHTML(true);
-                $mail->Subject = html_entity_decode('Formato de asistencia CICA 2016 recibido.');
-                $mail->Body = $comentarios;
-//                $mail->AltBody = $mensajeSinF;
-                $mail->CharSet = 'UTF-8';
-                $exito = $mail->Send();
-                if ($exito)
-                    $enviado = "true";
-                else
-                    $enviado = "false";
+                //Apartado para enviar correo
+                $this->mail->SetFrom("administracion@higo-software.com", "CICA2018");
+                $this->mail->FronName="Cica2018";
+                $this->mail->addAddress($correoContacto);
+                $this->mail->addCC('contacto@cica2017.org');
+                $this->mail->isHTML(TRUE);
+                $this->mail->Subject = utf8_decode($asunto);
+                $this->mail->Body = $mensaje;
+                $this->mail->AltBody ='Problemas de compatibilidad con el navegador'; 
+                $this->mail->CharSet="UTF-8";	
+                $enviado="Correo-ok";
+                if (!$this->mail->send()) {
+                    error_log("Error al enviar el correo a $correo:" . $this->mail->ErrorInfo);
+                    $enviado="Correo-bad";
+                }
             } catch (Exception $e) {
-                $enviado = $e->getMessage();
+                $enviado="Correo-bad";;
             }
             echo $enviado;
         } else {

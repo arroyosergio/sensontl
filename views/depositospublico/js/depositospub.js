@@ -43,7 +43,7 @@ $('#form-envio-correo').submit(function(){
     var url = $(this).attr('action');
     var data = $(this).serialize();
     $.post(url,data,function(response){
-        if (response === 'true') {
+        if (response === 'Correo-ok') {
             mostrarAlerta('success','Se enviaron los comentarios.');
              $('#modal-envio-correo').modal('hide');
              $('#form-envio-correo textarea').val('');

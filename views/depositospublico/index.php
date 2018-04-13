@@ -1,30 +1,27 @@
-<div class="container">
-	<ol class="breadcrumb">
-		<li><a href="index">Inicio</a></li>
-		<li class="active">Dep&oacute;sitos</li>
-	</ol>
-	<div class="row">
-		<div class="col-sm-12">
-                <button id="exportXLS" class="btn btn-info pull-right"><span class="glyphicon glyphicon-file"></span> Exportar excel</button>
-    	</div>
-    </div>
-	<br/>
-	<div class="row">
-		<div class="col-sm-12">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Dep&oacute;sitos de publico en general</h3>
-				</div>
-				<div class="panel-body">
-					<div class="table-responsive">
-						<?php echo $this->tblDepositospublico; ?>
-					</div>
-				</div>
-				<div class="panel-footer"></div>
-			</div>
-		</div>
-	</div>
-	<div id="modal-detalles-deposito" class="modal fade" tabindex="-1" role="dialog">
+ <div class="info-container">
+    <div class="row">
+        <?php include  MENUADMIN;?>
+        
+        <div class="container container-misarticulos">
+            <div class="row row-misarticulos">
+                <div class="col-sm-12 mis-articulos">
+                   <div class="row pull-right">
+                        <button id="exportXLS" class="btn btn-info pull-right"><span class="glyphicon glyphicon-file"></span> Exportar excel</button>
+    	           </div>
+                    <br/>
+                    <br/>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Dep&oacute;sitos de publico en general</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <?php echo $this->tblDepositospublico; ?>
+                            </div>
+                        </div>
+                        <div class="panel-footer"></div>
+                    </div>
+	               <div id="modal-detalles-deposito" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -169,31 +166,35 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <div id="modal-envio-correo" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            	<form id="form-envio-correo" action="depositospublico/enviarCorreo" method="post">
-	                <div class="modal-header">
-	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	                    <h4 class="modal-title">Envio de comentarios</h4>
-	                </div>
-	                <div class="modal-body">
-	        			<input id="id-deposito-correo" name="id-deposito" type="text" class="hidden">
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="form-group">
-									<label for=""><b>Agregar los comentarios que se le haran llegar al asistente:</b></label>
-									<textarea name="comentarios" id="comentarios" class="form-control"></textarea>
-								</div>
-							</div>
-						</div>
-					</div>
-	                <div class="modal-footer">
-	                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Cancelar</button>
-	                    <button class="btn btn-success"><i class="glyphicon glyphicon-ok"></i> Aceptar</button>
-	                </div>
-                </form>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+                   <div id="modal-envio-correo" class="modal fade" tabindex="-1" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form id="form-envio-correo" action="depositospublico/enviarCorreo" method="post">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">Envio de comentarios</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input id="id-deposito-correo" name="id-deposito" type="text" class="hidden">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label for=""><b>Agregar los comentarios que se le haran llegar al asistente:</b></label>
+                                                    <textarea name="comentarios" id="comentarios" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Cancelar</button>
+                                        <button class="btn btn-success"><i class="glyphicon glyphicon-ok"></i> Aceptar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
 </div>

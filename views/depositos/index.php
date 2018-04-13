@@ -1,6 +1,7 @@
  <div class="info-container">
     <div class="row">
         <?php include  MENUADMIN;?>
+        
         <div class="container container-misarticulos">
             <div class="row row-misarticulos">
                 <div class="col-sm-12 mis-articulos">
