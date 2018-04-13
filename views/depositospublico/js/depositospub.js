@@ -133,7 +133,7 @@ function getDatosFacturacion(reg_id) {
 function activarOpcionMenu() {
     var id = $('#navbar li.active').attr('id');
     $('#' + id).removeClass('active');
-    $('#li-depositospublico').addClass('active');
+    $('#btn-pagos-asistentes').addClass('active');
 }
 
 //EXPORTACION A EXCEL
