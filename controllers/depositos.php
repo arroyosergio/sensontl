@@ -24,7 +24,6 @@ class Depositos extends Controller {
             
             'public/plugins/datatable/jquery.datatables.min.js',
             "views/depositos/js/depositos.js",
-            //"public/plugins/toastr/toastr.min.js",
         );
 
         $role = Session::get('perfil');
@@ -97,6 +96,8 @@ class Depositos extends Controller {
 //                    Error no hay registro del deposito
                 $response = 'false';
             } else {
+                $comprobante = $this->model->existe_doc_pago($idArticulo);
+                
                 $deposito = array(
                     "id" => $responseDB['dep_id'],
                     "banco" => $responseDB['dep_banco'],
@@ -107,7 +108,7 @@ class Depositos extends Controller {
                     "info" => $responseDB['dep_info'],
                     "monto" => $responseDB['dep_monto'],
                     "fecha" => $responseDB['dep_fecha'],
-                    "comprobante" => 'docs/' . $responseDB['dep_comprobante']
+                    "comprobante" => 'docs/' . $comprobante['doc_pago']
                 );
                 $response = $deposito;
             }
@@ -166,26 +167,36 @@ class Depositos extends Controller {
     function enviarCorreo() {
         $idArticulo = $_POST['id-deposito'];
         $comentarios = $_POST['comentarios'];
+        
         if (!empty($idArticulo) && !empty($comentarios)) {
             $correoContacto = $this->model->get_correo_contacto($idArticulo);
+            
+            
+            
+            $asunto="Solicitud de cambios del artículo";
+    		$mensaje="<h1>Estimado autor:</h1><h2>".$comentarios."</h2>".
+    					"<h3>atte.<br /> Comit&eacute; Organizador CICA 2018.<br />UTSOE</h3>";  
+    		$mensaje="Estimado autor:".$comentarios."<br/>".
+    					"atte. Comit&eacute; Organizador CICA 2018. UTSOE";
+            
             try {
-                $mail = new PHPMailer;
-                $mail->SetFrom("contacto@cica2017.org", "CICA2017");
-                $mail->FromName = "CICA2017";
-                $mail->addAddress($correoContacto);
-                $mail->addCC('contacto@cica2017.org');
-                $mail->isHTML(true);
-                $mail->Subject = html_entity_decode('Activación de cambios en el formato de registro de asistencia');
-                $mail->Body = $comentarios;
-//                $mail->AltBody = $mensajeSinF;
-                $mail->CharSet = 'UTF-8';
-                $exito = $mail->Send();
-                if ($exito)
-                    $enviado = "true";
-                else
-                    $enviado = "false";
+                //Apartado para enviar correo
+                $this->mail->SetFrom("administracion@higo-software.com", "CICA2018");
+                $this->mail->FronName="Cica2018";
+                $this->mail->addAddress($correoContacto);
+                $this->mail->addCC('contacto@cica2017.org');
+                $this->mail->isHTML(TRUE);
+                $this->mail->Subject = utf8_decode($asunto);
+                $this->mail->Body = $mensaje;
+                $this->mail->AltBody ='Problemas de compatibilidad con el navegador'; 
+                $this->mail->CharSet="UTF-8";	
+                $enviado="Correo-ok";
+                if (!$this->mail->send()) {
+                    error_log("Error al enviar el correo a $correo:" . $this->mail->ErrorInfo);
+                    $enviado="Correo-bad";
+                }
             } catch (Exception $e) {
-                $enviado = $e->getMessage();
+                $enviado="Correo-bad";;
             }
             echo $enviado;
         } else {

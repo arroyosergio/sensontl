@@ -5,6 +5,29 @@ class Depositos_Model extends Model {
      function __construct() {
           parent::__construct();
      }
+    
+    public function existe_doc_pago($idArticulo) {
+        $query = "SELECT ". 
+                    "doc_pago ".
+                "FROM ".
+                    "tblDocumentos ".
+                "WHERE ".
+                    "art_id=$idArticulo";
+          $data = NULL;
+          $sth = $this->db->prepare($query);
+          $sth->setFetchMode(PDO::FETCH_ASSOC);
+          try {
+               $sth->execute();
+               $data = $sth->fetchAll();
+               $data = $data[0];
+          } catch (PDOException $exc) {
+               error_log($query);
+               error_log($exc);
+               $data = FALSE;
+          }
+          return $data;
+     }
+
      
      public function get_depositos() {
         $query = 'SELECT '
@@ -46,8 +69,7 @@ class Depositos_Model extends Model {
                          "dep_info,".
                          "dep_monto,".
                          "dep_fecha,".
-                         "dep_hora,".
-                         "dep_comprobante ".
+                         "dep_hora ".
                     "FROM ".
                          "tbl_depositos ".
                     "WHERE ".
