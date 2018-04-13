@@ -29,9 +29,9 @@
              <div>
                 <h2 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown;">Congreso Interdisciplinario de Cuerpos Académicos </h2>
                 
-                 <p>El CICA en está su sexta edición, tiene el placer de invitarle a ser parte de este gran evento que impulsa la colaboración entre académicos y cientifícos, fortaleciendo la formación de cuerpos académicos y grupos de investigación de Instituciones de Educación Superior de índole nacional e internacional.</p>
+                 <p>El Comité organizador del CICA se complace en invitarle en su sexta edición a ser parte de este gran evento a impulsar la colaboración entre académicos y cientificos, fortaleciendo la formación de cuerpos académicos y grupos de investigación de Instituciones de Educación Superior de índole nacional e internacional.</p>
                 
-                <h3 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown; font-size:1.5em"> <p class="text-left">Objetivo del CICA</p></h3>
+                <h3 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown; font-size:1.5em"> <p class="text-left">Objetivo</p></h3>
                 
                 <p>Crear un foro para académicos e investigadores de diferentes países para presentar y discutir resultados y propuetas en relación a las áreas temáticas del congreso, promoviendo y fortaleciendo la divulgación de la investigación y desarrollo tecnológico de los grupos colegiados y de investigación académica y/o cuerpos académicos de las instituciones de educación superior, desde una perspectiva global.</p>
                 
@@ -39,28 +39,42 @@
                 
                 <p>Miembros de cuerpos académicos, grupos de investigación, integrantes de redes y representantes institucionales del Programa para el Desarrollo Profesional Docente de Instituciones de Educación Superior, instituciones de investigación y desarrollo tecnológico, así como organismos y público con inclinación hacía alguna de las diferentes áreas temáticas del congreso.</p>
                 
+                 <h3 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown; font-size:1.5em"><p class="text-left">Las áreas temáticas del congreso</p></h3>
+                <ul>
+                <li>
+                    <img src="<?php echo URL.'public/images/Group 9.png'; ?>" />Ciencias Agropecuarias
+                </li>
+                <li>
+                    <img src="<?php echo URL.'public/images/Group 8.png'; ?>" />Ciencias Naturales y Exactas.
+                </li>
+                <li>
+                    <img src="<?php echo URL.'public/images/Group 7.png'; ?>" />Ciencias de Ingeniería y Tecnología.
+                </li>  
+                <li>
+                    <img src="<?php echo URL.'public/images/Group 6.png'; ?>" />Educación
+                </li>
+                <li>   
+                    <img src="<?php echo URL.'public/images/Group 5.png'; ?>"/>Ciencias Sociales y Administrativas.
+                </li>
+                <li>
+                    <img src="<?php echo URL.'public/images/Group 4.png'; ?>" />Experiencias en la Formación y Operación de Cuerpos Académicos y Redes.
+                </li>
+                </ul>
+                 
+                 
                 <h3 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown; font-size:1.5em"><p class="text-left">Productos de calidad</p></h3>
                 
                 <ul>
                     <li>Publicación de trabajos aceptados en Journals internacionales cientifícos indizados con registro ISSN, y ante el Registro Nacional de Instituciones y Empresas Científicas y Tecnológicas. RENIECYT - CONACYT.</li>
                     <li>Certificación de derechos de autor reconocidos por la SEP (opcional).
                         <br>
-                        <strong>Perfil:</strong> Sección patentes "Derechos de autor".
+                        <strong>Perfil SNI:</strong> Sección patentes "Derechos de autor".
                         <br>
-                        <strong>Perfil:</strong> Sección "Producción académica".
+                        <strong>Perfil PRODEP:</strong> Sección "Producción académica".
                     </li>
                 </ul>
                 
-                <h3 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown; font-size:1.5em"><p class="text-left">Las áreas temáticas del congreso</p></h3>
                 
-                <ul>
-                    <li>Ciencias agropecuarias.</li>
-                    <li>Ciencias naturales y exactas.</li>
-                    <li>Ciencias de ingeniería y tecnología.</li>
-                    <li>Educación</li>
-                    <li>Ciencias sociales y administrativas.</li>
-                    <li>Experiencias en la formación y operación de cuerpos académicos y redes.</li>
-                </ul>
                 
             
                 <h3 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown; font-size:1.5em"> <p class="text-left">Se invita a los académicos e investigadores de los siguientes paises</p></h3>

@@ -29,22 +29,21 @@
                                 <tr>
                                     <td>
                                         <div class="sep">
-                                            <img src="<?php echo URL.'public/images/sep.png'; ?>" alt="" title=""height="200" width="150" class="img-fluid img-responsive" />
+                                            <img src="<?php echo URL.'public/images/logo 1.png'; ?>" alt="" title=""height="400" width="250" class="img-fluid img-responsive" />
                                         </div>        
                                     </td>
-                                    <td>
-                                        
+                                    <td>  
                                     </td>
                                     <td>
                                         <div class="anut">
-                                            <img hspace="100" src="<?php echo URL.'public/images/anut.png'; ?>" alt="" title="" height="200" width="200" class="img-fluid img-responsive" />
+                                            <img hspace="100" src="<?php echo URL.'public/images/logo 3.png'; ?>" alt="" title="" height="300" width="250" class="img-fluid img-responsive" />
                                         </div>        
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="ingenio">
-                                            <img align="right" src="<?php echo URL.'public/images/ingenio.png'; ?>" alt="" title=""height="100" width="150" class="img-fluid img-responsive" />
+                                            <img align="right" src="<?php echo URL.'public/images/logo 2.png'; ?>" alt="" title=""height="300" width="250" class="img-fluid img-responsive" />
                                         </div>
                                         
                                     </td>
@@ -53,7 +52,7 @@
                                     </td>
                                     <td>
                                         <div class="gto">
-                                            <img hspace="100" src="<?php echo URL.'public/images/gto.png'; ?>" alt="" title=""height="150" width="150" class="img-fluid img-responsive" />
+                                            <img hspace="100" src="<?php echo URL.'public/images/logo 4.png'; ?>" alt="" title=""height="200" width="250" class="img-fluid img-responsive" />
                                         </div>
                                     </td>
                                 </tr>

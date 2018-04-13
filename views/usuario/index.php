@@ -28,7 +28,6 @@
                                                 <div class="form-group">
                                                      <label for=""><b>Perfil:</b></label>
                                                     <select name="role" class="form-control">
-                                                    <option value="autor"> Autor</option>
                                                     <option value="administrador"> Administrador</option>
                                                     <option value="editor"> Editor</option>
                                                     <option value="contabilidad"> Contabilidad</option>
@@ -70,7 +69,6 @@
                                                 <div class="form-group">
                                                      <label for=""><b>Perfil:</b></label>
                                                     <select name="role" id="erole" class="form-control">
-                                                    <option value="autor"> Autor</option>
                                                     <option value="administrador"> Administrador</option>
                                                     <option value="editor"> Editor</option>
                                                     <option value="contabilidad"> Contabilidad</option>

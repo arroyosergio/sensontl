@@ -48,8 +48,8 @@
       <header id="head-section" class="navbar navbar-default site-header" role="banner">
           <nav class="navbar navbar-default navbar-static-top container-fluid ">
              <div class="navbar-header">
-                    <a href="http://placehold.it/250x250" title="" data-fluidbox>
-                        <img class="img-fluid img-responsive logo_header" src="http://placehold.it/90x70" title="" alt="" />
+                    <a href="<?php echo URL.'public/images/cica_logo.png'; ?>" title="" data-fluidbox>
+                        <img class="img-fluid img-responsive logo_header" src="<?php echo URL.'public/images/cica_logo.png'; ?>" title="" alt="" />
                     </a>
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                       <span class="sr-only">Toggle navigation</span>
