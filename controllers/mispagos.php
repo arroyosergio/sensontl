@@ -76,7 +76,7 @@ class mispagos extends Controller {
                        '<th>Nombre del art&iacute;culo</th>' .
                        '<th>&Aacute;rea tem&aacute;tica</th>' .
                        '<th class="text-center">Tipo art&iacute;culo</th>' .
-                       '<th class="text-center">Comprobante</th>' .
+                       '<th class="text-center">Pago</th>' .
                        '</tr>' .
                        '</thead>';
                $tabla .= '<tbody>';
@@ -107,7 +107,7 @@ class mispagos extends Controller {
                     }
                     $tabla .= '<td class="td-tabla">' . $articulo['artAreaTematica'] . '</td>';
                     $tabla .= '<td class="text-center td-tabla">' . $articulo['artTipo'] . '</td>';
-                    $tabla .= '<td class="text-center"><a href="registropago?id='.$articulo['artId'].'"><span class="glyphicon glyphicon-upload"></span> Formato</a></td>';
+                    $tabla .= '<td class="text-center"><a href="registroasistencia?id='.$articulo['artId'].'"><span class="glyphicon glyphicon-upload"></span> Formato</a></td>';
                     $tabla .= '</tr>';
                }
                $tabla .= '</tbody>';
