@@ -29,20 +29,21 @@
                                 <tr>
                                     <td>
                                         <div class="sep">
-                                            <img src="<?php echo URL.'public/images/logo 1.png'; ?>" alt="" title=""height="400" width="250" class="img-fluid img-responsive" />
+                                            <img src="<?php echo URL.'public/images/logo 4.png'; ?>" alt="" title=""height="400" width="250" class="img-fluid img-responsive" />
                                         </div>        
                                     </td>
                                     <td>  
                                     </td>
                                     <td>
                                         <div class="anut">
-                                            <img hspace="100" src="<?php echo URL.'public/images/logo 3.png'; ?>" alt="" title="" height="300" width="250" class="img-fluid img-responsive" />
+                                            <img hspace="100" src="<?php echo URL.'public/images/logo 1.png'; ?>" alt="" title="" height="300" width="250" class="img-fluid img-responsive" />
                                         </div>        
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="ingenio">
+                                            <br/>
                                             <img align="right" src="<?php echo URL.'public/images/logo 2.png'; ?>" alt="" title=""height="300" width="250" class="img-fluid img-responsive" />
                                         </div>
                                         
@@ -52,7 +53,8 @@
                                     </td>
                                     <td>
                                         <div class="gto">
-                                            <img hspace="100" src="<?php echo URL.'public/images/logo 4.png'; ?>" alt="" title=""height="200" width="250" class="img-fluid img-responsive" />
+                                            <br/>
+                                            <img hspace="100" src="<?php echo URL.'public/images/logo 3.png'; ?>" alt="" title=""height="200" width="250" class="img-fluid img-responsive" />
                                         </div>
                                     </td>
                                 </tr>
