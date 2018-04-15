@@ -9,18 +9,14 @@
             
             <div class="row">
               <ul class="rslides" id="imagenesInsitucionales">
-                <li>
+                <!--<li>
                   <img src="<?php echo URL.'public/images/institucional1.jpg'; ?>" class="img-fluid img-responsive "/>
-                
-                  <p class="caption"><font size="2em"> Imagen institucional 1</font></p>
                 </li>
                 <li>
                   <img src="<?php echo URL.'public/images/institucional2.jpg'; ?>" class="img-fluid img-responsive"/>
-                  <p class="caption"><font size="2em"> Imagen institucional 2</font></p>
-                </li>
+                </li>-->
                 <li>
                   <img src="<?php echo URL.'public/images/institucional3.jpg'; ?>" class="img-fluid img-responsive"/>
-                  <p class="caption"><font size="2em"> Imagen institucional 3</font></p>
                 </li>
               </ul>
             </div>
