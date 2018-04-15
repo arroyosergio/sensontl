@@ -105,8 +105,10 @@ class Registroarticulo extends Controller {
     function registroArticulo() {
 		$fecha_actual = new DateTime('now', new DateTimeZone('America/Mexico_City'));
         $fecha_actual->format('Y-m-d');
+		
         $fecha_apertura = new DateTime(FECHAAPERTURA);
 		$fecha_cierre = new DateTime(FECHACIERRE);
+		
 		if($fecha_actual >= $fecha_apertura && $fecha_actual<= $fecha_cierre){
 			$nombreArticulo = strtoupper($_POST['nombre']);
 			$area = $_POST['area-tematica'];
