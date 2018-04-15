@@ -26,7 +26,7 @@
             <br/>
             
             <!-- Frame-container contiene los elementos para desplegar en el marco  -->
-			<div class="frame-container">
+			<!--<div class="frame-container">
 					<div class="frame container-fluid">
 						<div class="frame-title row">
 							<div class="logo-frame col-lg-1 col-sm-1"><i class="fa fa-calendar-check-o fa-2x" aria-hidden="true"></i></div>
@@ -43,7 +43,7 @@
             <!-- termine frame-container -->
             
             <!-- Frame-container contiene los elementos para desplegar en el marco  -->
-			<div class="frame-container">
+			<!--<div class="frame-container">
 					<div class="frame container-fluid">
 						<div class="frame-title row">
 							<div class="logo-frame col-lg-1 col-sm-1"><i class="fa fa-calendar-check-o fa-2x" aria-hidden="true"></i></div>
@@ -60,7 +60,7 @@
             <!-- termine frame-container -->
 			
             <!-- Frame-container contiene los elementos para desplegar en el marco  -->
-			<div class="frame-container">
+			<!--<div class="frame-container">
 					<div class="frame container-fluid">
 						<div class="frame-title row">
 							<div class="logo-frame col-lg-1 col-sm-1"><i class="fa fa-calendar-check-o fa-2x" aria-hidden="true"></i></div>
@@ -82,7 +82,7 @@
             <!-- termine frame-container -->
             
             <!-- Frame-container contiene los elementos para desplegar en el marco  -->
-			<div class="frame-container">
+			<!--<div class="frame-container">
 					<div class="frame container-fluid">
 						<div class="frame-title row">
 							<div class="logo-frame col-lg-1 col-sm-1"><i class="fa fa-calendar-check-o fa-2x" aria-hidden="true"></i></div>
@@ -100,7 +100,7 @@
             
             
             <!-- Frame-container contiene los elementos para desplegar en el marco  -->
-			<div class="frame-container">
+			<!--<div class="frame-container">
 					<div class="frame container-fluid">
 						<div class="frame-title row">
 							<div class="logo-frame col-lg-1 col-sm-1"><i class="fa fa-calendar-check-o fa-2x" aria-hidden="true"></i></div>
@@ -117,7 +117,7 @@
             <!-- termine frame-container -->
             
             <!-- Frame-container contiene los elementos para desplegar en el marco  -->
-			<div class="frame-container">
+			<!--<div class="frame-container">
 					<div class="frame container-fluid">
 						<div class="frame-title row">
 							<div class="logo-frame col-lg-1 col-sm-1"><i class="fa fa-calendar-check-o fa-2x" aria-hidden="true"></i></div>
@@ -134,7 +134,7 @@
             <!-- termine frame-container -->
             
             <!-- Frame-container contiene los elementos para desplegar en el marco  -->
-			<div class="frame-container">
+			<!--<div class="frame-container">
 					<div class="frame container-fluid">
 						<div class="frame-title row">
 							<div class="logo-frame col-lg-1 col-sm-1"><i class="fa fa-calendar-check-o fa-2x" aria-hidden="true"></i></div>
@@ -151,7 +151,7 @@
             <!-- termine frame-container -->
             
             <!-- Frame-container contiene los elementos para desplegar en el marco  -->
-			<div class="frame-container">
+			<!--<div class="frame-container">
 					<div class="frame container-fluid">
 						<div class="frame-title row">
 							<div class="logo-frame col-lg-1 col-sm-1"><i class="fa fa-calendar-check-o fa-2x" aria-hidden="true"></i></div>
@@ -168,7 +168,7 @@
             <!-- termine frame-container -->
             
             <!-- Frame-container contiene los elementos para desplegar en el marco  -->
-			<div class="frame-container">
+			<!--<div class="frame-container">
 					<div class="frame container-fluid">
 						<div class="frame-title row">
 							<div class="logo-frame col-lg-1 col-sm-1"><i class="fa fa-calendar-check-o fa-2x" aria-hidden="true"></i></div>

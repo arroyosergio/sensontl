@@ -28,7 +28,7 @@
             <br/>
             
             <!-- frame-container contiene los elementos para desplegar en el marco  -->
-			<div class="frame-container">
+			<!--<div class="frame-container">
 					<div class="frame container-fluid">
 						<div class="frame-title row">
 							<div class="logo-frame col-lg-1 col-sm-1"><i class="fa fa-bed fa-2x" aria-hidden="true"> </i></div>
