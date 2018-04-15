@@ -1,7 +1,8 @@
         <foother class="foother">
         	<div class="container foother-container">
         		<div class="row">
-                    <div class="col-lg-4 col-sm-4   wow fadeInUp animated " data-wow-duration="2.5s" data-wow-delay="4s" data-wow-animation-name="fadeInUp" style="visibility: visible; animation-duration: 2.5s; animation-delay: .1s; animation-name: fadeInUp;">
+                    
+                    <div class="col-lg-4 col-sm-3   wow fadeInUp animated " data-wow-duration="2.5s" data-wow-delay="4s" data-wow-animation-name="fadeInUp" style="visibility: visible; animation-duration: 2.5s; animation-delay: .1s; animation-name: fadeInUp;">
                         <div class="contact-info">
                             <h4 class="foother_title">Información de contacto</h4>
                             <address>
@@ -14,7 +15,7 @@
                             </address>
                         </div>
                     </div>
-        			<div class="col-lg-3 col-sm-3 wow fadeInUp animated" data-wow-duration="2.5s" data-wow-delay="4s" data-wow-animation-name="fadeInUp" style="visibility: visible; animation-duration: 2.5s; animation-delay: .5s; animation-name: fadeInUp;">
+        			<div class="col-lg-2 col-sm-2 wow fadeInUp animated" data-wow-duration="2.5s" data-wow-delay="4s" data-wow-animation-name="fadeInUp" style="visibility: visible; animation-duration: 2.5s; animation-delay: .5s; animation-name: fadeInUp;">
                         <div class="navigation">
                             <a href="index"><h4>CICA 2018</h4></a>
                             <p><a href="fechasImportantes">Fechas importantes</a></p>
@@ -28,23 +29,23 @@
                           <table>
                                 <tr>
                                     <td>
-                                        <div class="sep">
-                                            <img src="<?php echo URL.'public/images/logo 4.png'; ?>" alt="" title=""height="400" width="250" class="img-fluid img-responsive" />
+                                        <div>
+                                            <img src="<?php echo URL.'public/images/logo 4.png'; ?>" alt="" title=""height="400" width="400" class="img-fluid img-responsive" />
                                         </div>        
                                     </td>
                                     <td>  
                                     </td>
                                     <td>
-                                        <div class="anut">
-                                            <img hspace="100" src="<?php echo URL.'public/images/logo 1.png'; ?>" alt="" title="" height="300" width="250" class="img-fluid img-responsive" />
+                                        <div>
+                                            <img hspace="50" src="<?php echo URL.'public/images/logo 1.png'; ?>" alt="" title="" height="300" width="400" class="img-fluid img-responsive" />
                                         </div>        
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <div class="ingenio">
+                                        <div>
                                             <br/>
-                                            <img align="right" src="<?php echo URL.'public/images/logo 2.png'; ?>" alt="" title=""height="300" width="250" class="img-fluid img-responsive" />
+                                            <img align="right" src="<?php echo URL.'public/images/logo 2.png'; ?>" alt="" title=""height="500" width="500" class="img-fluid img-responsive" />
                                         </div>
                                         
                                     </td>
@@ -52,9 +53,9 @@
                                         
                                     </td>
                                     <td>
-                                        <div class="gto">
+                                        <div>
                                             <br/>
-                                            <img hspace="100" src="<?php echo URL.'public/images/logo 3.png'; ?>" alt="" title=""height="200" width="250" class="img-fluid img-responsive" />
+                                            <img hspace="50" src="<?php echo URL.'public/images/logo 3.png'; ?>" alt="" title=""height="300" width="250" class="img-fluid img-responsive" />
                                         </div>
                                     </td>
                                 </tr>

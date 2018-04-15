@@ -1,176 +1,22 @@
 <?php
 
+/*
+ * Caso de uso de registro de asistencia de publico en general.
+ */
 class registropublico_Model extends Model {
 
+    /*
+     * Se crean instancias.
+     */
 	function __construct() {
 		parent::__construct();
 		Session::init();
-	}
-	 
-	public function get_datos_articulo($idArticulo) {
-		//          $idArticulo = $this->get_id_articulo($idAutor);
-		$query = "SELECT ".
-				"artId,".
-				"artNombre,".
-				"artTipo ".
-				"FROM ".
-				"tblArticulos ".
-				"WHERE ".
-				"artId=$idArticulo";
-	
-		$sth = $this->db->prepare($query);
-		$sth->setFetchMode(PDO::FETCH_ASSOC);
-		$sth->execute();
-		$count = $sth->rowCount();
-		$data = NULL;
-		if ($count > 0) {
-			$data = $sth->fetchAll();
-			$data = $data[0];
-		} else {
-			$data = FALSE;
-		}
-		return $data;
-	}
-	 
-	public function get_id_articulo($idAutor) {
-		$query = "SELECT ".
-				"artId ".
-				"FROM ".
-				"tblAutoresArticulos ".
-				"WHERE ".
-				"autId=$idAutor";
-		$sth = $this->db->prepare($query);
-		$sth->setFetchMode(PDO::FETCH_ASSOC);
-		$sth->execute();
-		$count = $sth->rowCount();
-		$data = NULL;
-		if ($count > 0) {
-			$data = $sth->fetchAll();
-			$data = $data[0]['artId'];
-		} else {
-			$data = FALSE;
-		}
-		return $data;
-	
-	}
-	 
-	public function get_estatus_cambios($idArticulo) {
-		$query = "SELECT ".
-				"art_cambios_asistencia ".
-				"FROM ".
-				"tblArticulos ".
-				"WHERE ".
-				"artId=$idArticulo";
-		$sth = $this->db->prepare($query);
-		$sth->setFetchMode(PDO::FETCH_ASSOC);
-		$sth->execute();
-		$count = $sth->rowCount();
-		$data = NULL;
-		if ($count > 0) {
-			$data = $sth->fetchAll();
-			$data = $data[0]['art_cambios_asistencia'];
-		} else {
-			$data = FALSE;
-		}
-		return $data;
-	}
-	 
-	public function get_estatus_registro($idArticulo) {
-		$query = "SELECT ".
-				"art_estatus_asistencia ".
-				"FROM ".
-				"tblArticulos ".
-				"WHERE ".
-				"artId=$idArticulo";
-		$sth = $this->db->prepare($query);
-		$sth->setFetchMode(PDO::FETCH_ASSOC);
-		$sth->execute();
-		$count = $sth->rowCount();
-		$data = NULL;
-		if ($count > 0) {
-			$data = $sth->fetchAll();
-			$data = $data[0]['art_estatus_asistencia'];
-		} else {
-			$data = FALSE;
-		}
-		return $data;
-	}
-	 
-	public function update_estatus_asitencia($idArticulo, $estatus) {
-		$query = "UPDATE ".
-				"tblArticulos ".
-				"SET ".
-				"art_estatus_asistencia='$estatus' ".
-				"WHERE ".
-				"artId=$idArticulo";
-		$sth = $this->db->prepare($query);
-		try {
-			$sth->execute();
-			$data = TRUE;
-		} catch (PDOException $exc) {
-			error_log($query);
-			error_log($exc);
-			$data = FALSE;
-		}
-		return $data;
-	}
-	
-	public function regitro_asistente($asistente) {
-		$query = "INSERT INTO ".
-				"tblreg_asis_pub".
-				"(".
-				"reg_id,".
-				"reg_nombre,".
-				"reg_institucion,".
-				"reg_tipo".
-				") ".
-				"VALUES ".
-				"(".
-				"$asistente[reg_id],".
-				"'$asistente[nombre]',".
-				"'$asistente[institucion]',".
-				"'$asistente[tipoAsistente]'".
-				")";
-	
-				$sth = $this->db->prepare($query);
-				try {
-					$sth->execute();
-					$data = TRUE;
-				} catch (PDOException $exc) {
-					error_log($query);
-					error_log($exc);
-					$data = FALSE;
-				}
-				return $data;
-	}
-	
-	public function nuevo_registro() {
- 		$dt = new DateTime('now', new DateTimeZone('America/Mexico_City'));
-		$query = "INSERT INTO ".
-				"tblreg_publico".
-				"(".
-				"reg_fecha,".
-				"reg_validar_dep,".
-				"reg_fact_enviada".
-				") ".
-				"VALUES ".
-				"('".$dt->format('Y-m-d').
-				"','no','no'".
-				")";
-		$sth = $this->db->prepare($query);
-		try {
-			$sth->execute();
-			Session::set('idRegistroPublico', $this->db->lastInsertId());
-			$data = TRUE;
-		} catch (PDOException $exc) {
-			error_log($query);
-			error_log($exc);
-			$data = FALSE;
-		}
-		return $data;
-	}
-	 
-	public function get_asistentes_publico() {
+	}//Fin __construct
+    
+    /*
+     * Recupera a los asistentes registrados
+     */
+	public function get_asistentes_publico($idRegistroPublico) {
 		$query = "SELECT ".
 				"id,".
 				"reg_nombre,".
@@ -179,7 +25,8 @@ class registropublico_Model extends Model {
 				"FROM ".
 				"tblreg_asis_pub ".
 				"WHERE ".
-				"reg_id=".Session::get('idRegistroPublico');
+				"reg_id=".$idRegistroPublico;
+                
 		$sth = $this->db->prepare($query);
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
 		$sth->execute();
@@ -191,9 +38,12 @@ class registropublico_Model extends Model {
 			$data = FALSE;
 		}
 		return $data;
-	}
-	 
-	public function get_datos_asistente($idAsistente) {
+	}//Fin get_asistentes_publico
+    
+    /*
+     * Recuperar la informacion de un asistente.
+     */
+    public function get_datos_asistente($idAsistente) {
 		$query = "SELECT ".
 				"id,".
 				"reg_nombre,".
@@ -215,9 +65,13 @@ class registropublico_Model extends Model {
 			$data = FALSE;
 		}
 		return $data;
-	}
-	 
-	public function borrar_asistente($idAsistente) {
+	}//Fin get_datos_asistente
+    
+    
+    /*
+     * Elimina un asistente.
+     */
+    public function borrar_asistente($idAsistente) {
 		$query = "DELETE FROM ".
 				"tblreg_asis_pub ".
 				"WHERE ".
@@ -232,9 +86,13 @@ class registropublico_Model extends Model {
 			$data = FALSE;
 		}
 		return $data;
-	}
-	 
-	public function update_asistente($asistente) {
+	}//Fin borrar_asistente
+    
+    
+    /*
+     * Actualiza un asistente.
+     */
+    public function update_asistente($asistente) {
 		$query = "UPDATE ".
 				"tblreg_asis_pub ".
 				"SET ".
@@ -253,9 +111,91 @@ class registropublico_Model extends Model {
 			$data = FALSE;
 		}
 		return $data;
-	}
-	 
-	public function registro_datos_deposito($deposito) {
+	}//update_asistente
+    
+    
+    /*
+     * Persiste un nuevo asistente.
+     */
+	public function regitro_asistente($asistente) {
+        //Armando de la sentencia sql.
+		$query = "INSERT INTO ".
+				"tblreg_asis_pub".
+				"(".
+				"reg_id,".
+				"reg_nombre,".
+				"reg_institucion,".
+				"reg_tipo".
+				") ".
+				"VALUES ".
+				"(".
+				"$asistente[reg_id],".
+				"'$asistente[nombre]',".
+				"'$asistente[institucion]',".
+				"'$asistente[tipoAsistente]'".
+				")";
+	   
+                //Preprado y ejecucion de la sentencia
+				$sth = $this->db->prepare($query);
+				try {
+					$sth->execute();
+					$data = TRUE;
+				} catch (PDOException $exc) {
+					error_log($query);
+					error_log($exc);
+					$data = FALSE;
+				}
+				return $data;
+	}//Fin regitro_asistente
+	
+    /*
+     * Crear un nuevo registro de asistencia publica.
+     */
+	public function nuevo_registro() {
+        //Fecha actual de sistema
+ 		$dt = new DateTime('now', new DateTimeZone('America/Mexico_City'));
+        //Armando de la sentencia sql
+		$query = "INSERT INTO ".
+				"tblreg_publico".
+				"(".
+				"reg_fecha,".
+				"reg_validar_dep,".
+				"reg_fact_enviada".
+				") ".
+				"VALUES ".
+				"('".$dt->format('Y-m-d').
+				"','no','no'".
+				")";
+        
+        //Preparado y ejecucion de la sentencia
+		$sth = $this->db->prepare($query);
+		try {
+			$sth->execute();
+            /********************************************************************
+            **** Guardamos en la sesion del identificado del registro publico
+            ********************************************************************/
+			
+            Session::set('idRegistroPublico', $this->db->lastInsertId());
+            
+            /********************************************************************
+            **** Guardamos en la sesion del identificado del registro publico
+            ********************************************************************/
+            
+            
+			$data = TRUE;
+		} catch (PDOException $exc) {
+			error_log($query);
+			error_log($exc);
+			$data = FALSE;
+		}
+		return $data;
+	}//Finnuevo_registro
+    
+    /*
+     * Persisten los datos del deposito.
+     */
+    public function registro_datos_deposito($deposito) {
+        //Armando de la sentencia sql.
 		$query = "INSERT ".
 				"INTO ".
 				"tblreg_pub_depositos".
@@ -268,7 +208,6 @@ class registropublico_Model extends Model {
 				"dep_fecha,".
 				"dep_hora,".
 				"dep_monto,".
-				"dep_comprobante,".
 				"reg_id".
 				") ".
 				"VALUES ".
@@ -281,9 +220,10 @@ class registropublico_Model extends Model {
 				"'$deposito[fecha]',".
 				"'$deposito[hora]',".
 				"$deposito[monto],".
-				"'$deposito[comprobante]',".
 				"$deposito[reg_id]".
 				")";
+        
+        //Preparado y ejecucion de la sentencia
 		$sth = $this->db->prepare($query);
 		try {
 			$sth->execute();
@@ -294,36 +234,13 @@ class registropublico_Model extends Model {
 			$data = FALSE;
 		}
 		return $data;
-	}
-	 
-	public function update_datos_deposito($deposito) {
-		$query = "UPDATE ".
-				"tbl_depositos ".
-				"SET ".
-				"dep_banco='$deposito[banco]',".
-				"dep_sucursal='$deposito[sucursal]',".
-				"dep_transaccion='$deposito[transaccion]',".
-				"dep_info='$deposito[info]',".
-				"dep_tipo='$deposito[tipoPago]',".
-				"dep_fecha='$deposito[fecha]',".
-				"dep_hora='$deposito[hora]',".
-				"dep_monto=$deposito[monto],".
-				"dep_comprobante='$deposito[comprobante]' ".
-				"WHERE ".
-				"art_id=$deposito[idArticulo]";
-		$sth = $this->db->prepare($query);
-		try {
-			$sth->execute();
-			$data = TRUE;
-		} catch (PDOException $exc) {
-			error_log($query);
-			error_log($exc);
-			$data = FALSE;
-		}
-		return $data;
-	}
-
+	}//Fin 
+     
+    /*
+     * Persiste los datos de factuacion
+     */
 	public function registro_datos_facturacion($facturacion) {
+        //Armando de la sentencia sql.
 		$query = "INSERT INTO ".
 				"tblreg_datos_factura".
 				"(".
@@ -351,6 +268,8 @@ class registropublico_Model extends Model {
 				"'$facturacion[cp]',".
 				"$facturacion[reg_id]".
 				")";
+        
+        //Preparacion y ejecucion de la sentencia
 		$sth = $this->db->prepare($query);
 		try {
 			$sth->execute();
@@ -361,36 +280,13 @@ class registropublico_Model extends Model {
 			$data = FALSE;
 		}
 		return $data;
-	}
-	 
-	public function update_datos_facturacion($facturacion) {
-		$query = "UPDATE ".
-				"tbl_datos_facturacion ".
-				"SET ".
-				"fac_correo='$facturacion[correo]',".
-				"fac_razon_social='$facturacion[razonSocial]',".
-				"fac_rfc='$facturacion[rfc]',".
-				"fac_calle='$facturacion[calle]',".
-				"fac_numero='$facturacion[numero]',".
-				"fac_colonia='$facturacion[colonia]',".
-				"fac_municipio='$facturacion[municipio]',".
-				"fac_estado='$facturacion[estado]',".
-				"fac_cp='$facturacion[cp]' ".
-				"WHERE ".
-				"art_id=$facturacion[idArticulo]";
-		$sth = $this->db->prepare($query);
-		try {
-			$sth->execute();
-			$data = TRUE;
-		} catch (PDOException $exc) {
-			error_log($query);
-			error_log($exc);
-			$data = FALSE;
-		}
-		return $data;
-	}
-	 
+	}//Fin registro_datos_facturacion
+    
+    /*
+     * Recupera el numero de asistentes, filtrando su tipo.
+     */
 	public function get_total_asistentes($idRegistroPublico,$tipoAsistente) {
+        //Armando de la sentencia sql.
 		$query = "SELECT ".
 				"COUNT(reg_id) AS total ".
 				"FROM ".
@@ -399,6 +295,8 @@ class registropublico_Model extends Model {
 				"reg_id=$idRegistroPublico ".
 				"AND ".
 				"reg_tipo='$tipoAsistente'";
+        
+        //Preparado y ejecucion de la sentencia
 		$sth = $this->db->prepare($query);
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
 		$sth->execute();
@@ -412,15 +310,21 @@ class registropublico_Model extends Model {
 			$data = FALSE;
 		}
 		return $data;
-	}
-
-	public function get_total_asistentes_pub($idRegistroPublico) {
+	}//Fin get_total_asistentes
+    
+    /*
+     * Recupera el numero total de asistentes.
+     */
+    public function get_total_asistentes_pub($idRegistroPublico) {
+        //Armando de la sentencia sql.
 		$query = "SELECT ".
 				"COUNT(reg_id) AS total ".
 				"FROM ".
 				"tblreg_asis_pub ".
 				"WHERE ".
 				"reg_id=$idRegistroPublico ";
+        
+        //Preparado y ejecucion de la sentencia.
 		$sth = $this->db->prepare($query);
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
 		$sth->execute();
@@ -434,15 +338,21 @@ class registropublico_Model extends Model {
 			$data = FALSE;
 		}
 		return $data;
-	}
-	
-	public function get_buscar_asistente($nombre_asistente) {
+	}//Fin get_total_asistentes_pub
+    
+    
+    /*
+     * Busca los datos de un asistente dado su id.
+     */
+    public function get_buscar_asistente($nombre_asistente) {
+        //Armando de la sentecia sql
 		$query ="SELECT ".
 				"CONCAT(TRIM( autNombre ) ,TRIM( autApellidoPaterno ) , TRIM( autApellidoMaterno )) AS autnombre ".
 				"FROM ".
 				"tblautores ".
 				"WHERE ".
 				"UPPER(CONCAT(TRIM(autNombre),TRIM(autApellidoPaterno),TRIM(autApellidoMaterno))) IN (:nombre)";
+        //Preprado y ejecucion de la sentencia
 		$sth = $this->db->prepare($query);
 		$nombre_asistente=strtoupper($nombre_asistente);
 		$sth->bindParam(':nombre', $nombre_asistente);
@@ -456,10 +366,14 @@ class registropublico_Model extends Model {
 			$data = false;
 		}
 		return $data;
-	}
-	
-	
-	
+	}//Fin get_buscar_asistente
+    
+    
+    /*******************************************************************************************/
+    /***********************************No se utiliza    ***************************************/
+    /*******************************************************************************************/
+	 
+	/*
 	public function get_datos_facturacion($idArticulo) {
 		$query = "SELECT ".
 				"fac_id,".
@@ -542,5 +456,6 @@ class registropublico_Model extends Model {
 		}
 		return $data;
 	}
-	}
+    */
+}//Fin registropublico_Model
 	

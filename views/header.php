@@ -92,7 +92,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Asistentes<span class="caret"></span></a>
                         <ul class="dropdown-menu sub-menu">
                             <li><a href="informacion">Información</a></li>
-                            <li><a href="inscripcion">Registro de pago</a></li>
+                            <li><a href="registropublico">Registro de pago</a></li>
                         </ul>
                     </li>
                     <?php

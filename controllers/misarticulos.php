@@ -361,7 +361,7 @@ class Misarticulos extends Controller {
 		  }else{
 		  	$archivo = "Ningun archivo cargado...";
 		  }
-          
+        
           $response = array(
               'nombre' => $responseDB['artNombre'],
               'area' => $responseDB['artAreaTematica'],

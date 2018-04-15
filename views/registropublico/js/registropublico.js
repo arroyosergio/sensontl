@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    //getEstatusRegistro();
     activarOpcionMenu();
+    fileListOrigen=document.getElementById("file-comprobante-pago");
     $('.datapicker').datepicker({
         language: "es",
         autoclose: true,
@@ -20,19 +20,18 @@ $('#form-datos-pago').submit(function () {
     var url = $(this).attr('action');
     var formData = new FormData($(this)[0]);
              $.ajax({
-                url: 'registropublico/updateDatosPago',
+                url: 'registropublico/registroDatosPago',
                 type: 'POST',
                 data: formData,
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-//                  $('#cargando').removeClass('hidden');
                   jsShowWindowLoad();
                 },
                 success: function (response) {
                 	jsRemoveWindowLoad();
-                    //$('#cargando').addClass('hidden');
+                    alert(response);
                     switch (response) {
                         case 'true':
                             mostrarAlerta('success', 'Su registro se realizo con éxito.');
@@ -94,8 +93,6 @@ $('#form-nuevo-asistente').submit(function () {
             case 'error-replicado':
                 mostrarAlerta('error', 'El nombre del asistente, ya esta registrado en como autor.');
                 break;
-                
-            	
         }
     });
     return false;
@@ -139,8 +136,11 @@ $('#tabla-asistentes').click(function (event) {
     }
 });
 
+
 function getAsistentesPublico() {
+    //alert('getAsistentesPublico');
     $.post('registropublico/getAsistentesPublico', {}, function (response) {
+        //alert(response);
         $('#tabla-asistentes').empty();
         $('#tabla-asistentes').html(response);
         $('#modal-nueva-persona').modal('hide');

@@ -1,18 +1,17 @@
 <br>
 <div class="container">
-	<ol class="breadcrumb">
-		<li><a href="index">Inicio</a></li>
-		<li class="active">Registro de asistencia del p&uacute;blico</li>
-	</ol>
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<div class="panel-title">Registro de asistencia del p&uacute;blico</div>
 		</div>
 		<form id="form-datos-pago" action="registropublico/registroDatosPago" method="post">
 			<div class="panel-body">
-				<a id="btn-nuevo-asistente" class="btn btn-link pull-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar asistente</a>
-				<h4>Asistentes</h4>
-				<hr>
+                <table class="table">
+                    <tr>
+                        <td><h4>Asistentes</h4></td>
+                        <td><a id="btn-nuevo-asistente" class="btn btn-link pull-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Agregar asistente</a></td> 
+                    </tr>
+                </table>
 				<div class="table-responsive">
 					<table class="table">
 						<thead>
@@ -35,13 +34,13 @@
 					<div class="col-sm-6">
 						<div class="form-group">
 							<label for="">Nombre o raz&oacute;n social:</label>
-							<input id="razon-social" type="text" class="form-control" name="razon-social">
+							<input id="razon-social" type="text" class="form-control" name="razon-social"/>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group">
 							<label for="">RFC:</label>
-							<input id="rfc" type="text" name="rfc" class="form-control">
+							<input id="rfc" type="text" name="rfc" class="form-control"/>
 						</div>
 					</div>
 				</div>
@@ -49,19 +48,19 @@
 					<div class="col-sm-4">
 						<div class="form-group">
 							<label for="">Calle:</label>
-							<input id="calle" type="text" name="calle" class="form-control">
+							<input id="calle" type="text" name="calle" class="form-control"/>
 						</div>
 					</div>
 					<div class="col-sm-4">
 						<div class="form-group">
 							<label for="">N&uacute;mero:</label>
-							<input id="numero" type="text" name="numero" class="form-control">
+							<input id="numero" type="text" name="numero" class="form-control"/>
 						</div>
 					</div>
 					<div class="col-sm-4">
 						<div class="form-group">
 							<label for="">Colonia o localidad:</label>
-							<input id="colonia" type="text" name="colonia" class="form-control">
+							<input id="colonia" type="text" name="colonia" class="form-control"/>
 						</div>
 					</div>
 				</div>
@@ -69,19 +68,19 @@
 					<div class="col-sm-4">
 						<div class="form-group">
 							<label for="">Municipio:</label>
-							<input id="municipio" type="text" name="municipio" class="form-control">
+							<input id="municipio" type="text" name="municipio" class="form-control"/>
 						</div>
 					</div>
 					<div class="col-sm-4">
 						<div class="form-group">
 							<label for="">Estado:</label>
-							<input id="estado" type="text" name="estado" class="form-control">
+							<input id="estado" type="text" name="estado" class="form-control"/>
 						</div>
 					</div>
 					<div class="col-sm-4">
 						<div class="form-group">
 							<label for="">C&oacute;digo postal:</label>
-							<input id="codigo-postal" type="text" name="codigo-postal" class="form-control">
+							<input id="codigo-postal" type="text" name="codigo-postal" class="form-control"/>
 						</div>
 					</div>
 				</div>
@@ -91,7 +90,7 @@
 					<div class="col-sm-3">
 						<div class="form-group">
 							<label for="">Banco:</label>
-							<input id="banco" class="form-control" name="banco" type="text" placeholder="dato obligario"></input>
+							<input id="banco" class="form-control" name="banco" type="text" placeholder="dato obligario"/>
 						</div>
 					</div>
 					<div class="col-sm-3">
@@ -106,14 +105,14 @@
 					<div class="col-sm-3">
 						<div class="form-group">
 							<label for="">Informaci&oacute;n del dep&oacute;sito:</label>
-							<input id="info-deposito" class="form-control" name="info-deposito" type="text" placeholder="dato obligario"></input>
+							<input id="info-deposito" class="form-control" name="info-deposito" type="text" placeholder="dato obligario"/>
 							<p class="help-block"><b>Lugar de dep&oacute;sito</b> si es dep&oacute;sito en efectivo, o tranferencia ingrese el <b>N&Uacute;MERO DE FOLIO</b> o la <b>CLAVE DE RASTREO</b></p>
 						</div>
 					</div>
 					<div class="col-sm-3">
 						<div class="form-group">
 							<label for="">Fecha:</label>
-							<input id="fecha" class="form-control datapicker" name="fecha" type="text" placeholder="dato obligario"></input>
+							<input id="fecha" class="form-control datapicker" name="fecha" type="text" placeholder="dato obligario"/>
 						</div>
 					</div>
 				</div>
@@ -218,31 +217,24 @@
 					</div>
 					<div class="col-sm-3">
 						<label for="">Número de sucursal:</label>
-						<input type="text" class="form-control" id="num-sucursal" name="num-sucursal">
+						<input type="text" class="form-control" id="num-sucursal" name="num-sucursal"/>
 					</div>
 					<div class="col-sm-3">
 						<label for="">Número de transacción:</label>
-						<input type="text" class="form-control" id="num-transaccion" name="num-transaccion">
+						<input type="text" class="form-control" id="num-transaccion" name="num-transaccion"/>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-sm-4">
-						<div class="form-group">
-							<label for="">Subir comprobando de pago:</label>
-							<input type="file" name="comprobante">
-							<p class="help-block"><b>Solo se permiten archivos en formato PDF.</b></p>
-						</div>
-					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-6">
 						<div class="form-group">
 							<label for="">Correo para contacto o envio de factura:</label>
-							<input id="correo" type="text" name="correo" class="form-control" placeholder="dato obligatorio">
+							<input id="correo" type="text" name="correo" class="form-control" placeholder="dato obligatorio"/>
 						</div>
 					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-6">
 						<div class="form-group">
 							<label for="">Cantidad a pagar:</label>
-							<input id="monto" class="form-control" name="monto" type="text" disabled value="<?php echo $this->monto; ?>"></input>
+							<input id="monto" class="form-control" name="monto" type="text" disabled value="<?php echo $this->monto; ?>"/>
 						</div>
 					</div>
 				</div>
@@ -256,6 +248,49 @@
 				<button class="btn btn-success" id="btn-aceptar-form-pago"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Aceptar</button>
 			</div>
 		</form>
+        <div>
+            <br>
+            <h4 class="text-primary">Suba el documento de pago escaneado.</h4>
+                <div class="row">
+                    <div class="col-sm-12">
+                    <form id="form-subir-comprobante-pago" action="" method="post">
+                        <div class="form-group">
+                            <label for=""><b>Comprobante de pago:</b></label>
+                            <div class="col-sm-12 col-md-12">
+                                <ul id="file-comprobante-pago">Ningun archivo seleccionado... </ul>
+                            </div>													
+                            <div id="container-btn-files" class="form-group">
+                                <span id="btnCarta-origen" class="btn btn-success fileinput-button">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <span>Seleccionar archivo</span>
+                                    <input type="file" id="input-comprobante-pago" name="input-comprobante-pago" disabled>
+                                </span>							
+                                 <!--<button id="cancelar" type="reset" class="btn btn-warning">
+                                    <i class="glyphicon glyphicon-ban-circle"></i>
+                                    <span>Cancelar carga</span>
+                                </button>-->
+                                <button id="cargar_comprobante_pago" type="submit" class="btn btn-primary">
+                                    <i class="glyphicon glyphicon-upload"></i>
+                                    <span>Iniciar carga</span>
+                                </button>				
+                                 <input id="id-articulo-original" name="id-articulo-original" type="text" class="hidden">
+                            </div>	
+                            <p class="help-block">Solo se permiten archivos con extensi&oacute;n .pdf</p>
+                        </div>
+                     </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="doc-cargados  text-primary">Documento cargado</h4>
+                        <div id="documentos-actuales" class="row"></div>
+                    </div>
+                </div>
+                <div class="panel-footer text-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Cerrar</button>
+                    <button id="btn-aceptar-comprobante" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i> Aceptar</button>
+                </div>
+            </div>
 	</div>
 	<div id="cargando" class="hidden centrado" style="position: absolute; top: 50%; left: 50%;  transform: translate(-50%, -50%);"><img src="./public/img/cargando.gif" alt=""></div>
 
@@ -310,7 +345,7 @@
                 <div class="modal-body">
 					<div class="form-group">
 						<label for="">Nombre completo:</label>
-						<input id="nombre-asistente" class="form-control" name="nombre-asistente" autofocus></input>
+						<input id="nombre-asistente" class="form-control" name="nombre-asistente" autofocus/>
 					</div>
 					<div class="form-group">
 						<label for="">Tipo de asistente:</label>
@@ -320,7 +355,7 @@
 					</div>
 					<div class="form-group">
 						<label for="">Nombre de la instituci&oacute;n educativa:</label>
-						<input class="form-control" name="institucion" placeholder="Dato opcional" ></input>
+						<input class="form-control" name="institucion" placeholder="Dato opcional"/>
 					</div>
 				</div>
                 <div class="modal-footer">
@@ -343,8 +378,8 @@
                 <div class="modal-body">
                 	<div class="form-group">
 						<label for="">Nombre completo:</label>
-						<input type="text" id="id-asistente" class="hidden" name="id-asistente" />
-						<input id="nombre-edit" class="form-control" name="nombre-edit"  />
+						<input type="text" id="id-asistente" class="hidden" name="id-asistente"/>
+						<input id="nombre-edit" class="form-control" name="nombre-edit"/>
 					</div>
 					<div class="form-group">
 						<label for="">Tipo de asistente:</label>
@@ -354,7 +389,7 @@
 					</div>
 					<div class="form-group">
 						<label for="">Nombre de la instituci&oacute;n educativa:</label>
-						<input id="institucion" class="form-control" name="institucion"  />
+						<input id="institucion" class="form-control" name="institucion"/>
 					</div>
 				</div>
                 <div class="modal-footer">

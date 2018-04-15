@@ -1,9 +1,17 @@
 <?php
 
+/*
+ * Registro de los asistentes colaboradores de un articulo.
+ */
 class Registroasistencia extends Controller {
 
+    /*
+     * Crea intencias del servicio.
+     */
     function __construct() {
         parent::__construct();
+        
+        //Inicia sesion
         Session::init();
         $logged = Session::get("sesion");
         if (!$logged) {
@@ -11,21 +19,33 @@ class Registroasistencia extends Controller {
             header("location: index");
             exit;
         }
+        
+        //cargar las hojas de estilo
         $this->view->css = array(
-            'public/plugins/toastr/toastr.min.css',
+            'public/bootstrap/css/bootstrap.min.css',
+            'public/fontawesome/css/font-awesome.min.css',
+            'public/css/animate.min.css',
+            'public/css/fluidbox.min.css',
             'public/plugins/datatable/jquery.datatables.min.css',
             'public/plugins/datapicker/bootstrap-datepicker.min.css',
+            'views/registroasistencia/css/menu.css',
+            
         );
+        
+        //Carga los scripts
         $this->view->js = array(
-            'public/plugins/toastr/toastr.min.js',
+            'public/js/jquery-2.1.4.min.js',
+			'public/bootstrap/js/bootstrap.min.js',
             'public/plugins/datapicker/bootstrap-datepicker.min.js',
             'public/plugins/datapicker/bootstrap-datepicker.es.min.js',
             'public/plugins/timepicker/wickedpicker.js',
-            'public/plugins/datatable/jquery.datatables.min.js',
             'views/registroasistencia/js/registroasistencia.js'
         );
-    }
+    }//Fin __construct
 
+    /*
+     * Renderiza la pagina
+     */
     function index() {
         $this->view->datosArticulo = $this->getDatosArticulo($_GET['id']);
         $this->view->tablaAsistentes = $this->getAsistentesArticulo(TRUE);
@@ -33,15 +53,23 @@ class Registroasistencia extends Controller {
         $this->view->render("registroasistencia/index");
     }
 
+    /*
+     * Recupera los datos del artículo.
+     */
     function getDatosArticulo($id) {
-//        $responseDB = $this->model->get_datos_articulo(Session::get('idAutor'));
+        //Recupera los datos persistidos del articulo
         $responseDB = $this->model->get_datos_articulo($id);
+        
         $articulo = array(
             'id' => $responseDB['artId'],
             'nombre' => $responseDB['artNombre'],
             'tipo' => $responseDB['artTipo'],
         );
+        
+        //Guardamos el id del articulo en la sesion para su posterior uso
         Session::set('idArticulo', $articulo['id']);
+        
+        //Armamos la seccion del documento html donde sera mostrada la informacion
         $response = '<div class="row">';
         $response .= '<div class="col-sm-4">';
         $response .= '<label for="">Id del art&iacute;culo:</label>';
@@ -58,36 +86,19 @@ class Registroasistencia extends Controller {
         $response .= '</div>';
 
         return $response;
-    }
+    }//Fin getDatosArticulo
 
-    function nuevoAsistente() {
-        $nombre = $_POST['nombre-asistente'];
-        $institucion = $_POST['institucion'];
-        $tipoAsistente = $_POST['tipo-asistente'];
-        if (!empty($nombre) && !empty($institucion) && !empty($tipoAsistente)) {
-            $asistente = array(
-                'nombre' => $nombre,
-//                   'correo' => $correo,
-                'institucion' => $institucion,
-                'tipoAsistente' => $tipoAsistente
-            );
-            $responseDB = $this->model->regitro_asistente($asistente);
-            if ($responseDB) {
-                echo 'true';
-            } else {
-//                         Error al ejecutar la consulta
-                echo 'error-query';
-            }
-        } else {
-//                    Falta algun valor
-            echo 'error-null';
-        }
-    }
-
+    /*
+     * Recupera a los asistentes parte del articulo
+     */
     function getAsistentesArticulo($get = FALSE) {
-        $responseDB = $this->model->get_asistentes_articulo();
+        $idArticulo = Session::get('idArticulo');
+        //Recuperamos la informacion persistida.
+        $responseDB = $this->model->get_asistentes_articulo($idArticulo);
+        
+        
+        //En caso de que existan, se crea una tabla html para mostrarla.
         if (!$responseDB) {
-//               No hay asistentes
             $response = '';
         } else {
             $response = '';
@@ -111,13 +122,52 @@ class Registroasistencia extends Controller {
         } else {
             echo $response;
         }
-    }
+    }//Fin getAsistentesArticulo
+    
+    /*
+     * Crea un nuevo asistente
+     */
+    function nuevoAsistente() {
+        //Bajamos los datos del asistente de los parametros
+        $nombre = $_POST['nombre-asistente'];
+        $institucion = $_POST['institucion'];
+        $tipoAsistente = $_POST['tipo-asistente'];
+        
+        //Verificamos la completitud de los datos, en caso afirmativo lo persistimos.
+        if (!empty($nombre) && !empty($institucion) && !empty($tipoAsistente)) {
+            //Armamos el arreglo para pasarlo como objeto.
+            $asistente = array(
+                'nombre' => $nombre,
+                'institucion' => $institucion,
+                'tipoAsistente' => $tipoAsistente
+            );
+            //Solicitamos a la capa de datos para que los persista.
+            $responseDB = $this->model->regitro_asistente($asistente);
+            
+            //Se evalua la respuesta afirmativa
+            if ($responseDB) {
+                echo 'true';
+            } else {
+                echo 'error-query';
+            }
+        } else {
+            echo 'error-null';
+        }
+    }//nuevoAsistente
 
+    
+    /*
+     * Se recupera la iformacion de un asistente.
+     */
     function getDatosAsistente() {
+        //Se baja de los parametros de la petición el iidentificador del asistente.
         $id = $_POST['id'];
         $response = '';
+        
+        //En caso te contar con una identificador,se recupera la informacion, en caso negativo se notifica la ausencia
         if (!empty($id)) {
             $responseDB = $this->model->get_datos_asistente($id);
+            
             if (!$responseDB) {
 //                    No se encontro el registro
                 echo 'error-registro';
@@ -131,11 +181,17 @@ class Registroasistencia extends Controller {
                 echo json_encode($asistente);
             }
         }
-    }
+    }//Fin getDatosAsistente
 
+    /*
+     * Eliminar un asistente.
+     */
     function borrarAsistente() {
+        //Bajamos el parametro de la peticion
         $id = $_POST['id'];
         $response = '';
+        
+        //En caso de tener un id, lo eliminamos.
         if (!empty($id)) {
             $responseDB = $this->model->borrar_asistente($id);
             if ($responseDB) {
@@ -148,13 +204,19 @@ class Registroasistencia extends Controller {
             $response = 'error-query';
         }
         echo $response;
-    }
+    }//Fin borrarAsistente
 
+    /*
+     * Actualizar los datos de un asistente
+     */
     function updateAsistente() {
+        //Bajamos los datos del asisten de la petición
         $id = $_POST['id'];
         $nombre = $_POST['nombre-asistente'];
         $institucion = $_POST['institucion'];
         $tipo = $_POST['tipo-asistente'];
+        
+        //Se revisa la completitud de los datos, se persiste, en caso contrario se notifica
         if (!empty($id) && !empty($nombre) && !empty($institucion) && !empty($tipo)) {
             $asistente = array(
                 'id' => $id,
@@ -162,20 +224,24 @@ class Registroasistencia extends Controller {
                 'institucion' => $institucion,
                 'tipo' => $tipo
             );
+            
             $responseDB = $this->model->update_asistente($asistente);
+            
             if (!$responseDB) {
-//                         Error query
                 echo 'error';
             } else {
                 echo 'true';
             }
         } else {
-//               Error datos incompletos
             echo 'error-null';
         }
-    }
+    }//Fin updateAsistente
 
+    /*
+     * Guarda los datos de un pago
+     */
     function registroDatosPago() {
+        //Verificacion de la completitud de los datos
         if (!empty($_POST['correo']) &&
                 !empty($_POST['tipo-pago']) &&
                 !empty($_POST['razon-social']) &&
@@ -194,6 +260,9 @@ class Registroasistencia extends Controller {
                 !empty($_POST['num-sucursal']) &&
                 !empty($_POST['num-transaccion'])) {
 
+            $idArticulo = Session::get('idArticulo');
+            
+            //Se agruman la inforacion del deposito
             $deposito = array(
                 'banco' => $_POST['banco'],
                 'tipoPago' => $_POST['tipo-pago'],
@@ -203,10 +272,10 @@ class Registroasistencia extends Controller {
                 'hora' => "$_POST[hora]:$_POST[minuto]",
                 'numSucursal' => $_POST['num-sucursal'],
                 'numTransaccion' => $_POST['num-transaccion'],
-                'comprobante' => $_FILES['comprobante']['name'],
-                'idArticulo' => Session::get('idArticulo')
+                'idArticulo' => $idArticulo
             );
 
+            //Se agrupan los datos de facturacion
             $facturacion = array(
                 'correo' => $_POST['correo'],
                 'razonSocial' => $_POST['razon-social'],
@@ -217,67 +286,91 @@ class Registroasistencia extends Controller {
                 'municipio' => $_POST['municipio'],
                 'estado' => $_POST['estado'],
                 'cp' => $_POST['codigo-postal'],
-                'idArticulo' => Session::get('idArticulo')
+                'idArticulo' => $idArticulo
             );
-            $extencion = explode('.', $deposito['comprobante']);
-            $extencion = end($extencion);
+            
+            //Se valida el formato de correo.
             $correoValido = $this->comprobarCorreo($facturacion['correo']);
-            $asistentesGeneral = $this->model->get_total_asistentes(Session::get('idArticulo'), 'general');
-            $asistentesPonente = $this->model->get_total_asistentes(Session::get('idArticulo'), 'ponente');
-            $asistentesCoautor = $this->model->get_total_asistentes(Session::get('idArticulo'), 'coautor');
+            
+            //Se identifica la cantidad de asistentes.
+            $asistentesGeneral = $this->model->get_total_asistentes($idArticulo, 'general');
+            $asistentesPonente = $this->model->get_total_asistentes($idArticulo, 'ponente');
+            $asistentesCoautor = $this->model->get_total_asistentes($idArticulo, 'coautor');
 
+            //Se calcula el numero tota de asistentes.
             $totalAsistentes = $asistentesCoautor + $asistentesGeneral + $asistentesPonente;
+            
+            //Verificamos la presencia de asistentes
             if ($totalAsistentes > 0) {
-                $validacionPonente = $this->model->get_total_asistentes(Session::get('idArticulo'), 'ponente');
+                //Comprobamos la existencia de una ponente.
+                $validacionPonente = $this->model->get_total_asistentes($idArticulo, 'ponente');
+                
                 if ($validacionPonente > 0) {
                     if ($correoValido) {
-                        if (strtolower($extencion) != 'pdf') {
-//                    Error tipo de archivo
-                            echo 'error-formato';
-                        } else {
-                            $deposito['comprobante'] = Session::get('idArticulo') . '/' . $deposito['comprobante'];
-                            $responseDB = $this->model->registro_datos_deposito($deposito);
+                        $responseDB = $this->model->registro_datos_deposito($deposito);
+                        
+                        if ($responseDB) {
+                            $responseDB = $this->model->registro_datos_facturacion($facturacion);
+                            
                             if ($responseDB) {
-                                $responseDB = $this->model->registro_datos_facturacion($facturacion);
-                                if ($responseDB) {
-                                    $this->updateEstatusAsistencia('si');
-                                    if (!move_uploaded_file($_FILES['comprobante']['tmp_name'], DOCS . Session::get('idArticulo') . '/' . $deposito['comprobante'])) {
-//                    Error al subir el archivo
-                                        echo 'error-subir-archivo';
-                                    } else {
-                                        echo 'true';
-                                    }
-                                } else {
-//                                   Error consulta datos facturacion
-                                    echo 'false';
-                                }
+                                $this->updateEstatusAsistencia('si');
+                                echo 'true';
                             } else {
-//                              Error consulta datos deposito
                                 echo 'false';
                             }
+                        } else {
+                            echo 'false';
                         }
                     } else {
-//                    Correo invalido
                         echo 'error-correo';
                     }
                 } else {
-//                    No hay ningún ponente registradp
                     echo 'error-ponente';
                 }
             } else {
-//                    Error ningun asistente registrado
                 echo 'error-num-asistentes';
             }
         } else {
-//               Error de datos incompletos
             echo 'error-null';
         }
-    }
+    }//Fin registroDatosPago
+    
+    
+    /*
+     * Recupera la informacion del comprobante de pago.
+     */
+    function getComprobantePago() {
+        //Identificamos el articulo
+     	$idArticulo = Session::get('idArticulo');
+     	$response = '<p>';
+        
+        //En caso de tener un numero de articulo, recuperamos los datos guardados.
+        if (!empty($idArticulo)) {
+     		$comprobante = $this->model->get_comprobante($idArticulo);
+            
+            //En caso de tener informacion, indicamos el archivo, en caso contrario, informamos la ausencia.
+     		if (!$comprobante) {
+     			$response .= 'No hay carta de seci&oacute;n de derechos';
+     		}else{
+     			$response .= '<a href="docs/'.$comprobante.'"><span class="glyphicon glyphicon-download-alt"></span> Descargar</a>';
+     		}
+     	}else{
+     		error_log('Error no se esta mandando el id del art&iacute;culo : getCartaDerechos');
+     	}
+        
+     	$response .= '</p>';
+     	echo $response;
+     }//Fin getComprobantePago
 
+    /*
+     * Actualiza los datos de un pago
+     */
     function updateDatosPago() {
-        $comprobante = $this->model->get_comprobante(Session::get('idArticulo'));
-//        Valida si se subio un nuevo archivo
-        $archivoNuevo = (empty($_FILES['comprobante']) ? 'no' : 'si');
+        $idArticulo = Session::get('idArticulo');
+        
+        $comprobante = $this->model->get_comprobante($idArticulo);
+        
+        //Comprobamos la completitud de los datos.
         if (!empty($_POST['correo']) &&
                 !empty($_POST['tipo-pago']) &&
                 !empty($_POST['razon-social']) &&
@@ -296,6 +389,7 @@ class Registroasistencia extends Controller {
                 !empty($_POST['num-sucursal']) &&
                 !empty($_POST['num-transaccion'])) {
 
+            //Agrupamos los datos del deposito.
             $deposito = array(
                 'banco' => $_POST['banco'],
                 'sucursal' => $_POST['num-sucursal'],
@@ -305,9 +399,10 @@ class Registroasistencia extends Controller {
                 'monto' => $this->getMonto(true),
                 'fecha' => $_POST['fecha'],
                 'hora' => "$_POST[hora]:$_POST[minuto]",
-                'comprobante' => (empty($_FILES['comprobante']['name']) ? $comprobante : $_FILES['comprobante']['name']),
-                'idArticulo' => Session::get('idArticulo')
+                'idArticulo' => $idArticulo
             );
+            
+            //Agrupamos los datos de facturacion
             $facturacion = array(
                 'correo' => $_POST['correo'],
                 'razonSocial' => $_POST['razon-social'],
@@ -318,124 +413,138 @@ class Registroasistencia extends Controller {
                 'municipio' => $_POST['municipio'],
                 'estado' => $_POST['estado'],
                 'cp' => $_POST['codigo-postal'],
-                'idArticulo' => Session::get('idArticulo')
+                'idArticulo' => $idArticulo
             );
-            $extencion = explode('.', $deposito['comprobante']);
-            $extencion = end($extencion);
-            $correoValido = $this->comprobarCorreo($facturacion['correo']);
-            $asistentesGeneral = $this->model->get_total_asistentes(Session::get('idArticulo'), 'general');
-            $asistentesPonente = $this->model->get_total_asistentes(Session::get('idArticulo'), 'ponente');
-            $asistentesCoautor = $this->model->get_total_asistentes(Session::get('idArticulo'), 'coautor');
 
+            //Se comprueba el formato del correo
+            $correoValido = $this->comprobarCorreo($facturacion['correo']);
+            //Recuperamos los datos de los asistentes.
+            $asistentesGeneral = $this->model->get_total_asistentes($idArticulo, 'general');
+            $asistentesPonente = $this->model->get_total_asistentes($idArticulo, 'ponente');
+            $asistentesCoautor = $this->model->get_total_asistentes($idArticulo, 'coautor');
+
+            //calculo del total de asistentes.
             $totalAsistentes = $asistentesCoautor + $asistentesGeneral + $asistentesPonente;
+            
+            //Comprobamos, la existencia de asistentes.
             if ($totalAsistentes > 0) {
-                $validacionPonente = $this->model->get_total_asistentes(Session::get('idArticulo'), 'ponente');
+                
+                //Aseguramos la presencia de un ponente.
+                $validacionPonente = $this->model->get_total_asistentes($idArticulo, 'ponente');
+                
                 if ($validacionPonente > 0) {
                     if ($correoValido) {
-                        if ($archivoNuevo == 'si') {
-                            if (strtolower($extencion) != 'pdf') {
-                                echo 'error-formato';
-                            } else {
-                                if (!move_uploaded_file($_FILES['comprobante']['tmp_name'], DOCS . Session::get('idArticulo') . '/' . $deposito['comprobante'])) {
-                                    echo 'error-subir-archivo';
-                                } else {
-                                    if ($comprobante != Session::get('idArticulo') . '/' . $_FILES['comprobante']['name']) {
-                                        unlink(DOCS . $comprobante);
-                                    }
-                                    $deposito['comprobante'] = Session::get('idArticulo') . '/' . $deposito['comprobante'];
-                                }
-                            }
-                        }
-
-//                        $deposito['comprobante'] = Session::get('idArticulo') . '/' . $deposito['comprobante'];
+                        //actualizamos los datos del deposito
                         $responseDB = $this->model->update_datos_deposito($deposito);
+                        
                         if ($responseDB) {
+                            //Actualizacion de los datos de facturacion
                             $responseDB = $this->model->update_datos_facturacion($facturacion);
+                            
                             if ($responseDB) {
+                                //Actuamos el nuevo estado de la asitencia
                                 $this->updateEstatusAsistencia('si');
-                                $this->model->update_estatus_cambios(Session::get('idArticulo'), 'no');
-//                                unlink(DOCS . $comprobante);
+                                $this->model->update_estatus_cambios($idArticulo, 'no');
                                 echo 'true';
                             } else {
-//                                   Error consulta datos facturacion
                                 echo 'false';
                             }
                         } else {
-//                              Error consulta datos deposito
                             echo 'false';
                         }
                     } else {
-//                    Correo invalido
                         echo 'error-correo';
                     }
                 } else {
-//                    No hay ningún ponente registradp
                     echo 'error-ponente';
                 }
             } else {
-//                    Error ningun asistente registrado
                 echo 'error-num-asistentes';
             }
         } else {
-//               Error de datos incompletos
             echo 'error-null';
         }
-    }
-
+    }//Fin updateDatosPago
+    
+    
+    /*
+     * Actualizacion del estado de la asistencia
+     */
     function updateEstatusAsistencia($estatus) {
-        $this->model->update_estatus_asitencia(Session::get('idArticulo'), $estatus);
-    }
+        $idArticulo = Session::get('idArticulo');
+        $this->model->update_estatus_asitencia($idArticulo, $estatus);
+    }//Fin updateEstatusAsistencia
 
+    /*
+     * Recupera el datos del estado de cambio permitod de la asistencia
+     */
     function getEstatusCambios($get = FALSE) {
-        $responseDB = $this->model->get_estatus_cambios(Session::get('idArticulo'));
+        $idArticulo = Session::get('idArticulo');
+        $responseDB = $this->model->get_estatus_cambios($idArticulo);
+        
         if ($get) {
             return $responseDB;
         } else {
             echo $responseDB;
         }
-    }
+    }//Fin getEstatusCambios
 
+    /*
+     * Recupera el datos del estado del registro
+     */
     function getEstatusRegistro($get = FALSE) {
-        $responseDB = $this->model->get_estatus_registro(Session::get('idArticulo'));
+        $idArticulo = Session::get('idArticulo');
+        $responseDB = $this->model->get_estatus_registro($idArticulo);
+        
         if ($get) {
             return $responseDB;
         } else {
             echo $responseDB;
         }
-    }
+    }//Fin getEstatusRegistro
 
+    /*
+     * Calcula el monto a pagar
+     */
     function getMonto($get = FALSE) {
-        $asistentesPonente = $this->model->get_total_asistentes(Session::get('idArticulo'), 'ponente');
-        $asistentesGeneral = $this->model->get_total_asistentes(Session::get('idArticulo'), 'general');
-        $asistentesCoautor = $this->model->get_total_asistentes(Session::get('idArticulo'), 'coautor');
+        $idArticulo = Session::get('idArticulo');
+
+        //Recupera laos asistentes.
+        $asistentesPonente = $this->model->get_total_asistentes($idArticulo, 'ponente');
+        $asistentesGeneral = $this->model->get_total_asistentes($idArticulo, 'general');
+        $asistentesCoautor = $this->model->get_total_asistentes($idArticulo, 'coautor');
+        
+        //Identifica las fecha de pagos, para disponibilidad de despuestos
         $fecha_actual = new DateTime('now', new DateTimeZone('America/Mexico_City'));
         $fecha_actual->format('Y-m-d');
-        $fechaAgosto = new DateTime('2017-08-19');
-        //$fecha = date('d/m/Y', strtotime('-1 days'));
+        $fechaAgosto = new DateTime(FECHADESCUENTOAUTORES, new DateTimeZone('America/Mexico_City')); 
         $monto = 0;
-        //$fechaAgosto = date('d/m/Y');
+        
         if ($fecha_actual <= $fechaAgosto) {
-            //$fechaAgosto = date('d/m/Y');
-            //if ($fecha <= $fechaAgosto) {
-            $monto = 2500 * $asistentesPonente;
-            $monto += 2200 * $asistentesGeneral;
-            $monto += 2200 * $asistentesCoautor;
+            $monto = CUOTAAUTORDESCUENTO * $asistentesPonente;
+            $monto += CUOTAPUBLICODESCUENTO * $asistentesGeneral;
+            $monto += CUOTAPUBLICODESCUENTO * $asistentesCoautor;
         } else {
-            $monto = 2900 * $asistentesPonente;
-            $monto += 2600 * $asistentesGeneral;
-            $monto += 2600 * $asistentesCoautor;
+            $monto = CUOTAAUTOR * $asistentesPonente;
+            $monto += CUOTAPUBLICO * $asistentesGeneral;
+            $monto += CUOTAPUBLICO * $asistentesCoautor;
         }
         if ($get) {
             return $monto;
         } else {
             echo $monto;
         }
-    }
+    }//Fin getMonto
 
+    /*
+     * Recupera la informacion del deposito
+     */
     function getDatosDeposito() {
-        $responseDB = $this->model->get_datos_deposito(Session::get('idArticulo'));
+        $idArticulo = Session::get('idArticulo');
+        $responseDB = $this->model->get_datos_deposito($idArticulo);
+        
+        //Confirmamos la existencia de datos previos, para armar la respuesta json o informar su ausencia.
         if (!$responseDB) {
-//                Error no hay registro 
             error_log("No hay registro de datos del deposito: fnc getDatosDeposito");
             $response = 'false';
         } else {
@@ -450,20 +559,24 @@ class Registroasistencia extends Controller {
                 'fecha' => $responseDB['dep_fecha'],
                 'hora' => $horaMinuto[0],
                 'minuto' => $horaMinuto[1],
-                'monto' => $responseDB['dep_monto'],
-                'comprobante' => $responseDB['dep_comprobante']
+                'monto' => $responseDB['dep_monto']
             );
             $response = $deposito;
         }
-
         echo json_encode($response);
-    }
+    }//Fin getDatosDeposito
 
+    /*
+     * Recuperamos la informacion de facturacion
+     */
     function getDatosFacturacion() {
-        $responseDB = $this->model->get_datos_facturacion(Session::get('idArticulo'));
+        //Recuperamos la informacion persistida.
+        $idArticulo =  Session::get('idArticulo');
+        $responseDB = $this->model->get_datos_facturacion($idArticulo);
         $response = '';
+        
+        //Comprobamos su existencia, para armanr recpuesta json, o notificar la ausencia.
         if (!$responseDB) {
-//            Error, consulta vacia 
             error_log("getDatosFacturacion: posible error con la consulta ó esta vacia");
             $response = 'false';
         } else {
@@ -482,8 +595,11 @@ class Registroasistencia extends Controller {
             $response = $facturacion;
         }
         echo json_encode($response);
-    }
+    }//Fin getDatosFacturacion
 
+    /*
+     * Comprobamos el correcto formato de una direccion de correo electronico.
+     */
     function comprobarCorreo($correo) {
         $correoCorrecto = 0;
         if ((strlen($correo) >= 6) && (substr_count($correo, '@') == 1) && (substr($correo, 0, 1) != '@') && (substr($correo, strlen($correo) - 1, 1) != '@')) {
@@ -505,6 +621,60 @@ class Registroasistencia extends Controller {
         } else {
             return FALSE;
         }
-    }
+    }//Fin comprobarCorreo
+    
+    /*
+     * Recibe el archivo evidencia del comprobante de pago
+     */
+    function subirComprobantePago() {
+          $response = '';
+          $idArticulo =  Session::get('idArticulo');
+         
+          if (!empty($idArticulo)) {
+              
+              //Confirmamos la disponibilidad de cambios.
+               $validacionCambio = $this->model->get_estatus_dictaminado($idArticulo);
+              
+              //En caso de estar permitidos, elimina el actual.
+               if ($validacionCambio) {
+                    $existePago = $this->model->existe_comprobante_pago($idArticulo);
+                    if (!$existePago) {
+                         try {
+							 if (file_exists(DOCS . $idArticulo.'/' .$existePago['doc_pago'])){
+							 	unlink(DOCS . $idArticulo .'/' . $existePago['doc_pago']);
+							 }
+                         } catch (Exception $exc) {
+                              error_log($exc->getTraceAsString());
+                         }
+                    }
+                   
+                   //Recuperamos el nombre del nuevo archivo.
+                    $file = $_FILES['input-comprobante-pago']['name'];
+                    $formatoArchivo = explode('.', $file);
+                    $formatoArchivo = end($formatoArchivo);
+                   
+                   //Comprobamos el correcto formato
+                    if ($formatoArchivo != 'pdf') {
+                         echo 'error-formato-archivo';
+                    } else {
+						
+                        //Se mueve de temporales al definitivo
+                         if (!move_uploaded_file($_FILES['input-comprobante-pago']['tmp_name'], DOCS . $idArticulo . '/' . $file)) {
+                              echo 'error-subir-archivo';
+                         } else {
+                             //Registramos el nuevo documento en la base de datos.
+                              $this->model->registro_comprobante_pago($idArticulo, $idArticulo . '/' . $file);
+                              echo 'true';
+                         }
+                    }
+               } else {
+                    $response = 'error-validacion';
+               }
+          } else {
+               $response = 'error-null';
+          }
+          echo $response;
+     }//Fin subirComprobantePago
+    
 
-}
+}//Fin class Registroasistencia

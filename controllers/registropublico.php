@@ -1,118 +1,133 @@
 <?php
+
+/*
+ * Resgistrar asistencia de publico en general.
+ */
 class registropublico extends Controller {
 
-
+    /*
+     * Crea un objeto para registrar un asistente.
+     */
     function __construct() {
         parent::__construct();
         Session::init();
-        /*$logged = 
+        $logged = 
         Session::get("sesion");
+        
+        //Inicia sesion como visitante para poder utilizar atributos de sesion
         if (!$logged) {
-            Session::destroy();
-            header("location: index");
-            exit;
-        }*/
+            Session::set('sesion', TRUE);
+            Session::set('id', 'visitante');
+            Session::set('perfil', 'visitante');
+            Session::set('usuario', 'visitante');	
+        }
        
+        //Carga las hojas de estilo.
         $this->view->css = array(
-            'public/plugins/toastr/toastr.min.css',
+            'public/bootstrap/css/bootstrap.min.css',
+            'public/fontawesome/css/font-awesome.min.css',
+            'public/css/animate.min.css',
+            'public/css/fluidbox.min.css',
             'public/plugins/datatable/jquery.datatables.min.css',
+            'views/registroarticulo/css/registroarticulo.css',
+		    'views/registropublico/css/menu.css',
             'public/plugins/datapicker/bootstrap-datepicker.min.css',
         );
+        
+        //Carga de los scripts
         $this->view->js = array(
-            'public/plugins/toastr/toastr.min.js',
+            'public/js/jquery-2.1.4.min.js',
+			'public/bootstrap/js/bootstrap.min.js',
             'public/plugins/datapicker/bootstrap-datepicker.min.js',
             'public/plugins/datapicker/bootstrap-datepicker.es.min.js',
-            'public/plugins/datatable/jquery.datatables.min.js',
             'views/registropublico/js/registropublico.js'
         );
-    }
+    }//Fin __construct
 
+    /*
+     * Renderizar la pagina.
+     */
     function index() {
     	$this->view->tablaAsistentes = $this->getAsistentesPublico(true);
     	$this->view->monto = $this->getMonto(true);
         $this->view->render("registropublico/index");
-    }
+    }//Fin index
 
-    function getDatosArticulo($id) {
-//        $responseDB = $this->model->get_datos_articulo(Session::get('idAutor'));
-        $responseDB = $this->model->get_datos_articulo($id);
-        $articulo = array(
-            'id' => $responseDB['artId'],
-            'nombre' => $responseDB['artNombre'],
-            'tipo' => $responseDB['artTipo'],
-        );
-        Session::set('idArticulo', $articulo['id']);
-        $response = '<div class="row">';
-        $response .= '<div class="col-sm-4">';
-        $response .= '<label for="">Id del art&iacute;culo:</label>';
-        $response .= '<p class="form-static-control">' . $articulo['id'] . '</p>';
-        $response .= '</div>';
-        $response .= '<div class="col-sm-4">';
-        $response .= '<label for="">Nombre del art&iacute;culo:</label>';
-        $response .= '<p class="form-static-control">' . $articulo['nombre'] . '</p>';
-        $response .= '</div>';
-        $response .= '<div class="col-sm-4">';
-        $response .= '<label for="">Modalidad de presentaci&oacute;n:</label>';
-        $response .= '<p class="form-static-control">' . strtoupper($articulo['tipo']) . '</p>';
-        $response .= '</div>';
-        $response .= '</div>';
-
-        return $response;
-    }
-
+    /*
+     * Crear y persiste un nuevo asistente
+     */
     function nuevoAsistente() {
         $nombre = $_POST['nombre-asistente'];
         $institucion = $_POST['institucion'];
         $tipoAsistente = $_POST['tipo-asistente'];
-        //VALIDA QUE NO PUEDEN CAPTURAR MAS DE 10 ASISTENTES
-        if(Session::get('idRegistroPublico')){
+        $idRegistroPublico = Session::get('idRegistroPublico');
+        
+        //Valida la existencia de no mas 10 asistentes.
+        if($idRegistroPublico){
+            
         	$arNombre= explode(" ", $nombre);
         	$nombre_sin_esp="";
+            
             foreach($arNombre as $datos => $valor){ 
                  $nombre_sin_esp.=$valor; 
             } 
+            
         	$asist_encontrado=$this->model->get_buscar_asistente(strtoupper($nombre_sin_esp));
         	if($asist_encontrado){
         		echo 'error-replicado';
         		return;
         	}
-        	$cantRegistro=$this->model->get_total_asistentes_pub(Session::get('idRegistroPublico'));
+            
+        	$cantRegistro=$this->model->get_total_asistentes_pub($idRegistroPublico);
         	if($cantRegistro >10){
         		echo 'error-cantidad';
         		return;
         	}
         }
 
+        //Valida la completitud de los asistentes.
         if (!empty($nombre)  && !empty($tipoAsistente)) {
-            if(!Session::get('idRegistroPublico')){
+            
+            //En caso de no existir un identificador para el registro, se crea.
+            if(!$idRegistroPublico){
             	$responseDB = $this->model->nuevo_registro();
             }
+            
+            //Persistimos los datos del asistente.
             $asistente = array(
             		'nombre' => $nombre,
             		'institucion' => $institucion,
             		'tipoAsistente' => $tipoAsistente,
-            		'reg_id' => Session::get('idRegistroPublico')
+            		'reg_id' => $idRegistroPublico
             );
+            
             $responseDB = $this->model->regitro_asistente($asistente);
+            
             if ($responseDB) {
                 echo 'true';
             } else {
-//                         Error al ejecutar la consulta
                 echo 'error-query';
             }
         } else {
-//                    Falta algun valor
-//             echo 'error-null';
+             echo 'error-null';
         }
-    }
+    }//Fin nuevoAsistente
     
+    /*
+     * Trae las información de los asistente del registro publico.
+     */
     function getAsistentesPublico($get = FALSE) {
-    	if(!Session::get('idRegistroPublico') ){
+        $idRegistroPublico = Session::get('idRegistroPublico');
+
+        //Verificamos la existen de un identificador del registro publico, para solicitar los asistentes
+        //para presentarlos
+    	if(!$idRegistroPublico){
     		$response = '';
     	}else{
-    		$responseDB = $this->model->get_asistentes_publico();
+    		$responseDB = $this->model->get_asistentes_publico($idRegistroPublico);
+        
+            
     		if (!$responseDB) {
-    			//               No hay asistentes
     			$response = '';
     		} else {
     			$response = '';
@@ -127,20 +142,24 @@ class registropublico extends Controller {
     			}
     		}
     	}
+        
         if ($get) {
             return $response;
         } else {
             echo $response;
         }
-    }
+    }//Fin getAsistentesPublico
 
+    /*
+     * Recupera la información de un asistente en particular
+     */
     function getDatosAsistente() {
         $id = $_POST['id'];
         $response = '';
+        
         if (!empty($id)) {
             $responseDB = $this->model->get_datos_asistente($id);
             if (!$responseDB) {
-//                    No se encontro el registro
                 echo 'error-registro';
             } else {
                 $asistente = array(
@@ -152,11 +171,15 @@ class registropublico extends Controller {
                 echo json_encode($asistente);
             }
         }
-    }
+    }//Fin getDatosAsistente
 
+    /*
+     * Borra un asistente del registro publico.
+     */
     function borrarAsistente() {
         $id = $_POST['id'];
         $response = '';
+        
         if (!empty($id)) {
             $responseDB = $this->model->borrar_asistente($id);
             if ($responseDB) {
@@ -169,33 +192,122 @@ class registropublico extends Controller {
             $response = 'error-query';
         }
         echo $response;
-    }
+    }//borrarAsistente
 
+    /*
+     * Actualiza los datos de un asistente.
+     */
     function updateAsistente() {
+        //Baja los datos del asistente de la peticion.
         $id = $_POST['id-asistente'];
         $nombre = $_POST['nombre-edit'];
         $institucion = $_POST['institucion'];
         $tipo = $_POST['tipo-asistente'];
+        
+        //Verifica la completitud
         if (!empty($id) && !empty($nombre) && !empty($institucion) && !empty($tipo)) {
+            //Persistimos los cambios.
             $asistente = array(
                 'id' => $id,
                 'nombre' => $nombre,
                 'institucion' => $institucion,
                 'tipo' => $tipo
             );
+            
             $responseDB = $this->model->update_asistente($asistente);
+            
             if (!$responseDB) {
-//                         Error query
                 echo 'error';
             } else {
                 echo 'true';
             }
         } else {
-//               Error datos incompletos
             echo 'error-null';
         }
-    }
+    }//Fin updateAsistente
 
+        
+    /*
+     * Calcula el monto a pagar
+     */ 
+    function getMonto($get = FALSE) {
+        
+        $idRegistroPublico = Session::get('idRegistroPublico');
+        //En caso de existir identificador para el registro, calculamos el monto.
+    	if(!$idRegistroPublico ){
+    		$monto = 0;
+    	}else{
+            //Recuperamos las fechas y el numero de asistentes.
+    		$asistentesGeneral = $this->model->get_total_asistentes($idRegistroPublico, 'general');
+    		$fecha_actual = new DateTime('now', new DateTimeZone('America/Mexico_City'));
+    		$fecha_actual->format('Y-m-d');
+    		$fechaSeptiembre = new DateTime(FECHALIMITEDESCUENTOGENERAL, new DateTimeZone('America/Mexico_City'));  
+    		$monto = 0;
+            
+            //IDentificamos el costo a aplicar, con o sin descuento
+    		if ($fecha_actual <= $fechaSeptiembre) {
+    			$monto += CUOTAPUBLICODESCUENTO * $asistentesGeneral;;
+    		} else {
+    			$monto += CUOTAPUBLICO * $asistentesGeneral;
+    		}
+    	}
+        if ($get) {
+            return $monto;
+        } else {
+            echo $monto;
+        }
+    }//Fin getMonto
+    
+    
+    /*
+     * Verificar el rango de las fechas
+     */ 
+    function validarFechas($fecha)
+    {
+    	$formatoValido=false;
+        $dmy= explode("/", $fecha);
+        if(count($dmy)>2)
+        {
+        	If (checkdate ($dmy[1],$dmy[0],$dmy[2]))
+        	$formatoValido= true;
+        	else
+        		$formatoValido= false;
+        }else{
+        	$formatoValido= false;
+        }
+        return $formatoValido;
+    }//Fin validarFechas
+    
+    /*
+     * Comprueba el correcto formato del correo.
+     */
+    function comprobarCorreo($correo) {
+        $correoCorrecto = 0;
+        if ((strlen($correo) >= 6) && (substr_count($correo, '@') == 1) && (substr($correo, 0, 1) != '@') && (substr($correo, strlen($correo) - 1, 1) != '@')) {
+            if ((!strstr($correo, "'")) && (!strstr($correo, "\"")) && (!strstr($correo, "\\")) && (!strstr($correo, "\$")) && (!strstr($correo, " "))) {
+                if (substr_count($correo, ".") >= 1) {
+                    $term_dom = substr(strrchr($correo, '.'), 1);
+                    if (strlen($term_dom) > 1 && strlen($term_dom) < 5 && (!strstr($term_dom, '@'))) {
+                        $antes_dom = substr($correo, 0, strlen($correo) - strlen($term_dom) - 1);
+                        $caracter_ult = substr($antes_dom, strlen($antes_dom) - 1, 1);
+                        if ($caracter_ult != '@' && $caracter_ult != '.') {
+                            $correoCorrecto = 1;
+                        }
+                    }
+                }
+            }
+        }
+        if ($correoCorrecto) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }//Fin comprobarCorreo
+    
+    
+    /*
+     * Guarda una nuevo registro de pago de asistentes publicos.
+     */
     function registroDatosPago() {
         if (!empty($_POST['correo']) && 
                 !empty($_POST['tipo-pago']) && 
@@ -215,6 +327,12 @@ class registropublico extends Controller {
                 !empty($_POST['num-sucursal']) &&
                 !empty($_POST['num-transaccion'])) {
             
+            $idRegistroPublico = Session::get('idRegistroPublico');
+                
+            $dmy= explode("/", $_POST['fecha']);
+     	    $dt = new DateTime($dmy[2].'-'.$dmy[1].'-'.$dmy[0], new DateTimeZone('America/Mexico_City'));
+
+            //Agrupamos los datos del deposito.
             $deposito = array(
                 'banco' => $_POST['banco'],
                 'sucursal' => $_POST['num-sucursal'],
@@ -222,13 +340,13 @@ class registropublico extends Controller {
                 'tipoPago' => $_POST['tipo-pago'],
                 'info' => $_POST['info-deposito'],
                 'monto' => $this->getMonto(true),
-                'fecha' => $_POST['fecha'],
+                'fecha' => $dt->format('Y-m-d'),
                 'hora' => "$_POST[hora]:$_POST[minuto]",
-                'comprobante' => $_FILES['comprobante']['name'],
-                'idArticulo' => Session::get('idArticulo')
+                'reg_id' => $idRegistroPublico
             );
             error_log(print_r($deposito,true));
 
+            //Agrupamos los datos de factuacion
             $facturacion = array(
                 'correo' => $_POST['correo'],
                 'razonSocial' => $_POST['razon-social'],
@@ -239,85 +357,69 @@ class registropublico extends Controller {
                 'municipio' => $_POST['municipio'],
                 'estado' => $_POST['estado'],
                 'cp' => $_POST['codigo-postal'],
-                'idArticulo' => Session::get('idArticulo')
+                'reg_id' => $idRegistroPublico
             );
-            $extencion = explode('.', $deposito['comprobante']);
-            $extencion = end($extencion);
+            
+            //Recuperamos los asistentes de la resgistro de asistencia
             $correoValido = $this->comprobarCorreo($facturacion['correo']);
-            $asistentesGeneral = $this->model->get_total_asistentes(Session::get('idArticulo'), 'general');
-            $asistentesPonente = $this->model->get_total_asistentes(Session::get('idArticulo'), 'ponente');
-            $asistentesCoautor = $this->model->get_total_asistentes(Session::get('idArticulo'), 'coautor');
-
-            $totalAsistentes = $asistentesCoautor + $asistentesGeneral + $asistentesPonente;
+            $asistentesGeneral = $this->model->get_total_asistentes($idRegistroPublico, 'general');
+            $totalAsistentes =  $asistentesGeneral;
+            
+            //Verificamos la exstencia de asistentes.
             if ($totalAsistentes > 0) {
-                $validacionPonente = $this->model->get_total_asistentes(Session::get('idArticulo'), 'ponente');
-                if ($validacionPonente > 0) {
-                    if ($correoValido) {
-                        if (strtolower($extencion)  != 'pdf') {
-//                    Error tipo de archivo
-                            echo 'error-formato';
-                        } else {
-                            if (!move_uploaded_file($_FILES['comprobante']['tmp_name'], DOCS . Session::get('idArticulo') . '/' . $deposito['comprobante'])) {
-//                    Error al subir el archivo
-                                echo 'error-subir-archivo';
-                            } else {
-                                $deposito['comprobante'] = Session::get('idArticulo') . '/' . $deposito['comprobante'];
-                                $responseDB = $this->model->registro_datos_deposito($deposito);
-                                if ($responseDB) {
-                                    $responseDB = $this->model->registro_datos_facturacion($facturacion);
-                                    if ($responseDB) {
-                                        $this->updateEstatusAsistencia('si');
-                                        echo 'true';
-                                    } else {
-//                                   Error consulta datos facturacion
-                                        echo 'false';
-                                    }
-                                } else {
-//                              Error consulta datos deposito
-                                    echo 'false';
-                                }
+                //Aseguramiento la presencia de correo electronico
+                if ($correoValido) {
+                    //Persistencia de los datos de deposito
+                    $responseDB = $this->model->registro_datos_deposito($deposito);
+                    if ($responseDB) {
+                        //Persistencia de los datos de facturacion
+                        $responseDB = $this->model->registro_datos_facturacion($facturacion);
+                        if ($responseDB) {
+                            //Destruir sesion si es visitante
+                            $perfil = Session::get("perfil");
+                            //Inicia sesion como visitante para poder utilizar atributos de sesion
+                            if ($perfil === 'visitante') {
+                                Session::init();
+                                Session::destroy();	
+                            }else{
+                                //Eliminar el identificador del registro publico si es autor
+                                 unset($_SESSION['idRegistroPublico']);
                             }
+                            echo 'true';
+                        } else {
+                            echo 'false';
                         }
                     } else {
-//                    Correo invalido
-                        echo 'error-correo';
+                        echo 'false';
                     }
                 } else {
-//                    No hay ningún ponente registradp
-                    echo 'error-ponente';
+                    echo 'error-correo';
                 }
             } else {
-//                    Error ningun asistente registrado
                 echo 'error-num-asistentes';
             }
         } else {
-//               Error de datos incompletos
             echo 'error-null';
         }
-    }
+    }//Fin registroDatosPago
+
     
-    function validarFechas($fecha)
-    {
-    	$formatoValido=false;
-        $dmy= explode("/", $fecha);
-        if(count($dmy)>2)
-        {
-        	If (checkdate ($dmy[1],$dmy[0],$dmy[2]))
-        	$formatoValido= true;
-        	else
-        		$formatoValido= false;
-        }else{
-        	$formatoValido= false;
-        }
-        return $formatoValido;
-    }
     
+    
+
+    
+    /************************************************************************************/
+    /*************************************  No se utilizan ******************************/
+    /************************************************************************************/
+    
+    /* 
     function updateDatosPago() {
-    	//VALIDA FORMATO DE FECHA
+        //Verficamos
     	if(!$this->validarFechas($_POST['fecha'])){
     		echo 'error-formato-fecha';
     		return ;
     	}
+        
     	$dmy= explode("/", $_POST['fecha']);
      	$fechaDeposito = new DateTime($dmy[1].'/'.$dmy[0].'/'.$dmy[2]);
 
@@ -398,6 +500,7 @@ class registropublico extends Controller {
         }
     }
 
+    
     function updateEstatusAsistencia($estatus) {
         $this->model->update_estatus_asitencia(Session::get('idArticulo'), $estatus);
     }
@@ -418,63 +521,6 @@ class registropublico extends Controller {
         }else{
             echo $responseDB;
         }
-    }
-
-    function getMonto($get = FALSE) {
-    	if(!Session::get('idRegistroPublico') ){
-    		$monto = 0;
-    	}else{
-    		$asistentesPonente = $this->model->get_total_asistentes(Session::get('idRegistroPublico'), 'ponente');
-    		$asistentesGeneral = $this->model->get_total_asistentes(Session::get('idRegistroPublico'), 'general');
-    		$asistentesCoautor = $this->model->get_total_asistentes(Session::get('idRegistroPublico'), 'coautor');
-    		$fecha_actual = new DateTime('now', new DateTimeZone('America/Mexico_City'));
-    		$fecha_actual->format('Y-m-d');
-    		$fechaSeptiembre = new DateTime('2017-09-11');
-    		//$fecha = date('d/m/Y', strtotime('-1 days'));
-    		$monto = 0;
-    		//$fechaAgosto = date('d/m/Y');
-    		if ($fecha_actual <= $fechaSeptiembre) {//if ($fecha <= $fechaAgosto) {
-    			$monto = 2500 * $asistentesPonente;
-    			$monto += 2200 * $asistentesGeneral;
-    			$monto += 2200 * $asistentesCoautor;
-    		} else {
-    			$monto = 2900 * $asistentesPonente;
-    			$monto += 2600 * $asistentesGeneral;
-    			$monto += 2600 * $asistentesCoautor;
-    		}
-    	}
-        if ($get) {
-            return $monto;
-        } else {
-            echo $monto;
-        }
-    }
-
-    function getDatosDeposito() {
-        $responseDB = $this->model->get_datos_deposito(Session::get('idArticulo'));
-        if (!$responseDB) {
-//                Error no hay registro 
-            error_log("No hay registro de datos del deposito: fnc getDatosDeposito");
-            $response = 'false';
-        } else {
-            $horaMinuto = explode(':', $responseDB['dep_hora']);
-            $deposito = array(
-                'id' => $responseDB['dep_id'],
-                'banco' => $responseDB['dep_banco'],
-                'sucursal' => $responseDB['dep_sucursal'],
-                'transaccion' => $responseDB['dep_transaccion'],
-                'tipoPago' => $responseDB['dep_tipo'],
-                'info' => $responseDB['dep_info'],
-                'fecha' => $responseDB['dep_fecha'],
-                'hora' => $horaMinuto[0],
-                'minuto' => $horaMinuto[1],
-                'monto' => $responseDB['dep_monto'],
-                'comprobante' => $responseDB['dep_comprobante']
-            );
-            $response = $deposito;
-        }
-
-        echo json_encode($response);
     }
 
     function getDatosFacturacion() {
@@ -501,29 +547,32 @@ class registropublico extends Controller {
         }
         echo json_encode($response);
     }
-
-    function comprobarCorreo($correo) {
-        $correoCorrecto = 0;
-        if ((strlen($correo) >= 6) && (substr_count($correo, '@') == 1) && (substr($correo, 0, 1) != '@') && (substr($correo, strlen($correo) - 1, 1) != '@')) {
-            if ((!strstr($correo, "'")) && (!strstr($correo, "\"")) && (!strstr($correo, "\\")) && (!strstr($correo, "\$")) && (!strstr($correo, " "))) {
-                if (substr_count($correo, ".") >= 1) {
-                    $term_dom = substr(strrchr($correo, '.'), 1);
-                    if (strlen($term_dom) > 1 && strlen($term_dom) < 5 && (!strstr($term_dom, '@'))) {
-                        $antes_dom = substr($correo, 0, strlen($correo) - strlen($term_dom) - 1);
-                        $caracter_ult = substr($antes_dom, strlen($antes_dom) - 1, 1);
-                        if ($caracter_ult != '@' && $caracter_ult != '.') {
-                            $correoCorrecto = 1;
-                        }
-                    }
-                }
-            }
-        }
-        if ($correoCorrecto) {
-            return TRUE;
+    
+    function getDatosDeposito() {
+        
+        $responseDB = $this->model->get_datos_deposito(Session::get('idArticulo'));
+        if (!$responseDB) {
+            error_log("No hay registro de datos del deposito: fnc getDatosDeposito");
+            $response = 'false';
         } else {
-            return FALSE;
+            $horaMinuto = explode(':', $responseDB['dep_hora']);
+            $deposito = array(
+                'id' => $responseDB['dep_id'],
+                'banco' => $responseDB['dep_banco'],
+                'sucursal' => $responseDB['dep_sucursal'],
+                'transaccion' => $responseDB['dep_transaccion'],
+                'tipoPago' => $responseDB['dep_tipo'],
+                'info' => $responseDB['dep_info'],
+                'fecha' => $responseDB['dep_fecha'],
+                'hora' => $horaMinuto[0],
+                'minuto' => $horaMinuto[1],
+                'monto' => $responseDB['dep_monto'],
+                'comprobante' => $responseDB['dep_comprobante']
+            );
+            $response = $deposito;
         }
-    }
 
-}
-	
+        echo json_encode($response);
+    }
+    */	
+}//Fin class registropublico
