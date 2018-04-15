@@ -29,7 +29,7 @@ class registroautores extends Controller {
         $pass = $_POST['password'];
         $rPass = $_POST['rpassword'];
         $correo = $_POST['correo'];
-        $correoValido = $this->IsEmail($correo);
+        $correoValido = $this->IsEmail($correo);*-
         if ($correoValido) {
             if (empty($pass) || empty($rPass)) {
                 echo 'error-null';
