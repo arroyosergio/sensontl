@@ -13,7 +13,7 @@ $(document).ready(function () {
 	fileList=document.getElementById("file-list");
 	$("#cancelar").hide();
 	$("#cargar").hide();
-    //$('input#archivo').prop("disabled", true);
+    $('input#archivo').prop("disabled", true);
     
 });
 
