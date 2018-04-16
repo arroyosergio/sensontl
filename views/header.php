@@ -81,18 +81,14 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Autores<span class="caret"></span></a>
                         <ul class="dropdown-menu sub-menu">
                             <li><a href="guia">Guía</a></li>
-
                             <li><a href="registroautores" >Registro</a></li>
-
-                            <!--<li><a href="registro">Registro</a></li>-->
-
                         </ul>
                     </li>
                     <li id="mAsistentes" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Asistentes<span class="caret"></span></a>
                         <ul class="dropdown-menu sub-menu">
                             <li><a href="informacion">Información</a></li>
-                            <!--<li><a href="registropublico">Registro de pago</a></li>-->
+                            <li><a href="registropublico">Registro de pago</a></li>
                         </ul>
                     </li>
                     <?php
