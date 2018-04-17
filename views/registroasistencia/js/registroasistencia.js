@@ -1,11 +1,19 @@
+var ulrUpfile="";
+
 $(document).ready(function () {
-    fileListOrigen=document.getElementById("file-comprobante-pago");
     getEstatusRegistro();
     $('.datapicker').datepicker({
         language: "es",
         autoclose: true,
         todayHighlight: true
     });
+    
+    var filesUpload=document.getElementById("archivo");
+	fileList=document.getElementById("file-list");
+	$("#cancelar").hide();
+	$("#cargar").hide();
+    
+    
 });
 
 $('#btn-nuevo-asistente').click(function () {
@@ -19,7 +27,6 @@ $('#form-datos-pago').submit(function () {
     var formData = new FormData($(this)[0]);
     $.post('registroasistencia/getEstatusRegistro', {}, function (response) {
         if (response == 'si') {
-//            Update datos
             $.ajax({
                 url: 'registroasistencia/updateDatosPago',
                 type: 'POST',
@@ -28,11 +35,9 @@ $('#form-datos-pago').submit(function () {
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-//                    $('#cargando').removeClass('hidden');
                     jsShowWindowLoad();
                 },
                 success: function (response) {
-//                    $('#cargando').addClass('hidden');
                     jsRemoveWindowLoad();
                     switch (response) {
                         case 'true':
@@ -84,6 +89,7 @@ $('#form-datos-pago').submit(function () {
                     switch (response) {
                         case 'true':
                             mostrarAlerta('success', 'Su registro se realizo con éxito.');
+                            location.reload();
                             break;
                         case 'false':
                             mostrarAlerta('error', 'Ocurrio un problema con su registro.');
@@ -160,145 +166,6 @@ $('#form-editar-asistente').submit(function () {
     });
     return false;
 });
-
-$('#input-comprobante-pago').change(function () {
-	var li = document.createElement("li"),
-		progressBarContainer = document.createElement("div"),
-		progressBar = document.createElement("div"),		
-    	div = document.createElement("div");
-	var fileInfo;	
-	progressBarContainer.className = "progress-bar-container";
-	progressBar.className = "progress-bar";
-	progressBar.id="progressBar";
-    
-	li.appendChild(div);
-	
-    var file = $("#input-comprobante-pago")[0].files[0];
-    var fileName = file.name;
-    fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
-    
-    if(fileExtension=="pdf"){
-	   $("#file-comprobante-pago").empty();
-	   //$("#cancelar").show("slow");
-	   $("#cargar_comprobante_pago").show("slow");
-		// Present file info and append it to the list of files
-		fileInfo = "<div><strong>Nombre:</strong> " + file.name + "</div>";
-		fileInfo += "<div><strong>Tamano:</strong> " + parseInt(file.size / 1024, 10) + " kb</div>";
-		fileInfo += "<div><strong>Tipo:</strong> " + file.type + "</div>";
-		div.innerHTML = fileInfo;
-	    fileListOrigen.appendChild(li);
-        
-		progressBarContainer.appendChild(progressBar);
-		li.appendChild(progressBarContainer);
-        
-   } else{
-	  toastr.options.closeButton = true;
-      toastr.error("Tipo de archivo incorrecto ");
-   }
-});
-
-$("#form-subir-comprobante-pago").submit(function(event){
-	event.preventDefault();
-	var progressBar = document.getElementById("progressBar");
-    //información del formulario
-    var formData = new FormData($(this)[0]);
-    //hacemos la petición ajax  
-    $.ajax({
-        url: 'registropago/subirComprobantePago',
-        type: 'POST',
-        // Form data
-        //datos del formulario
-        data: formData,
-        //necesario para subir archivos via ajax
-        cache: false,
-        contentType: false,
-        processData: false,
-        //mientras enviamos el archivo
-        beforeSend: function () {
-			progressBar.style.width =  "0%";
-        },
-		// this part is progress bar
-		xhr: function () {
-			var xhr = new window.XMLHttpRequest();
-			xhr.upload.addEventListener("progress", function (evt) {
-				if (evt.lengthComputable) {
-					var percentComplete = evt.loaded / evt.total;
-					percentComplete = parseInt(percentComplete * 100);
-     			    progressBar.style.width = percentComplete+'%';
-					progressBar.innerHTML = percentComplete+ " %"; 
-				}
-			}, false);
-			return xhr;
-		},
-        //una vez finalizado correctamente
-        success: function (response) {
-            //$('#cargando').addClass('hidden');
-            if (response === 'error-archivo') {
-                toastr.options.closeButton = true;
-                toastr.error("No selecciono nig&uacute;n archivo.");
-            }
-            if (response === 'error-subir-archivo') {
-                toastr.options.closeButton = true;
-                toastr.error("No se pudo cargar el archivo.");
-            }
-			if (response === 'true') {
-                toastr.options.closeButton = true;
-                toastr.success("El archivo se cargo correctamente...");
-    			$("#cargar_comprobante_pago").hide("slow");
-			}
-        },
-        //si ha ocurrido un error
-        error: function () {
-                toastr.options.closeButton = true;
-                toastr.error("Un error a ocurrido!<br>Intentelo mas tarde...");
-        }
-    });
-    return false;	
-});
-
-
-$("#tbl-articulos tbody tr td.td-tabla").click(function (event) {
-
-	$('#input-comprobante-pago').val('');
-	
-	$("#cargar_comprobante_pago").hide();
-	
-	$('#input-comprobante-pago').attr('disabled','disabled');
-	
-	$("#file-comprobante-pago").text('Ningun archivo seleccionado...');
-     var registro = $(this).parent('tr');
-     $('#tbl-ver-articulo-autores').empty();
-     $('#ver-articulo-nombre').empty();
-	
-     var id = registro.find("td").eq(0).html();
-
-	 $('#id-articulo-original').val(id);
-	
-	$.post('registropago/getDetallesArticulo', {id: id}, function (data) {
-	}).done(function(data){
-	      //funcion necesaria para poder utilizar los atributos JSON como propiedades
-     	  var  objJson = jQuery.parseJSON(data); 
-		  if (objJson.cambio === 'si') {
-			   $('#input-comprobante-pago').removeAttr('disabled');
-		  }	
-
-		  if (objJson.cambio === 'no') {
-				$('#btn-comprobante-pago').hide();	  
-		  }	
-	});
-	//=====================================================================
-	//METODO PARA OBTENER LAS CARTAS DE ORIGINALIDAD Y CESION DE DERECHOS
-	//EN CASO QUE YA ESTAS CARGADAS EN LA PLATAFORMA
-	//=====================================================================
-	$.post('registropago/getComprobantePago',{id:id},function(response){
-          $('#documentos-actuales').empty();
-          $('#documentos-actuales').html(response);
-     });
-     $('#modal-ver-articulo').on('shown.bs.modal', function () {
-     }).modal('show');
-     
-});
-
 
 $("#btn-aceptar-comprobante").click(function(Event){
     var id=$('#id-articulo-original').val();
@@ -383,6 +250,7 @@ function getEstatusCambios() {
             $('select').attr('disabled', 'disabled');
             $('#btn-nuevo-asistente').addClass('hidden');
             $('#btn-aceptar-form-pago').addClass('hidden');
+            $('input#archivo').prop("disabled", true);
             mostrarAlerta('info', 'Tu registro ya se realizo con éxito, comunicate con el administrador ante algún error de llenado.');
         }
     });
@@ -401,11 +269,7 @@ function getEstatusRegistro() {
 
 function getComprobantePago(){
     $.post('registroasistencia/getComprobantePago', {}, function (response) {
-        $('#documentos-actuales').empty();
-        $('#documentos-actuales').html(response);
-        
-        $('#input-comprobante-pago').removeAttr('disabled');
-        $('#btn-comprobante-pago').hide();
+        fileList.innerHTML=response;
     });
 }
 
@@ -512,3 +376,103 @@ function jsShowWindowLoad(mensaje) {
     $("#WindowLoad").html(imgCentro);
 
 }
+
+
+$("#cancelar").click(function(){
+	$("#file-list").empty();
+	$("#cancelar").hide("slow");
+	$("#cargar").hide("slow");
+	fileList.innerHTML="<li class='no-items'> Ningun archivo cargado! </li>";
+});
+
+$(':file').change(function () {
+	var li = document.createElement("li"),
+		progressBarContainer = document.createElement("div"),
+		progressBar = document.createElement("div"),		
+    	div = document.createElement("div");
+	var fileInfo;	
+	progressBarContainer.className = "progress-bar-container";
+	progressBar.className = "progress-bar";
+	progressBar.id="progressBar";
+	
+	li.appendChild(div);
+	
+	var file = $("#archivo")[0].files[0];
+    var fileName = file.name;
+    fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
+   if(fileExtension=="pdf"){
+	    $("#file-list").empty();
+	    $("#cancelar").show("slow");
+	    $("#cargar").show("slow");
+        $('#btn-aceptar-comprobante').show();
+		// Present file info and append it to the list of files
+		fileInfo = "<div><strong>Nombre:</strong> " + file.name + "</div>";
+		fileInfo += "<div><strong>Tamano:</strong> " + parseInt(file.size / 1024, 10) + " kb</div>";
+		fileInfo += "<div><strong>Tipo:</strong> " + file.type + "</div>";
+		div.innerHTML = fileInfo;
+	    fileList.appendChild(li);
+	   
+
+		progressBarContainer.appendChild(progressBar);
+		li.appendChild(progressBarContainer);
+	   
+   } else{
+	  toastr.options.closeButton = true;
+      toastr.error("Tipo de archivo incorrecto ");
+   }
+});
+
+
+$("#uploadfile").submit(function(event){
+	event.preventDefault();
+	var progressBar = document.getElementById("progressBar");
+	var idArticulo  = $("#id-articulo-file").val();
+    var formData = new FormData($(this)[0]);
+    var message = "";
+    $.ajax({
+        url: 'registroasistencia/updloadFile',
+        type: 'POST',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+			progressBar.style.width =  "0%";
+        },
+		xhr: function () {
+			var xhr = new window.XMLHttpRequest();
+			xhr.upload.addEventListener("progress", function (evt) {
+				if (evt.lengthComputable) {
+					var percentComplete = evt.loaded / evt.total;
+					percentComplete = parseInt(percentComplete * 100);
+     			    progressBar.style.width = percentComplete+'%';
+					progressBar.innerHTML = percentComplete+ " %"; 
+				}
+			}, false);
+			return xhr;
+		},
+        success: function (response) {
+            if (response === 'error-archivo') {
+                toastr.options.closeButton = true;
+                toastr.error("No selecciono nig&uacute;n archivo.");
+            }
+            if (response === 'error-subir-archivo') {
+                toastr.options.closeButton = true;
+                toastr.error("No se pudo cargar el archivo.");
+            }
+            if ($.isNumeric(response)) {
+				$('#id-articulo-autores').val(response);
+				$('#modal-autores').removeClass('hidden');
+                toastr.options.closeButton = true;
+                toastr.success("El archivo se cargo con éxito. ");
+    			$("#container-btn-files").hide("slow");
+				$('#modal-autores').removeClass('hidden');
+			}
+        },
+        error: function () {
+                toastr.options.closeButton = true;
+                toastr.error("Un error a ocurrido!<br>Intentelo mas tarde...");
+        }
+    });
+    return false;	
+});

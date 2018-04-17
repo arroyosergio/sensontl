@@ -1,43 +1,3 @@
-.fileUpload {
-    position: relative;
-    overflow: hidden;
-    margin: 10px;
-}
-
-.fileUpload input.upload {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0;
-    filter: alpha(opacity=0);
-}
-
-input[type="file"]{
-    color: transparent;
-}
-
-.fileinput-button {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-}
-
-.fileinput-button input {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0;
-  opacity: 0;
-  -ms-filter: 'alpha(opacity=0)';
-  font-size: 200px !important;
-  direction: ltr;
-  cursor: pointer;
-}
-
 .centrado {
   position: absolute;
   top: 50%; 
@@ -282,4 +242,46 @@ input[type="file"]{
 	    width: 200px;
     }
 
+}
+
+input[type="file"]{
+    color: transparent;
+}
+
+#file-list{
+	padding-left: 1.4em;
+}
+
+.fileinput-button{
+	margin-left: 1em;
+}
+
+.contened-files{
+	border: 1px solid rgba(136, 127, 127, 0.29);
+}
+
+.contened-art{
+	padding-bottom: 1em;
+}
+
+.lista-archivos #file-list{
+	padding-left: 1em;
+}
+
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  -ms-filter: 'alpha(opacity=0)';
+  font-size: 200px !important;
+  direction: ltr;
+  cursor: pointer;
 }

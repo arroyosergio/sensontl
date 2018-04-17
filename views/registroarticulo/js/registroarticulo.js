@@ -273,7 +273,6 @@ $('#form-registro-articulo').submit(function () {
     var data = $(this).serialize();
     
     $.post(url, data, function (response) {
-        alert(response);
 
         if(response==='error-apertura'){
 			toastr.options.closeButton = true;

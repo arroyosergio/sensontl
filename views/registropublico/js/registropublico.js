@@ -358,7 +358,6 @@ $(':file').change(function () {
 });
 
 
-
 $("#uploadfile").submit(function(event){
 	event.preventDefault();
 	var progressBar = document.getElementById("progressBar");

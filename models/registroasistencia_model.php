@@ -398,7 +398,7 @@ class Registroasistencia_Model extends Model {
      */
      public function update_datos_facturacion($facturacion) {
          //Identificamos si existe previamente un registro, en caso afirmativo, actualizamos, en caso contrario, insertamos el registro.
-         if ($this->existeRegistroFacturacion($facturacion[idArticulo])) {
+         if ($this->existeRegistroFacturacion(Session::get('idArticulo'))) {
              //Sentencia sql de actualizacion
              $query = "UPDATE ".
                          "tbl_datos_facturacion ".
@@ -413,7 +413,7 @@ class Registroasistencia_Model extends Model {
                             "fac_estado='$facturacion[estado]',".
                             "fac_cp='$facturacion[cp]' ".
                     "WHERE ".
-                            "art_id=$facturacion[idArticulo]";
+                            "art_id=".Session::get('idArticulo');
           }else{
                 //Sentencia sql de insercion
                 $query = "INSERT INTO ".
@@ -667,4 +667,27 @@ class Registroasistencia_Model extends Model {
           return $data;
      }//Fin existe_comprobante_pago
     
+    /*
+     * Guarda el nombre del documento como comprobante.
+     */
+    public function registro_comprobante($idArticulo, $file){
+        $query = "UPDATE ".
+				"tbldocumentos ".
+				"SET ".
+				"doc_pago='$file' ".
+				"WHERE ".
+				"art_id=$idArticulo";
+		$sth = $this->db->prepare($query);
+        
+        
+		try {
+			$sth->execute();
+			$data = TRUE;
+		} catch (PDOException $exc) {
+			error_log($query);
+			error_log($exc);
+			$data = FALSE;
+		}
+		return $data;
+    }//Fin registro_comprobante
 }//Fin class Registroasistencia_Model

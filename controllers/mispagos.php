@@ -107,7 +107,14 @@ class mispagos extends Controller {
                     }
                     $tabla .= '<td class="td-tabla">' . $articulo['artAreaTematica'] . '</td>';
                     $tabla .= '<td class="text-center td-tabla">' . $articulo['artTipo'] . '</td>';
-                    $tabla .= '<td class="text-center"><a href="registroasistencia?id='.$articulo['artId'].'"><span class="glyphicon glyphicon-upload"></span> Formato</a></td>';
+                   
+
+                   
+                    if ($this->getEstatusCambios($articulo['artId']) == 'si' ) {
+                        $tabla .= '<td class="text-center"><a href="registroasistencia?id='.$articulo['artId'].'"><span class="glyphicon glyphicon-upload"></span> Formato</a></td>';
+                    }else{
+                        $tabla .= '<td class="text-center"></td>';
+                    }
                     $tabla .= '</tr>';
                }
                $tabla .= '</tbody>';
@@ -115,4 +122,28 @@ class mispagos extends Controller {
           }
           return $tabla;
      }//Fin tablaArtDictaminados
+    
+    /*
+     * Recupera el datos del estado de cambio permitod de la asistencia
+     */
+    function getEstatusCambios($idArticulo) {
+        //$idArticulo = Session::get('idArticulo');
+        $responseDB = $this->model->get_estatus_cambios($idArticulo);
+        return $responseDB;
+    }//Fin getEstatusCambios
+    
+    /*
+     * Recupera el datos del estado del registro
+     */
+    function getEstatusRegistro($get = FALSE) {
+        $idArticulo = Session::get('idArticulo');
+        $responseDB = $this->model->get_estatus_registro($idArticulo);
+        
+        if ($get) {
+            return $responseDB;
+        } else {
+            echo $responseDB;
+        }
+    }//Fin getEstatusRegistro
+
 }//Fin mispagos

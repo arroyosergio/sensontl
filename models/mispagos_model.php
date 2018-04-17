@@ -74,4 +74,63 @@ class mispagos_Model extends Model {
         }
         return $data;
     }//Fin
+    
+    /*
+      * Recupera la bandera de cambios en la asitencia.
+      */
+     public function get_estatus_cambios($idArticulo) {
+         
+         //Se arma la sentecia sql
+          $query = "SELECT ".
+                         "artAvisoCambio ".
+                    "FROM ".
+                         "tblArticulos ".
+                    "WHERE ".
+                         "artId=$idArticulo";
+         
+         //Prepara y ejecuta la sentencia
+          $sth = $this->db->prepare($query);
+          $sth->setFetchMode(PDO::FETCH_ASSOC);
+          $sth->execute();
+          $count = $sth->rowCount();
+          $data = NULL;
+         
+         //Verifica el retorno de datos y retorno de respuesta.
+          if ($count > 0) {
+               $data = $sth->fetchAll();
+               $data = $data[0]['artAvisoCambio'];
+          } else {
+               $data = FALSE;
+          }
+          return $data;
+     }//Fin get_estatus_cambios
+    
+    /*
+     * Recupera la bandera de registro de asistencia.
+     */
+     public function get_estatus_registro($idArticulo) {
+         //Armado de la sentencia sql
+          $query = "SELECT ".
+                         "art_estatus_asistencia ".
+                    "FROM ".
+                         "tblArticulos ".
+                    "WHERE ".
+                         "artId=$idArticulo";
+         
+         //Preparado y ejecucion de la setencia
+          $sth = $this->db->prepare($query);
+          $sth->setFetchMode(PDO::FETCH_ASSOC);
+          $sth->execute();
+          $count = $sth->rowCount();
+          $data = NULL;
+         
+         //Verificamos de datos y respuesta.
+          if ($count > 0) {
+               $data = $sth->fetchAll();
+               $data = $data[0]['art_estatus_asistencia'];
+          } else {
+               $data = FALSE;
+          }
+          return $data;
+     }//Fin get_estatus_registro
 }//Fin class mispagos_Model
