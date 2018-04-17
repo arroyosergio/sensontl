@@ -1,0 +1,8 @@
+#lstAreasTemas .imgVineta{
+	display: inline-block;
+	margin: 5px 10px;
+}
+
+#lstAreasTemas{
+	list-style: none;
+}

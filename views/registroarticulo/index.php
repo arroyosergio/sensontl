@@ -64,10 +64,10 @@
 											  </ul>
 										  </div>
 										  <div class="lista-archivos col-sm-6 col-md-6">
-												<p class="help-block">Solo se permiten archivos con extencion .doc o .docx.</p>
+												<p class="help-block">Solo se permiten archivos con extensi&oacute;n .doc o .docx</p>
 												<p class="help-block">Para un mejor rendimiento considere las siguientes indicaciones:</p>
-												<p class="help-block"><i class="glyphicon glyphicon-ok"></i>&nbsp;Tama&ntilde;o maximo: 1000 kb. (10MB.)<br>
-												<i class="glyphicon glyphicon-ok"></i>&nbsp;Documentos de word 2003 (.doc). <br>
+												<p class="help-block"><i class="glyphicon glyphicon-ok"></i>&nbsp;Tama&ntilde;o m&aacute;ximo: 10MB.<br>
+												<i class="glyphicon glyphicon-ok"></i>&nbsp;Documentos de word 2003 (.doc) o superior<br>
 												<i class="glyphicon glyphicon-ok"></i>&nbsp;Use nombres de archivos cortos.
 												</p>
 										 </div>

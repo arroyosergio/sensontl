@@ -90,11 +90,12 @@ $('#form-cambiar-password').submit(function () {
 function datosPerfil(){
     $.post('perfil/infoPerfil',{}, function(response){
         if (response !== 'no-datos') {
+			
            $('#nombre').val(response.nombre); 
            $('#apellido-paterno').val(response.apellidoPaterno); 
            $('#apellido-materno').val(response.apellidoMaterno); 
            $('#ciudad').val(response.ciudad); 
-            jQuery.each(response.estados, function (i, val) {
+           jQuery.each(response.estados, function (i, val) {
                 $('#estado').append($('<option>', {
                     value: val.nombre,
                     text: val.nombre
@@ -126,7 +127,9 @@ function datosPerfil(){
                 $('#input-tipo-institucion').addClass('hidden');
             }
            $('#asistencia-cica').val(response.asistenciaCica);
+			 $('#institucion-procedencia').val('Error'); 
         }
+		
     },'json');
 }
 

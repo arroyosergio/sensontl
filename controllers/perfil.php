@@ -56,8 +56,10 @@ class Perfil extends Controller {
                 $value['nombre'] = utf8_encode($value['est_nombre']);
                 array_push($estados, $value);
             }
+
+			
             $perfil['estados'] = $estados;
-            echo json_encode($perfil);
+            echo   json_encode($perfil);
         }
     }
     

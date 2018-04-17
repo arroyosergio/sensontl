@@ -6,12 +6,14 @@
                         <div class="contact-info">
                             <h4 class="foother_title">Información de contacto</h4>
                             <address>
-                                <p class="address"><span class="resalted"><strong>Persona de contacto	</strong></span></p>
-                                <p><i class="fa fa-user-circle-o" aria-hidden="true"></i> Posición en la organización </p>
+                                <span class="address"><span class="resalted"><strong>Teresa Ram&iacute;rez Cano</strong></span><br>
+                                <span><i class="fa fa-user-circle-o" aria-hidden="true"></i> Coordinador general CICA 2018.</span><br>                               
+                                <span class="address"><span class="resalted"><strong>Jose Antonio Gordillo Sosa</strong></span></span><br>
+                                <span><i class="fa fa-user-circle-o" aria-hidden="true"></i> Coordinador del comit&eacute; arbitral</span><br><br>
                                 <span> <i class="fa fa-phone-square" aria-hidden="true"></i> Teléfono : (456) 64 371 80 
                                 <br>
-                                Extensiones: 101, 106, 121 y 105 </span>
-                                <p><i class="fa fa-envelope-o" aria-hidden="true"></i> &nbsp;Email :  <a href="mailto:correo@cica.com">correo@dominio.com</a></p>
+                                Extensiones:  106 y 121 </span>
+                                <p><i class="fa fa-envelope-o" aria-hidden="true"></i> &nbsp;Email :  <a href="mailto:correo@cica.com">contacto@cica2018.mx</a></p>
                             </address>
                         </div>
                     </div>

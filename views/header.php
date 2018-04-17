@@ -49,7 +49,7 @@
           <nav class="navbar navbar-default navbar-static-top container-fluid ">
              <div class="navbar-header">
                     <a href="<?php echo URL.'public/images/cica_logo.png'; ?>" title="" data-fluidbox>
-                        <img class="img-fluid img-responsive logo_header" src="<?php echo URL.'public/images/cica_logo.png'; ?>" title="" alt="" />
+                        <img class="img-fluid img-responsive logo_header" src="<?php echo URL.'public/images/cica_logo_min.png'; ?>" title="" alt="" />
                     </a>
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                       <span class="sr-only">Toggle navigation</span>

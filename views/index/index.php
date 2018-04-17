@@ -36,24 +36,24 @@
                 <p>Miembros de cuerpos académicos, grupos de investigación, integrantes de redes y representantes institucionales del Programa para el Desarrollo Profesional Docente de Instituciones de Educación Superior, instituciones de investigación y desarrollo tecnológico, así como organismos y público con inclinación hacía alguna de las diferentes áreas temáticas del congreso.</p>
                 
                  <h3 class="main_page_title feature-head wow fadeInDown animated"  data-wow-animation-name="fadeInDown" style="visibility: visible; animation-name: fadeInDown; font-size:1.5em"><p class="text-left">Las áreas temáticas del congreso</p></h3>
-                <ul>
+                <ul id="lstAreasTemas">
                 <li>
-                    <img src="<?php echo URL.'public/images/Group 9.png'; ?>" />Ciencias Agropecuarias
+                    <img src="<?php echo URL.'public/images/ca.png'; ?>" class="imgVineta" />Ciencias Agropecuarias
                 </li>
                 <li>
-                    <img src="<?php echo URL.'public/images/Group 8.png'; ?>" />Ciencias Naturales y Exactas.
+                    <img src="<?php echo URL.'public/images/cne.png'; ?>" class="imgVineta"  />Ciencias Naturales y Exactas.
                 </li>
                 <li>
-                    <img src="<?php echo URL.'public/images/Group 7.png'; ?>" />Ciencias de Ingeniería y Tecnología.
+                    <img src="<?php echo URL.'public/images/cit.png'; ?>" class="imgVineta"  />Ciencias de Ingeniería y Tecnología.
                 </li>  
                 <li>
-                    <img src="<?php echo URL.'public/images/Group 6.png'; ?>" />Educación
+                    <img src="<?php echo URL.'public/images/edu.png'; ?>" class="imgVineta"  />Educación
                 </li>
                 <li>   
-                    <img src="<?php echo URL.'public/images/Group 5.png'; ?>"/>Ciencias Sociales y Administrativas.
+                    <img src="<?php echo URL.'public/images/csa.png'; ?>" class="imgVineta"  />Ciencias Sociales y Administrativas.
                 </li>
                 <li>
-                    <img src="<?php echo URL.'public/images/Group 4.png'; ?>" />Experiencias en la Formación y Operación de Cuerpos Académicos y Redes.
+                    <img src="<?php echo URL.'public/images/efoca.png'; ?>" class="imgVineta"  />Experiencias en la Formación y Operación de Cuerpos Académicos y Redes.
                 </li>
                 </ul>
                  

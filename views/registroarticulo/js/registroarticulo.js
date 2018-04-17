@@ -176,7 +176,7 @@ $(':file').change(function () {
 	   $("#cargar").show("slow");
 		// Present file info and append it to the list of files
 		fileInfo = "<div><strong>Nombre:</strong> " + file.name + "</div>";
-		fileInfo += "<div><strong>Tamano:</strong> " + parseInt(file.size / 1024, 10) + " kb</div>";
+		fileInfo += "<div><strong>Tama&ntilde;o:</strong> " + parseInt(file.size / 1024, 10) + " kb</div>";
 		fileInfo += "<div><strong>Tipo:</strong> " + file.type + "</div>";
 		div.innerHTML = fileInfo;
 	    fileList.appendChild(li);
