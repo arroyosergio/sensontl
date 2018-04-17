@@ -1,11 +1,11 @@
 <?php
     define("DB_TYPE", "mysql");
     define("DB_HOST", "localhost");
-    define("DB_NAME", "higosoft_utsoe");//cosystem o higosoft_cosystem
-    define("DB_USER", "root");
-    define("DB_PASS", ""); //hola
+    define("DB_NAME", "higosoft_utsoe");
+    define("DB_USER", "root");//higosoft_system
+    define("DB_PASS", ""); // %H8fT=wBvEFu
     
     
-//    pass: )5Sb6;E(Cn[o
-//    usuario: higosoft_cosyste
-//    DB: higosoft_cosystem
+//    pass: %H8fT=wBvEFu
+//    usuario: higosoft_system
+//    DB: higosoft_system

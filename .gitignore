@@ -2,4 +2,4 @@
 /nbproject/private/
 public/.DS_Store
 views/depositos/.DS_Store
-config/database.php
+config/

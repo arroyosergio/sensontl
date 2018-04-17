@@ -6,9 +6,9 @@ define('DOCSDEPOSITOSPUBLICOS', $_SERVER['DOCUMENT_ROOT'] .'/sensontl/docs/dep_p
 define('MENULATERAL',$_SERVER['DOCUMENT_ROOT'] .'/sensontl/views/menu/menu.html');
 define('MENUADMIN',$_SERVER['DOCUMENT_ROOT'] .'/sensontl/views/menu/menuadmin.html');
 define('MENUEDITOR',$_SERVER['DOCUMENT_ROOT'] .'/sensontl/views/menu/menueditor.html');
-define('FECHAAPERTURA',"2018-03-01");
-define('FECHACIERRE',"2018-03-30");
-define('FECHALIMITEDESCUENTOGENERAL',"2018-09-11");
+define('FECHAAPERTURA',"2018-04-01");
+define('FECHACIERRE',"2018-05-20");
+define('FECHALIMITEDESCUENTOGENERAL',"2018-05-20");
 
 //Cuotas de pagos 
 define('CUOTAAUTORDESCUENTO',2600.0);
@@ -17,8 +17,8 @@ define('CUOTAPUBLICODESCUENTO',2200.00);
 define('CUOTAPUBLICO',2650.0);
 
 //Fechas de descuentos
-define('FECHADESCUENTOAUTORES',"2018-08-19");
-define('FECHADESCUENTOPUBLICO',"2018-09-19");
+define('FECHADESCUENTOAUTORES',"2018-05-20");
+define('FECHADESCUENTOPUBLICO',"2018-05-20");
 
 
 
