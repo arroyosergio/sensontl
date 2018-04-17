@@ -127,7 +127,6 @@ function datosPerfil(){
                 $('#input-tipo-institucion').addClass('hidden');
             }
            $('#asistencia-cica').val(response.asistenciaCica);
-			 $('#institucion-procedencia').val('Error'); 
         }
 		
     },'json');
