@@ -240,7 +240,7 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-12">
-						<p><b>Nota: </b>Se les solicita verificar  que el comprobante coincida con la cantidad a pagar indicada antes de enviar la informaci&oacute;n.</p>
+						<p><b>Nota: </b>Se les solicita verificar  que el comprobante coincida con la cantidad a pagar indicada antes de enviar la informaci&oacute;n. Selecciona y carge el archivo del comprobante antes de hacer clic en aceptar.</p>
 					</div>
 				</div>
 			</div>
@@ -250,46 +250,37 @@
 		</form>
         <div>
             <br>
-            <h4 class="text-primary">Suba el documento de pago escaneado.</h4>
+            <h4 class="text-primary">Documento de pago escaneado.</h4>
                 <div class="row">
                     <div class="col-sm-12">
-                    <form id="form-subir-comprobante-pago" action="" method="post">
-                        <div class="form-group">
-                            <label for=""><b>Comprobante de pago:</b></label>
-                            <div class="col-sm-12 col-md-12">
-                                <ul id="file-comprobante-pago">Ningun archivo seleccionado... </ul>
-                            </div>													
+                        <form id="uploadfile" enctype="multipart/form-data" action="registroarticulo/updloadFile" method="POST">
+                             <div class="row row-files">
+                                  <div class="col-sm-6 col-md-6">
+                                      <ul id="file-list">
+                                            <li class="no-items"> Ningun archivo cargado! </li>
+                                      </ul>
+                                  </div>
+                                  <div class="lista-archivos col-sm-6 col-md-6">
+                                        <p class="help-block">Solo se permiten archivos pdf.</p>
+                                 </div>
+                             </div>  
+                             <br>
                             <div id="container-btn-files" class="form-group">
-                                <span id="btnCarta-origen" class="btn btn-success fileinput-button">
+                                <span class="btn btn-success fileinput-button">
                                     <i class="glyphicon glyphicon-plus"></i>
                                     <span>Seleccionar archivo</span>
-                                    <input type="file" id="input-comprobante-pago" name="input-comprobante-pago" disabled>
+                                    <input type="file" id="archivo" name="archivo"/>
                                 </span>							
-                                 <!--<button id="cancelar" type="reset" class="btn btn-warning">
-                                    <i class="glyphicon glyphicon-ban-circle"></i>
-                                    <span>Cancelar carga</span>
-                                </button>-->
-                                <button id="cargar_comprobante_pago" type="submit" class="btn btn-primary">
+                                <button id="cargar" type="submit" class="btn btn-primary">
                                     <i class="glyphicon glyphicon-upload"></i>
                                     <span>Iniciar carga</span>
-                                </button>				
-                                 <input id="id-articulo-original" name="id-articulo-original" type="text" class="hidden">
+                                </button>									
+                                 <input id="id-articulo-file" name="id-articulo-file" type="text" class="hidden"/>
                             </div>	
-                            <p class="help-block">Solo se permiten archivos con extensi&oacute;n .pdf</p>
-                        </div>
-                     </form>
+                        </form>	
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h4 class="doc-cargados  text-primary">Documento cargado</h4>
-                        <div id="documentos-actuales" class="row"></div>
-                    </div>
-                </div>
-                <div class="panel-footer text-right">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Cerrar</button>
-                    <button id="btn-aceptar-comprobante" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i> Aceptar</button>
-                </div>
+                
             </div>
 	</div>
 	<div id="cargando" class="hidden centrado" style="position: absolute; top: 50%; left: 50%;  transform: translate(-50%, -50%);"><img src="./public/img/cargando.gif" alt=""></div>

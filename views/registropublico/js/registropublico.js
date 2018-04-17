@@ -1,3 +1,5 @@
+var ulrUpfile="";
+
 $(document).ready(function () {
     activarOpcionMenu();
     fileListOrigen=document.getElementById("file-comprobante-pago");
@@ -6,6 +8,13 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true
     });
+    
+    var filesUpload=document.getElementById("archivo");
+	fileList=document.getElementById("file-list");
+	$("#cancelar").hide();
+	$("#cargar").hide();
+    $('input#archivo').prop("disabled", true);
+    
 });
 
 $('#btn-nuevo-asistente').click(function () {
@@ -31,11 +40,14 @@ $('#form-datos-pago').submit(function () {
                 },
                 success: function (response) {
                 	jsRemoveWindowLoad();
-                    alert(response);
                     switch (response) {
                         case 'true':
-                            mostrarAlerta('success', 'Su registro se realizo con éxito.');
-                            $(location).attr('href', 'index')
+                            mostrarAlerta('success', 'Su registro se realizo con éxito. Ahora suba su comprobante de pago.');
+                            $('input').attr('disabled', 'disabled');
+                            $('select').attr('disabled', 'disabled');
+                            $('#btn-nuevo-asistente').addClass('hidden');
+                            $('input#archivo').prop("disabled", false);
+                            $('.my-link').click(function(e){return false; });
                             break;
                         case 'false':
                             mostrarAlerta('error', 'Ocurrio un problema con su registro.');
@@ -138,9 +150,7 @@ $('#tabla-asistentes').click(function (event) {
 
 
 function getAsistentesPublico() {
-    //alert('getAsistentesPublico');
     $.post('registropublico/getAsistentesPublico', {}, function (response) {
-        //alert(response);
         $('#tabla-asistentes').empty();
         $('#tabla-asistentes').html(response);
         $('#modal-nueva-persona').modal('hide');
@@ -302,7 +312,15 @@ function activarOpcionMenu() {
     $('#li-regPublico').addClass('active');
 }
 
-$('#input-comprobante-pago').change(function () {
+$("#cancelar").click(function(){
+	$("#file-list").empty();
+	$("#cancelar").hide("slow");
+	$("#cargar").hide("slow");
+	fileList.innerHTML="<li class='no-items'> Ningun archivo cargado! </li>";
+});
+
+
+$(':file').change(function () {
 	var li = document.createElement("li"),
 		progressBarContainer = document.createElement("div"),
 		progressBar = document.createElement("div"),		
@@ -311,48 +329,58 @@ $('#input-comprobante-pago').change(function () {
 	progressBarContainer.className = "progress-bar-container";
 	progressBar.className = "progress-bar";
 	progressBar.id="progressBar";
-    
+	
 	li.appendChild(div);
 	
-    var file = $("#input-comprobante-pago")[0].files[0];
+	var file = $("#archivo")[0].files[0];
     var fileName = file.name;
     fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
-    
-    if(fileExtension=="pdf"){
-	   $("#file-comprobante-pago").empty();
-	   //$("#cancelar").show("slow");
-	   $("#cargar_comprobante_pago").show("slow");
+   if(fileExtension=="pdf"){
+	    $("#file-list").empty();
+	    $("#cancelar").show("slow");
+	    $("#cargar").show("slow");
+        $('#btn-aceptar-comprobante').show();
 		// Present file info and append it to the list of files
 		fileInfo = "<div><strong>Nombre:</strong> " + file.name + "</div>";
 		fileInfo += "<div><strong>Tamano:</strong> " + parseInt(file.size / 1024, 10) + " kb</div>";
 		fileInfo += "<div><strong>Tipo:</strong> " + file.type + "</div>";
 		div.innerHTML = fileInfo;
-	    fileListOrigen.appendChild(li);
-        
+	    fileList.appendChild(li);
+	   
+
 		progressBarContainer.appendChild(progressBar);
 		li.appendChild(progressBarContainer);
-        
+	   
    } else{
 	  toastr.options.closeButton = true;
       toastr.error("Tipo de archivo incorrecto ");
    }
 });
 
-$("#form-subir-comprobante-pago").submit(function(event){
+
+$("#uploadfile").submit(function(event){
 	event.preventDefault();
 	var progressBar = document.getElementById("progressBar");
+	var idArticulo  = $("#id-articulo-file").val();
     //información del formulario
     var formData = new FormData($(this)[0]);
+    var message = "";
+    //hacemos la petición ajax  
     $.ajax({
-        url: 'registropublico/subirComprobantePago',
+        url: 'registropublico/updloadFile',
         type: 'POST',
+        // Form data
+        //datos del formulario
         data: formData,
+        //necesario para subir archivos via ajax
         cache: false,
         contentType: false,
         processData: false,
+        //mientras enviamos el archivo
         beforeSend: function () {
 			progressBar.style.width =  "0%";
         },
+		// this part is progress bar
 		xhr: function () {
 			var xhr = new window.XMLHttpRequest();
 			xhr.upload.addEventListener("progress", function (evt) {
@@ -365,6 +393,8 @@ $("#form-subir-comprobante-pago").submit(function(event){
 			}, false);
 			return xhr;
 		},
+
+        //una vez finalizado correctamente
         success: function (response) {
             if (response === 'error-archivo') {
                 toastr.options.closeButton = true;
@@ -374,75 +404,26 @@ $("#form-subir-comprobante-pago").submit(function(event){
                 toastr.options.closeButton = true;
                 toastr.error("No se pudo cargar el archivo.");
             }
-			if (response === 'true') {
+            if ($.isNumeric(response)) {
+				$('#id-articulo-autores').val(response);
+				$('#modal-autores').removeClass('hidden');
                 toastr.options.closeButton = true;
-                toastr.success("El archivo se cargo correctamente...");
-    			$("#cargar_comprobante_pago").hide("slow");
+                toastr.success("El archivo se cargo con éxito. Gracias por tu interés por asistir.");
+    			$("#container-btn-files").hide("slow");
+				$('#modal-autores').removeClass('hidden');
+                var delay =2000;
+                setTimeout(function(){
+                    $(location).attr('href', 'index');
+                },delay);
+                
 			}
         },
+        //si ha ocurrido un error
         error: function () {
                 toastr.options.closeButton = true;
                 toastr.error("Un error a ocurrido!<br>Intentelo mas tarde...");
         }
     });
     return false;	
-});
-
-$("#tbl-articulos tbody tr td.td-tabla").click(function (event) {
-
-	$('#input-comprobante-pago').val('');
-	$("#cargar_comprobante_pago").hide();
-	$('#input-comprobante-pago').attr('disabled','disabled');
-	$("#file-comprobante-pago").text('Ningun archivo seleccionado...');
-    
-     var registro = $(this).parent('tr');
-     $('#tbl-ver-articulo-autores').empty();
-     $('#ver-articulo-nombre').empty();
-	
-     var id = registro.find("td").eq(0).html();
-	 $('#id-articulo-original').val(id);
-	
-    /* ***** aqui hay que modificar */
-	$.post('registropublico/getDetallesArticulo', {id: id}, function (data) {
-	}).done(function(data){
-	      //funcion necesaria para poder utilizar los atributos JSON como propiedades
-     	  var  objJson = jQuery.parseJSON(data); 
-		  if (objJson.cambio === 'si') {
-			   $('#input-comprobante-pago').removeAttr('disabled');
-		  }	
-
-		  if (objJson.cambio === 'no') {
-				$('#btn-comprobante-pago').hide();	  
-		  }	
-	});
-
-	$.post('registropublico/getComprobantePago',{id:id},function(response){
-          $('#documentos-actuales').empty();
-          $('#documentos-actuales').html(response);
-     });
-     $('#modal-ver-articulo').on('shown.bs.modal', function () {
-     }).modal('show');
-     
-});
-
-$("#btn-aceptar-comprobante").click(function(Event){
-    var id=$('#id-articulo-original').val();
-	 $.ajax({
-		 url: 'registropago/update_status_cambios',
-		 method: "POST",
-		 data: {idArticulo:id,
-				status:'no'
-			   },
-		 success: function (response) {
-			  if (response) {
-				   toastr.options.closeButton = true;
-				   toastr.success("Proceso realizado...");
-				   $('#modal-ver-articulo').modal('hide');
-			  } else  {
-				   toastr.options.closeButton = true;
-				   toastr.error("Proceso no realizado...");
-			  }
-		 }
-	});
 });
 

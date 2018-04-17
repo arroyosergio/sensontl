@@ -103,7 +103,7 @@ function getDatosDeposito(reg_id) {
         $('#hr-deposito').empty();
         $('#hr-deposito').html(response.hr);
         $('#comprobante').empty();
-        $('#comprobante').html('<a href="' + response.comprobante + '"><span class="glyphicon glyphicon-download-alt"></span> Comprobante</a>');
+        $('#comprobante').html('<a target="_blank" href="' + response.comprobante + '"><span class="glyphicon glyphicon-download-alt"></span> Comprobante</a>');
     }, 'json');
 }
 

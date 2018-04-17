@@ -87,8 +87,8 @@ $('#form-cambiar-password').submit(function () {
     return false;
 });
 
-function datosPerfil(){
-    $.post('perfil/infoPerfil',{}, function(response){
+function datosPerfil(){   
+    $.post('perfil/infoPerfil',{}, function(response){        
         if (response !== 'no-datos') {
 			
            $('#nombre').val(response.nombre); 
@@ -97,8 +97,8 @@ function datosPerfil(){
            $('#ciudad').val(response.ciudad); 
            jQuery.each(response.estados, function (i, val) {
                 $('#estado').append($('<option>', {
-                    value: val.nombre,
-                    text: val.nombre
+                    value: val,
+                    text: val
                 }));
             });
            $('#estado').val(response.estado); 

@@ -103,28 +103,20 @@ class Perfil_Model extends Model {
     }
     
 //    Optiene toda la información del perfil del usuario
-    public function get_datos_perfil($idUsuario) {
-        $query = "SELECT ".
-                    "autNombre,".
-                    "autApellidoPaterno,".
-                    "autApellidoMaterno,".
-                    "autInstitucionProcedencia,".
-                    "autCiudad,".
-                    "autEstado,".
-                    "autPais,".
-                    "autGradoAcademico,".
-                    "autTipoInstitucion,".
-                    "autAsistenciaCica ".
-                "FROM ".
-                    "tblAutores ".
-                "WHERE ".
-                    "usuId=$idUsuario";
+    public function get_perfil($idUsuario) {
+        
+        $query = "SELECT autNombre, autApellidoPaterno, autApellidoMaterno, autInstitucionProcedencia, ";
+        $query .= "autCiudad, autEstado, autPais, autGradoAcademico, autTipoInstitucion, autAsistenciaCica ";
+        $query .= " FROM tblAutores ";
+        $query .= " WHERE usuId = " . $idUsuario;
+        
         
         $sth = $this->db->prepare($query);
         $sth->setFetchMode(PDO::FETCH_ASSOC);
         $sth->execute();
         $count = $sth->rowCount();
         $data = NULL;
+        
         if ($count > 0) {
             $data = $sth->fetchAll();
             $data = $data[0];

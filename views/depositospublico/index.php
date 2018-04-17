@@ -92,7 +92,7 @@
 						<div class="col-sm-4">
 							<div class="form-group">
 								<label for=""><b>Comprobante:</b></label>
-								<p id="comprobante" class="form-control-static"></p>
+								<p target="_blank" id="comprobante" class="form-control-static"></p>
 							</div>
 						</div>
 				 </div>

@@ -20,6 +20,7 @@
         			<div class="col-lg-2 col-sm-2 wow fadeInUp animated" data-wow-duration="2.5s" data-wow-delay="4s" data-wow-animation-name="fadeInUp" style="visibility: visible; animation-duration: 2.5s; animation-delay: .5s; animation-name: fadeInUp;">
                         <div class="navigation">
                             <a href="index"><h4>CICA 2018</h4></a>
+                            <p><a href="programaGeneral">Programa general</a></p>
                             <p><a href="fechasImportantes">Fechas importantes</a></p>
                             <p><a href="guia">Autores</a></p>
                             <p><a href="informacion">Asistentes</a></p>

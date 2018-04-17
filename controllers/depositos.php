@@ -55,7 +55,7 @@ class Depositos extends Controller {
             $response .= '<th></th>';
             $response .= '<th class="text-center">Factura enviada</th>';
             $response .= '<th class="text-center">Validaci&oacute;n pago</th>';
-            $response .= '<th class="text-center">Activar cambios</th>';
+            $response .= '<th class="text-center">Cambios asistencia</th>';
             $response .= '</tr>';
             $response .= '</thead>';
             $response .= '<tbody>';

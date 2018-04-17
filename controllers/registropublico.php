@@ -137,7 +137,7 @@ class registropublico extends Controller {
     				$response .= '<td class="text-center">' . $asistente['reg_institucion'] . '</td>';
     				$response .= '<td class="text-center">' . $asistente['reg_tipo'] . '</td>';
     				$response .= '<td class="text-center"><label id="editar|' . $asistente['id'] . '" class="btn btn-link"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar</label></td>';
-    				$response .= '<td class="text-center"><label id="borrar|' . $asistente['id'] . '" class="btn btn-link"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Borrar</label></td>';
+    				$response .= '<td class="text-center"><label id="borrar|' . $asistente['id'] . '" class="btn btn-link my-link"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Borrar</label></td>';
     				$response .= '</tr>';
     			}
     		}
@@ -375,16 +375,6 @@ class registropublico extends Controller {
                         //Persistencia de los datos de facturacion
                         $responseDB = $this->model->registro_datos_facturacion($facturacion);
                         if ($responseDB) {
-                            //Destruir sesion si es visitante
-                            $perfil = Session::get("perfil");
-                            //Inicia sesion como visitante para poder utilizar atributos de sesion
-                            if ($perfil === 'visitante') {
-                                Session::init();
-                                Session::destroy();	
-                            }else{
-                                //Eliminar el identificador del registro publico si es autor
-                                 unset($_SESSION['idRegistroPublico']);
-                            }
                             echo 'true';
                         } else {
                             echo 'false';
@@ -404,8 +394,44 @@ class registropublico extends Controller {
     }//Fin registroDatosPago
 
     
+    function updloadFile(){
+	
+        $idRegistroPublico = Session::get('idRegistroPublico');
+        $file = $_FILES['archivo']['name'];
+		
+		if (file_exists(DOCSDEPOSITOSPUBLICOS .$idRegistroPublico .'_'. $file)) {
+			unlink(DOCSDEPOSITOSPUBLICOS .$idRegistroPublico .'_'. $file);
+		}
+        
+		if (!move_uploaded_file($_FILES['archivo']['tmp_name'], DOCSDEPOSITOSPUBLICOS .$idRegistroPublico .'_'. $file)) {
+		    echo 'error-subir-archivo';
+		} else {
+            
+            //Guardar el nombre del comporobante en la bd
+            $responseDB = $this->model->registro_comprobante($idRegistroPublico, $idRegistroPublico .'_'. $file);
+        
+            if ($responseDB) {            
+                echo $idRegistroPublico;
+
+                //Destruir sesion si es visitante
+                $perfil = Session::get("perfil");
+                //Inicia sesion como visitante para poder utilizar atributos de sesion
+                if ($perfil === 'visitante') {
+                    Session::init();
+                    Session::destroy();	
+                }else{
+                    //Eliminar el identificador del registro publico si es autor
+                     unset($_SESSION['idRegistroPublico']);
+                }
+            } else {
+                echo 'false';
+            }
+		}
+	}
     
-    
+    /*
+        
+     */
 
     
     /************************************************************************************/

@@ -29,6 +29,7 @@ class Registroasistencia extends Controller {
             'public/plugins/datatable/jquery.datatables.min.css',
             'public/plugins/datapicker/bootstrap-datepicker.min.css',
             'views/registroasistencia/css/menu.css',
+            'views/registroasistencia/css/registroasistencia.css'
             
         );
         
@@ -107,7 +108,7 @@ class Registroasistencia extends Controller {
                 $response .= '<td class="text-center">' . $asistente['asi_nombre'] . '</td>';
                 $response .= '<td class="text-center">' . $asistente['asi_institucion'] . '</td>';
                 $response .= '<td class="text-center">' . $asistente['asi_tipo'] . '</td>';
-                if ($this->getEstatusCambios(TRUE) == 'si') {
+                if ($this->getEstatusCambios(TRUE) == 'si' || $this->getEstatusRegistro(true) == 'no') {
                     $response .= '<td class="text-center"><label id="editar|' . $asistente['asi_id'] . '" class="btn btn-link"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar</label></td>';
                     $response .= '<td class="text-center"><label id="borrar|' . $asistente['asi_id'] . '" class="btn btn-link"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Borrar</label></td>';
                 } else {
@@ -350,9 +351,9 @@ class Registroasistencia extends Controller {
             
             //En caso de tener informacion, indicamos el archivo, en caso contrario, informamos la ausencia.
      		if (!$comprobante) {
-     			$response .= 'No hay carta de seci&oacute;n de derechos';
+     			$response .= "<li class='no-items'> Ningun archivo cargado! </li>";
      		}else{
-     			$response .= '<a href="docs/'.$comprobante.'"><span class="glyphicon glyphicon-download-alt"></span> Descargar</a>';
+     			$response .= '<a target="_blank" href="docs/'.$comprobante.'"><span class="glyphicon glyphicon-download-alt"></span> Descargar</a>';
      		}
      	}else{
      		error_log('Error no se esta mandando el id del art&iacute;culo : getCartaDerechos');
@@ -368,7 +369,10 @@ class Registroasistencia extends Controller {
     function updateDatosPago() {
         $idArticulo = Session::get('idArticulo');
         
+        
+        
         $comprobante = $this->model->get_comprobante($idArticulo);
+        
         
         //Comprobamos la completitud de los datos.
         if (!empty($_POST['correo']) &&
@@ -624,57 +628,31 @@ class Registroasistencia extends Controller {
     }//Fin comprobarCorreo
     
     /*
-     * Recibe el archivo evidencia del comprobante de pago
+     * Recibe el archivo del comprobante.
      */
-    function subirComprobantePago() {
-          $response = '';
-          $idArticulo =  Session::get('idArticulo');
-         
-          if (!empty($idArticulo)) {
-              
-              //Confirmamos la disponibilidad de cambios.
-               $validacionCambio = $this->model->get_estatus_dictaminado($idArticulo);
-              
-              //En caso de estar permitidos, elimina el actual.
-               if ($validacionCambio) {
-                    $existePago = $this->model->existe_comprobante_pago($idArticulo);
-                    if (!$existePago) {
-                         try {
-							 if (file_exists(DOCS . $idArticulo.'/' .$existePago['doc_pago'])){
-							 	unlink(DOCS . $idArticulo .'/' . $existePago['doc_pago']);
-							 }
-                         } catch (Exception $exc) {
-                              error_log($exc->getTraceAsString());
-                         }
-                    }
-                   
-                   //Recuperamos el nombre del nuevo archivo.
-                    $file = $_FILES['input-comprobante-pago']['name'];
-                    $formatoArchivo = explode('.', $file);
-                    $formatoArchivo = end($formatoArchivo);
-                   
-                   //Comprobamos el correcto formato
-                    if ($formatoArchivo != 'pdf') {
-                         echo 'error-formato-archivo';
-                    } else {
-						
-                        //Se mueve de temporales al definitivo
-                         if (!move_uploaded_file($_FILES['input-comprobante-pago']['tmp_name'], DOCS . $idArticulo . '/' . $file)) {
-                              echo 'error-subir-archivo';
-                         } else {
-                             //Registramos el nuevo documento en la base de datos.
-                              $this->model->registro_comprobante_pago($idArticulo, $idArticulo . '/' . $file);
-                              echo 'true';
-                         }
-                    }
-               } else {
-                    $response = 'error-validacion';
-               }
-          } else {
-               $response = 'error-null';
-          }
-          echo $response;
-     }//Fin subirComprobantePago
-    
+    function updloadFile(){
+		$idArticulo = Session::get('idArticulo');
+        $file = $_FILES['archivo']['name'];
+        
+		// Check if file already exists
+		if (!file_exists(DOCS.$idArticulo)) {
+			mkdir(DOCS.$idArticulo, 0777, TRUE);
+		}
+		if (file_exists(DOCS .$idArticulo .'/'. $file)) {
+			unlink(DOCS .$idArticulo .'/'. $file);
+		}
+		if (!move_uploaded_file($_FILES['archivo']['tmp_name'], DOCS .$idArticulo .'/'. $file)) {
+		    echo 'error-subir-archivo';
+		} else {
+		    $file = $idArticulo . '/'.$file;
+            $responseDB = $this->model->registro_comprobante($idArticulo, $file);
+        
+            if ($responseDB) {            
+                echo $idArticulo;
+            } else {
+                echo 'false';
+            }
+		}
+    }//Fin updloadFile
 
 }//Fin class Registroasistencia

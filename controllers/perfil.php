@@ -33,7 +33,10 @@ class Perfil extends Controller {
 
     function infoPerfil() {
         $idUsuario = Session::get('id');
-        $responseDB = $this->model->get_datos_perfil($idUsuario);
+        
+        $responseDB = $this->model->get_perfil($idUsuario);
+        
+        
         if (!$responseDB) {
             echo 'no-datos';
         }else{
@@ -44,22 +47,29 @@ class Perfil extends Controller {
                 "ciudad" => $responseDB['autCiudad'],
                 "estado" => $responseDB['autEstado'],
                 "pais" =>  $responseDB['autPais'],
-                "estados" => $this->model->get_estados($responseDB['autPais']),
+                "estados" =>'', // $this->model->get_estados($responseDB['autPais']),
                 "gradoAcademico" => $responseDB['autGradoAcademico'],
                 "institucionProcedencia" => $responseDB['autInstitucionProcedencia'],
                 "tipoInstitucion" => $responseDB['autTipoInstitucion'],
                 "asistenciaCica" => $responseDB['autAsistenciaCica']
             );
+            
             $estadosPais = $this->model->get_estados($responseDB['autPais']);
+            
             $estados = array();
             foreach ($estadosPais as $value) {
                 $value['nombre'] = utf8_encode($value['est_nombre']);
-                array_push($estados, $value);
+                array_push($estados, $value['nombre']);
             }
 
 			
             $perfil['estados'] = $estados;
+<<<<<<< HEAD
             echo   json_encode($perfil);
+=======
+            
+            echo json_encode($perfil);
+>>>>>>> e0fe30739b8897b2bc882829b3db35a911a08691
         }
     }
     

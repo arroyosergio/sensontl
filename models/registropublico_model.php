@@ -368,6 +368,31 @@ class registropublico_Model extends Model {
 		return $data;
 	}//Fin get_buscar_asistente
     
+    /*
+     * Guarda el nombre del documento como comprobante.
+     */
+    public function registro_comprobante($idRegistroPublico, $file){
+        $query = "UPDATE ".
+				"tblreg_pub_depositos ".
+				"SET ".
+				"dep_comprobante='$file' ".
+				"WHERE ".
+				"reg_id=$idRegistroPublico";
+		$sth = $this->db->prepare($query);
+        
+        
+		try {
+			$sth->execute();
+			$data = TRUE;
+		} catch (PDOException $exc) {
+			error_log($query);
+			error_log($exc);
+			$data = FALSE;
+		}
+		return $data;
+        
+    }//Fin registro_comprobante
+    
     
     /*******************************************************************************************/
     /***********************************No se utiliza    ***************************************/
