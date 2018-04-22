@@ -88,9 +88,11 @@ class registropublico extends Controller {
         //Valida la completitud de los asistentes.
         if (!empty($nombre)  && !empty($tipoAsistente)) {
             
+            
             //En caso de no existir un identificador para el registro, se crea.
             if(!$idRegistroPublico){
             	$responseDB = $this->model->nuevo_registro();
+                $idRegistroPublico = Session::get('idRegistroPublico');
             }
             
             //Persistimos los datos del asistente.
@@ -119,14 +121,16 @@ class registropublico extends Controller {
     function getAsistentesPublico($get = FALSE) {
         $idRegistroPublico = Session::get('idRegistroPublico');
 
+        
         //Verificamos la existen de un identificador del registro publico, para solicitar los asistentes
         //para presentarlos
     	if(!$idRegistroPublico){
     		$response = '';
     	}else{
+            
+            
     		$responseDB = $this->model->get_asistentes_publico($idRegistroPublico);
         
-            
     		if (!$responseDB) {
     			$response = '';
     		} else {

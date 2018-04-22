@@ -27,11 +27,14 @@ class registropublico_Model extends Model {
 				"WHERE ".
 				"reg_id=".$idRegistroPublico;
                 
+    
+        
 		$sth = $this->db->prepare($query);
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
 		$sth->execute();
 		$count = $sth->rowCount();
 		$data = NULL;
+        
 		if ($count > 0) {
 			$data = $sth->fetchAll();
 		} else {
@@ -134,7 +137,6 @@ class registropublico_Model extends Model {
 				"'$asistente[institucion]',".
 				"'$asistente[tipoAsistente]'".
 				")";
-	   
                 //Preprado y ejecucion de la sentencia
 				$sth = $this->db->prepare($query);
 				try {
@@ -166,7 +168,6 @@ class registropublico_Model extends Model {
 				"('".$dt->format('Y-m-d').
 				"','no','no'".
 				")";
-        
         //Preparado y ejecucion de la sentencia
 		$sth = $this->db->prepare($query);
 		try {
@@ -379,8 +380,7 @@ class registropublico_Model extends Model {
 				"WHERE ".
 				"reg_id=$idRegistroPublico";
 		$sth = $this->db->prepare($query);
-        
-        
+
 		try {
 			$sth->execute();
 			$data = TRUE;
