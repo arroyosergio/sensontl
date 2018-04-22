@@ -7,7 +7,7 @@ define('MENULATERAL',$_SERVER['DOCUMENT_ROOT'] .'/sensontl/views/menu/menu.html'
 define('MENUADMIN',$_SERVER['DOCUMENT_ROOT'] .'/sensontl/views/menu/menuadmin.html');
 define('MENUEDITOR',$_SERVER['DOCUMENT_ROOT'] .'/sensontl/views/menu/menueditor.html');
 define('FECHAAPERTURA',"2018-03-01");
-define('FECHACIERRE',"2018-03-30");
+define('FECHACIERRE',"2018-08-30");
 define('FECHALIMITEDESCUENTOGENERAL',"2018-09-11");
 
 //Cuotas de pagos 
