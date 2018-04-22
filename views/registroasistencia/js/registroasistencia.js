@@ -2,6 +2,7 @@ var ulrUpfile="";
 
 $(document).ready(function () {
     getEstatusRegistro();
+    activarOpcionMenu();
     $('.datapicker').datepicker({
         language: "es",
         autoclose: true,
@@ -476,3 +477,9 @@ $("#uploadfile").submit(function(event){
     });
     return false;	
 });
+
+function activarOpcionMenu() {
+    var id = $('#navbar li.active').attr('id');
+    $('#' + id).removeClass('active');
+    $('#btnPagos').addClass('active');
+}

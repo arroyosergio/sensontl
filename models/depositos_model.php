@@ -104,12 +104,10 @@ class Depositos_Model extends Model {
                          "tbl_datos_facturacion ".
                     "WHERE ".
                          "art_id=$idArticulo";
-//                 error_log($query);
           $sth = $this->db->prepare($query);
           $sth->setFetchMode(PDO::FETCH_ASSOC);
           $sth->execute();
           $count = $sth->rowCount();
-//          error_log("Numero de registros: " . $count);
           $data = NULL;
           if ($count != 0) {
                $data = $sth->fetchAll();

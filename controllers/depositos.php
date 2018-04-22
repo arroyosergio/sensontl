@@ -93,7 +93,6 @@ class Depositos extends Controller {
         if (!empty($idArticulo)) {
             $responseDB = $this->model->get_datos_deposito($idArticulo);
             if (!$responseDB) {
-//                    Error no hay registro del deposito
                 $response = 'false';
             } else {
                 $comprobante = $this->model->existe_doc_pago($idArticulo);
@@ -122,7 +121,6 @@ class Depositos extends Controller {
         if (!empty($idArticulo)) {
             $responseDB = $this->model->get_datos_facturacion($idArticulo);
             if (!$responseDB) {
-//                    Error no hay datos de facturación
                 $response = 'false';
             } else {
                 $facturacion = array(
