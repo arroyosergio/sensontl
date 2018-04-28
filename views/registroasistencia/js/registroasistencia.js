@@ -259,7 +259,6 @@ function borrarAsistente(id) {
 
 function getEstatusCambios() {
     $.post('registroasistencia/getEstatusCambios', {}, function (response) {
-        alert(response);
         if (response === 'no') {
             $('input').attr('disabled', 'disabled');
             $('select').attr('disabled', 'disabled');
