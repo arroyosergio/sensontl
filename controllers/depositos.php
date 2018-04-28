@@ -69,7 +69,7 @@ class Depositos extends Controller {
                 } else {
                     $response .= '<td class="text-center"><input class="facturacion" deposito="' . $deposito['artId'] . '" type="checkbox" name=""></td>';
                 }
-                if ($deposito['art_validacion_deposito'] == 'si') {
+                if ($deposito['doc_validar_pago'] == 'si') {
                     $response .= '<td class="text-center"><input class="validacion-deposito" deposito="' . $deposito['artId'] . '" type="checkbox" name="" checked></td>';
                 } else {
                     $response .= '<td class="text-center"><input class="validacion-deposito" deposito="' . $deposito['artId'] . '" type="checkbox" name=""></td>';
@@ -169,33 +169,13 @@ class Depositos extends Controller {
         if (!empty($idArticulo) && !empty($comentarios)) {
             $correoContacto = $this->model->get_correo_contacto($idArticulo);
             
-            
-            
             $asunto="Solicitud de cambios del artículo";
     		$mensaje="<h1>Estimado autor:</h1><h2>".$comentarios."</h2>".
     					"<h3>atte.<br /> Comit&eacute; Organizador CICA 2018.<br />UTSOE</h3>";  
-    		$mensaje="Estimado autor:".$comentarios."<br/>".
+    		$mensaje1="Estimado autor:".$comentarios."<br/>".
     					"atte. Comit&eacute; Organizador CICA 2018. UTSOE";
             
-            try {
-                //Apartado para enviar correo
-                $this->mail->SetFrom("administracion@higo-software.com", "CICA2018");
-                $this->mail->FronName="Cica2018";
-                $this->mail->addAddress($correoContacto);
-                $this->mail->addCC('contacto@cica2017.org');
-                $this->mail->isHTML(TRUE);
-                $this->mail->Subject = utf8_decode($asunto);
-                $this->mail->Body = $mensaje;
-                $this->mail->AltBody ='Problemas de compatibilidad con el navegador'; 
-                $this->mail->CharSet="UTF-8";	
-                $enviado="Correo-ok";
-                if (!$this->mail->send()) {
-                    error_log("Error al enviar el correo a $correo:" . $this->mail->ErrorInfo);
-                    $enviado="Correo-bad";
-                }
-            } catch (Exception $e) {
-                $enviado="Correo-bad";;
-            }
+            $enviado=$this->fncSendMail($correoContacto,$asunto,$mensaje,$mensaje1);
             echo $enviado;
         } else {
             echo 'error-null';
@@ -379,6 +359,30 @@ class Depositos extends Controller {
         //proporcionar un nombre de fichero recomendado y forzar al navegador el mostarar el diÃ¡logo para guardar el fichero.
         header('Content-Disposition: attachment; filename="' . $file . '"');
         readfile($_SERVER['DOCUMENT_ROOT'] . '/xls/' . $file);
+    }
+    
+    
+    function fncSendMail($correo,$asunto,$mensaje,$mensajeSinF){
+    	try {
+			//Apartado para enviar correo
+			$this->mail->SetFrom("administracion@higo-software.com", "CICA2018");
+			$this->mail->FronName="Cica2018";
+			$this->mail->addAddress($correo);
+			$this->mail->addCC('contacto@cica2017.org');
+			$this->mail->isHTML(TRUE);
+			$this->mail->Subject = utf8_decode($asunto);
+			$this->mail->Body = $mensaje;
+			$this->mail->AltBody ='Problemas de compatibilidad con el navegador'; 
+			$this->mail->CharSet="UTF-8";	
+			$enviado="Correo-ok";
+			if (!$this->mail->send()) {
+				error_log("Error al enviar el correo a $correo:" . $this->mail->ErrorInfo);
+				$enviado="Correo-bad";
+			}
+    	} catch (Exception $e) {
+    		$enviado="Correo-bad";;
+    	}
+    	return $enviado;
     }
 
 }

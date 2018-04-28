@@ -254,7 +254,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <p><b>Nota: </b>Se les solicita verificar  que el comprobante coincida con la cantidad a pagar indicada antes de enviar la informaci&oacute;n. Seleccione y carge el archivo del comprobante antes de hacer clic en aceptar.</p>
+                                            <p><b>Nota: </b>Se les solicita verificar  que el comprobante coincida con la cantidad a pagar indicada despu&eacute;s de enviar la informaci&oacute;n. Seleccione y carge el archivo del comprobante antes de hacer clic en aceptar.</p>
                                         </div>
                                     </div>
                                     <div class="panel-footer text-right">

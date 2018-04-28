@@ -110,11 +110,11 @@ class mispagos extends Controller {
                    
 
                    
-                    if ($this->getEstatusCambios($articulo['artId']) == 'si' ) {
+                    /*if ($this->getEstatusCambios($articulo['artId']) == 'si' ) {*/
                         $tabla .= '<td class="text-center"><a href="registroasistencia?id='.$articulo['artId'].'"><span class="glyphicon glyphicon-upload"></span> Formato</a></td>';
-                    }else{
+                    /*}else{
                         $tabla .= '<td class="text-center"></td>';
-                    }
+                    }*/
                     $tabla .= '</tr>';
                }
                $tabla .= '</tbody>';

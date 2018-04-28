@@ -150,30 +150,37 @@ class Depositospublico extends Controller {
             
             $asunto= html_entity_decode('Formato de asistencia CICA 2016 recibido.');
             $mensaje = $comentarios;
+            $mensaje1 = $comentarios;
             
-            try {
-                //Apartado para enviar correo
-                $this->mail->SetFrom("administracion@higo-software.com", "CICA2018");
-                $this->mail->FronName="Cica2018";
-                $this->mail->addAddress($correoContacto);
-                $this->mail->addCC('contacto@cica2017.org');
-                $this->mail->isHTML(TRUE);
-                $this->mail->Subject = utf8_decode($asunto);
-                $this->mail->Body = $mensaje;
-                $this->mail->AltBody ='Problemas de compatibilidad con el navegador'; 
-                $this->mail->CharSet="UTF-8";	
-                $enviado="Correo-ok";
-                if (!$this->mail->send()) {
-                    error_log("Error al enviar el correo a $correo:" . $this->mail->ErrorInfo);
-                    $enviado="Correo-bad";
-                }
-            } catch (Exception $e) {
-                $enviado="Correo-bad";;
-            }
+            $enviado=$this->fncSendMail($correoContacto,$asunto,$mensaje,$mensaje1);
+            
             echo $enviado;
         } else {
             echo 'error-null';
         }
+    }
+    
+    function fncSendMail($correo,$asunto,$mensaje,$mensajeSinF){
+    	try {
+			//Apartado para enviar correo
+			$this->mail->SetFrom("administracion@higo-software.com", "CICA2018");
+			$this->mail->FronName="Cica2018";
+			$this->mail->addAddress($correo);
+			$this->mail->addCC('contacto@cica2017.org');
+			$this->mail->isHTML(TRUE);
+			$this->mail->Subject = utf8_decode($asunto);
+			$this->mail->Body = $mensaje;
+			$this->mail->AltBody ='Problemas de compatibilidad con el navegador'; 
+			$this->mail->CharSet="UTF-8";	
+			$enviado="Correo-ok";
+			if (!$this->mail->send()) {
+				error_log("Error al enviar el correo a $correo:" . $this->mail->ErrorInfo);
+				$enviado="Correo-bad";
+			}
+    	} catch (Exception $e) {
+    		$enviado="Correo-bad";;
+    	}
+    	return $enviado;
     }
 
 //    Actualiza si el deposito ha sido correcto o no 

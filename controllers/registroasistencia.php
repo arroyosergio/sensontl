@@ -108,9 +108,9 @@ class Registroasistencia extends Controller {
                 $response .= '<td class="text-center">' . $asistente['asi_nombre'] . '</td>';
                 $response .= '<td class="text-center">' . $asistente['asi_institucion'] . '</td>';
                 $response .= '<td class="text-center">' . $asistente['asi_tipo'] . '</td>';
-                if ($this->getEstatusCambios(TRUE) == 'si' || $this->getEstatusRegistro(true) == 'no') {
-                    $response .= '<td class="text-center"><label id="editar|' . $asistente['asi_id'] . '" class="btn btn-link"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar</label></td>';
-                    $response .= '<td class="text-center"><label id="borrar|' . $asistente['asi_id'] . '" class="btn btn-link"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Borrar</label></td>';
+                if ($this->getEstatusCambios(TRUE) == 'si') {
+                    $response .= '<td class="text-center"><label id="editar|' . $asistente['asi_id'] . '" class="btn btn-link my-link"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar</label></td>';
+                    $response .= '<td class="text-center"><label id="borrar|' . $asistente['asi_id'] . '" class="btn btn-link my-link"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Borrar</label></td>';
                 } else {
                     $response .= '<td class="text-center"></td>';
                     $response .= '<td class="text-center"></td>';
@@ -369,10 +369,7 @@ class Registroasistencia extends Controller {
     function updateDatosPago() {
         $idArticulo = Session::get('idArticulo');
         
-        
-        
         $comprobante = $this->model->get_comprobante($idArticulo);
-        
         
         //Comprobamos la completitud de los datos.
         if (!empty($_POST['correo']) &&

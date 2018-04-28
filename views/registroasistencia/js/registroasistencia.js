@@ -13,8 +13,7 @@ $(document).ready(function () {
 	fileList=document.getElementById("file-list");
 	$("#cancelar").hide();
 	$("#cargar").hide();
-    
-    
+    $('input#archivo').prop("disabled", true);
 });
 
 $('#btn-nuevo-asistente').click(function () {
@@ -42,8 +41,14 @@ $('#form-datos-pago').submit(function () {
                     jsRemoveWindowLoad();
                     switch (response) {
                         case 'true':
-                            mostrarAlerta('success', 'Se actualizaron los datos con éxito.');
-                            location.reload();
+                            $('input').attr('disabled', 'disabled');
+                            $('select').attr('disabled', 'disabled');
+                            $('#btn-nuevo-asistente').addClass('hidden');
+                            $('#btn-aceptar-form-pago').addClass('hidden');
+                            $('input#archivo').prop("disabled", false);
+                            $('.my-link').click(function(e){return false; });
+                            
+                            mostrarAlerta('success', 'Se actualizaron los datos con éxito. Ahora suba su comprobante de pago escaneado.');
                             break;
                         case 'false':
                             mostrarAlerta('error', 'Ocurrio un problema al actualizar los datos.');
@@ -89,8 +94,15 @@ $('#form-datos-pago').submit(function () {
                     jsRemoveWindowLoad();
                     switch (response) {
                         case 'true':
-                            mostrarAlerta('success', 'Su registro se realizo con éxito.');
-                            location.reload();
+                            
+                            $('input').attr('disabled', 'disabled');
+                            $('select').attr('disabled', 'disabled');
+                            $('#btn-nuevo-asistente').addClass('hidden');
+                            $('#btn-aceptar-form-pago').addClass('hidden');
+                            $('input#archivo').prop("disabled", false);
+                            $('.my-link').click(function(e){return false; });
+                            
+                            mostrarAlerta('success', 'Su registro se realizo con éxito. Ahora suba su comprobante de pago escaneado.');
                             break;
                         case 'false':
                             mostrarAlerta('error', 'Ocurrio un problema con su registro.');
@@ -182,6 +194,7 @@ $("#btn-aceptar-comprobante").click(function(Event){
 				   toastr.options.closeButton = true;
 				   toastr.success("Proceso realizado...");
 				   $('#modal-ver-articulo').modal('hide');
+                  
 			  } else  {
 				   toastr.options.closeButton = true;
 				   toastr.error("Proceso no realizado...");
@@ -246,6 +259,7 @@ function borrarAsistente(id) {
 
 function getEstatusCambios() {
     $.post('registroasistencia/getEstatusCambios', {}, function (response) {
+        alert(response);
         if (response === 'no') {
             $('input').attr('disabled', 'disabled');
             $('select').attr('disabled', 'disabled');
@@ -262,8 +276,8 @@ function getEstatusRegistro() {
         if (response === 'si') {
             getDatosDeposito();
             getDatosFacturacion();
-            getEstatusCambios();
             getComprobantePago();
+            getEstatusCambios();
         }
     });
 }
@@ -465,9 +479,14 @@ $("#uploadfile").submit(function(event){
 				$('#id-articulo-autores').val(response);
 				$('#modal-autores').removeClass('hidden');
                 toastr.options.closeButton = true;
-                toastr.success("El archivo se cargo con éxito. ");
+                toastr.success("El archivo se cargo con éxito. Agradecemos su pago de asistencia.");
     			$("#container-btn-files").hide("slow");
 				$('#modal-autores').removeClass('hidden');
+                
+                var delay =2000;
+                setTimeout(function(){
+                    $(location).attr('href', 'index');
+                },delay);
 			}
         },
         error: function () {

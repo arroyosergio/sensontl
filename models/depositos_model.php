@@ -30,20 +30,13 @@ class Depositos_Model extends Model {
 
      
      public function get_depositos() {
-        $query = 'SELECT '
-                    . 'artId,'
-                    . 'artNombre,'
-                    . 'artTipo,'
-                    . 'art_cambios_asistencia,'
-                    . 'art_validacion_deposito,'
-                    . 'art_factura_enviada '
-                . 'FROM '
-                    . 'tblArticulos '
-                . ' inner join '
-                    . 'tbl_depositos '
-                    . 'on tblArticulos.artId=tbl_depositos.art_id '
-                . 'WHERE '
-                    . 'art_estatus_asistencia="si"'; 
+        $query = 'SELECT artId, artNombre, artTipo, art_cambios_asistencia, doc_validar_pago, art_factura_enviada' 
+                 .' FROM tblArticulos '
+                 .' INNER JOIN  tbl_depositos '
+				 .' ON tblArticulos.artId=tbl_depositos.art_id '
+                 .' INNER JOIN tbldocumentos '
+                 .' ON tbldocumentos.art_id = tblArticulos.artid '
+                .' WHERE  art_estatus_asistencia="si"' ;
         
 //                 error_log($query);
           $sth = $this->db->prepare($query);
@@ -161,11 +154,11 @@ class Depositos_Model extends Model {
     
     public function update_estatus_deposito($idArticulo, $estatus) {
         $query = "UPDATE ".
-                    "tblArticulos ".
+                    "tblDocumentos ".
                 "SET ".
-                    "art_validacion_deposito='$estatus' ".
+                    "doc_validar_pago='$estatus' ".
                 "WHERE ".
-                    "artId=$idArticulo";
+                    "art_Id=$idArticulo";
         $sth = $this->db->prepare($query);
         try {
             $sth->execute();

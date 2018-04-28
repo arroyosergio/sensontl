@@ -28,7 +28,7 @@ $('.cambios').click(function () {
         $('#id-deposito-correo').val(id);
         $('#modal-envio-correo').modal('show');
     }
-    updateEstatusCambios(id, estatusCambios);
+    updateEstatusCambios(id, estatusCambios);    
 });
 
 $('.validacion-deposito').click(function () {
@@ -155,7 +155,6 @@ $("#exportXLS").click(function (event) {
         },
         //si ha ocurrido un error
         error: function (response) {
-            //alert(response);
         }
     });
 });
