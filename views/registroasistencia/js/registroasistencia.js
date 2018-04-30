@@ -484,7 +484,7 @@ $("#uploadfile").submit(function(event){
                 
                 var delay =2000;
                 setTimeout(function(){
-                    $(location).attr('href', 'index');
+                    $(location).attr('href', 'mispagos');
                 },delay);
 			}
         },

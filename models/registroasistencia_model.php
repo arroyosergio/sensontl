@@ -52,7 +52,7 @@ class Registroasistencia_Model extends Model {
           $query = "SELECT ".
                          "art_cambios_asistencia ".
                     "FROM ".
-                         "tblarticulos ".
+                         "tblArticulos ".
                     "WHERE ".
                          "artId=$idArticulo";
          
@@ -594,7 +594,7 @@ class Registroasistencia_Model extends Model {
     public function update_estatus_cambios($idArticulo, $estatus) {
         //armando de la sentencia sql
         $query = "UPDATE ".
-                    "tblarticulos ".
+                    "tblArticulos ".
                 "SET ".
                     "art_cambios_asistencia='$estatus' ".
                 "WHERE ".
