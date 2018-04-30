@@ -34,8 +34,8 @@ class Depositos_Model extends Model {
                  .' FROM tblArticulos '
                  .' INNER JOIN  tbl_depositos '
 				 .' ON tblArticulos.artId=tbl_depositos.art_id '
-                 .' INNER JOIN tbldocumentos '
-                 .' ON tbldocumentos.art_id = tblArticulos.artid '
+                 .' INNER JOIN tblDocumentos '
+                 .' ON tblDocumentos.art_id = tblArticulos.artid '
                 .' WHERE  art_estatus_asistencia="si"' ;
         
 //                 error_log($query);
