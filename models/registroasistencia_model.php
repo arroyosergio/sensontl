@@ -567,7 +567,7 @@ class Registroasistencia_Model extends Model {
         $query = "SELECT ".
                     "doc_pago ".
                 "FROM ".
-                    "tbldocumentos ".
+                    "tblDocumentos ".
                 "WHERE ".
                     "art_id=$idArticulo";
         
