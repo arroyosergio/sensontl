@@ -672,7 +672,7 @@ class Registroasistencia_Model extends Model {
      */
     public function registro_comprobante($idArticulo, $file){
         $query = "UPDATE ".
-				"tbldocumentos ".
+				"tblDocumentos ".
 				"SET ".
 				"doc_pago='$file' ".
 				"WHERE ".
